@@ -1,0 +1,19 @@
+{
+  "namespace": "br.com.developcorporation.company.message.avro",
+  "name": "Header",
+  "type": "record",
+  "fields": [
+    {
+      "name": "clientID",
+      "type": "string"
+    },
+    {
+      "name": "clientSecret",
+      "type": "string"
+    },
+    {
+      "name": "correlationId",
+      "type": "string"
+    }
+  ]
+}

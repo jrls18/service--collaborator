@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>br.com.developcorporation</groupId>
+        <artifactId>collaborator</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>collaborator-starter</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-messaging-avro</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.2.4</version>
+            <type>maven-plugin</type>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application-dev.properties</include>
+                    <include>application-local.properties</include>
+                    <include>application.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>service-management</finalName>
+                            <classifier>collaborator-starter</classifier>
+                            <mainClass>br.com.developcorporation.collaborator.starter.App</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>copy-spring-boot-application-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target name="copy application to parent target">
+                                <copy file="target/service-management-collaborator-starter.jar"
+                                      tofile="../target/service-management-collaborator-${revision}.jar" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
