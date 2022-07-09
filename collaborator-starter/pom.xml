@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>br.com.developcorporation</groupId>
-            <artifactId>collaborator-messaging-avro</artifactId>
+            <artifactId>collaborator-messaging-avro-consumer</artifactId>
         </dependency>
         <dependency>
             <groupId>br.com.developcorporation</groupId>

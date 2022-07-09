@@ -1,4 +1,4 @@
-package br.com.developcorporation.collaborator.kafka.config;
+package br.com.developcorporation.collaborator.message.avro.consumer.config;
 
 import org.apache.avro.generic.GenericRecord;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;

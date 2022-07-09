@@ -1,6 +1,6 @@
-package br.com.developcorporation.collaborator.kafka.mapper;
+package br.com.developcorporation.collaborator.message.avro.consumer.mapper;
 
-import br.com.developcorporation.collaborator.kafka.constans.DataConstant;
+import br.com.developcorporation.collaborator.message.avro.consumer.constans.DataConstant;
 import br.com.developcorporation.collaborator.domain.model.Company;
 import br.com.developcorporation.company.message.avro.User;
 import org.mapstruct.Mapper;

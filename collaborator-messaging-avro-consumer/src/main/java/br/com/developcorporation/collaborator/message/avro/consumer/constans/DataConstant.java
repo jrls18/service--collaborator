@@ -1,4 +1,4 @@
-package br.com.developcorporation.collaborator.kafka.constans;
+package br.com.developcorporation.collaborator.message.avro.consumer.constans;
 
 public final class DataConstant {
 

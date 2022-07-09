@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>collaborator-messaging-avro</artifactId>
+    <artifactId>collaborator-messaging-avro-consumer</artifactId>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>

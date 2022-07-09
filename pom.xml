@@ -10,7 +10,7 @@
 		<module>collaborator-jpa</module>
 		<module>collaborator-rest</module>
 		<module>collaborator-starter</module>
-		<module>collaborator-messaging-avro</module>
+		<module>collaborator-messaging-avro-consumer</module>
         <module>lib-commons</module>
     </modules>
 
@@ -92,7 +92,7 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.developcorporation</groupId>
-				<artifactId>collaborator-messaging-avro</artifactId>
+				<artifactId>collaborator-messaging-avro-consumer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

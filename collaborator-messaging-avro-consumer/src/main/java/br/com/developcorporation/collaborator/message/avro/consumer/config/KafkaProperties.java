@@ -1,4 +1,4 @@
-package br.com.developcorporation.collaborator.kafka.config;
+package br.com.developcorporation.collaborator.message.avro.consumer.config;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import lombok.Getter;

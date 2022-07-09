@@ -1,7 +1,7 @@
-package br.com.developcorporation.collaborator.kafka.service.impl;
+package br.com.developcorporation.collaborator.message.avro.consumer.service.impl;
 
-import br.com.developcorporation.collaborator.kafka.service.ProduceService;
-import br.com.developcorporation.collaborator.kafka.config.KafkaProperties;
+import br.com.developcorporation.collaborator.message.avro.consumer.service.ProduceService;
+import br.com.developcorporation.collaborator.message.avro.consumer.config.KafkaProperties;
 import br.com.developcorporation.company.message.avro.User;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.producer.Callback;
