@@ -21,6 +21,8 @@ public final class FieldConstant {
     public static final String TIPO_ARQUIVO = "tipo_arquivo";
     public static final String FILE_NAME = "file_name";
 
+    public static final String ROUTER_COLLABORATOR = "colaborador";
+
 
     public static final String ACEITA_TERMOS = "aceita_termos_de_uso";
 

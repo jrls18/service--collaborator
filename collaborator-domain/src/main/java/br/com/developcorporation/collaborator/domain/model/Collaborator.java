@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -11,15 +13,15 @@ public class Collaborator implements Serializable {
 
     private static final long serialVersionUID = 7912848167188452899L;
 
-    private String id;
+    private Long id;
 
     private String name;
 
-    private String cpf;
-
-    private String rg;
+    private String cpfCnpj;
 
     private String birthDate;
+
+    private LocalDateTime dataRegister;
 
     private Contact contact;
 

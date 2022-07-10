@@ -7,7 +7,9 @@ public final class MessageConstant {
 
     }
 
-    public static final String DATA_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATA_HORA_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String DATA_FORMAT = "yyyy-MM-dd";
     public static final String RESPOSTA = "Response {}";
     public static final String REQUISICAO = "Request {}";
 

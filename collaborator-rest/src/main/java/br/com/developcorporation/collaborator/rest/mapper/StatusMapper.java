@@ -14,7 +14,7 @@ public interface StatusMapper {
 
     StatusMapper INSTANCE = Mappers.getMapper(StatusMapper.class);
 
-    @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_FORMAT)
+    @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_HORA_FORMAT)
     StatusResponse toResponse(final Status dto);
 
     List<StatusResponse> toResponseList(final List<Status> dtoList);

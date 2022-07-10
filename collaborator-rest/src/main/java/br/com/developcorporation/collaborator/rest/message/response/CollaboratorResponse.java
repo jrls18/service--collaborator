@@ -1,22 +1,27 @@
-package br.com.developcorporation.collaborator.rest.message.request;
+package br.com.developcorporation.collaborator.rest.message.response;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
+import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-@Getter
-@JsonRootName(FieldConstant.EMPRESA)
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CollaboratorRequest implements Serializable {
+@JsonRootName(FieldConstant.EMPRESA)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CollaboratorResponse implements Serializable {
 
-    private static final long serialVersionUID = -9182653756222658250L;
-
+    private static final long serialVersionUID = 2763823017618602227L;
     @JsonProperty(value = FieldConstant.CODIGO, index = 0)
     private String id;
 
@@ -29,11 +34,14 @@ public class CollaboratorRequest implements Serializable {
     @JsonProperty(value = FieldConstant.DATA_NASCIMENTO, index = 4)
     private String birthDate;
 
+    @JsonProperty(value = FieldConstant.DATA_CADASTRO)
+    private String dataRegister;
+
     @JsonProperty(value = FieldConstant.CONTATO, index = 5)
-    private Contact contact;
+    private CollaboratorRequest.Contact contact;
 
     @JsonProperty(value = FieldConstant.ENDERECO, index = 6)
-    private Address address;
+    private CollaboratorRequest.Address address;
 
     @JsonProperty(value = FieldConstant.PASSWORD, index = 7)
     private String password;
@@ -42,7 +50,7 @@ public class CollaboratorRequest implements Serializable {
     private String typeUser;
 
     @JsonProperty(value = FieldConstant.STATUS, index = 9)
-    private Status status;
+    private CollaboratorRequest.Status status;
 
     @JsonProperty(value = FieldConstant.IMAGE, index = 11)
     private String image;
@@ -50,12 +58,12 @@ public class CollaboratorRequest implements Serializable {
     @JsonProperty(value = FieldConstant.ID_COMPANY, index = 12)
     private String idCompany;
 
-    @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Contact implements Serializable  {
 
-        private static final long serialVersionUID = -6641315552266440737L;
+        private static final long serialVersionUID = -7210855052175147764L;
 
         @JsonProperty(value = FieldConstant.TELEFONE_PRINCIPAL, index = 0)
         private String  mainPhone;
@@ -67,12 +75,12 @@ public class CollaboratorRequest implements Serializable {
         private String email;
     }
 
-    @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Address implements Serializable {
 
-        private static final long serialVersionUID = 7234925530231387268L;
+        private static final long serialVersionUID = 6506423960337758206L;
 
         @JsonProperty(value = FieldConstant.CEP, index = 0)
         private String zipCode;
@@ -96,14 +104,17 @@ public class CollaboratorRequest implements Serializable {
         private String number;
     }
 
-    @Getter
+    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Status implements Serializable {
 
-        private static final long serialVersionUID = -2406858146490241701L;
+        private static final long serialVersionUID = 249379087391903640L;
 
         @JsonProperty(value = FieldConstant.CODIGO, index = 0)
         private String id;
+
+        @JsonProperty(value = FieldConstant.DESCRICAO, index = 1)
+        private  String description;
     }
 }

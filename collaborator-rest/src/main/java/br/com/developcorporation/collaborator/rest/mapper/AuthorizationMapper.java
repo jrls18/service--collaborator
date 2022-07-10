@@ -16,7 +16,7 @@ public interface AuthorizationMapper {
 
     Authorization toDto(final AuthorizationRequest request);
 
-    @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_FORMAT)
+    @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_HORA_FORMAT)
     AuthorizationResponse toResponse(final Authorization dto);
 
     List<AuthorizationResponse> toResponseList(final List<Authorization> dtoList);

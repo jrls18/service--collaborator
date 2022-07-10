@@ -1,20 +1,10 @@
 package br.com.developcorporation.collaborator.rest.controller.impl;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
-import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
-import br.com.developcorporation.collaborator.rest.controller.CompanyController;
-import br.com.developcorporation.collaborator.rest.logger.LogRest;
-import br.com.developcorporation.collaborator.rest.mapper.CompanyMapper;
-import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
-import br.com.developcorporation.collaborator.rest.validation.CompanyValidator;
-import br.com.developcorporation.collaborator.core.service.CollaboratorService;
-import br.com.developcorporation.collaborator.domain.message.Message;
-import br.com.developcorporation.collaborator.rest.message.response.CompanyResponse;
+import br.com.developcorporation.collaborator.rest.controller.CollaboratorController;
+import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-//@RequestMapping(FieldConstant.ROUTER_COMPANY)
+@RequestMapping(FieldConstant.ROUTER_COLLABORATOR)
 @CrossOrigin(origins = "*")
-public class CompanyControllerImpl  implements CompanyController {
+public class CollaboratorControllerImpl implements CollaboratorController {
+    @Override
+    public ResponseEntity<MessageResponse> add(CollaboratorRequest request) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<MessageResponse> update(CollaboratorRequest request) {
+        return null;
+    }
 
     /*
     private static final Logger LOG = LoggerFactory.getLogger(CompanyControllerImpl.class);

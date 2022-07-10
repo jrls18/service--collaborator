@@ -1,21 +1,21 @@
 package br.com.developcorporation.collaborator.rest.controller;
 
-import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
-import br.com.developcorporation.collaborator.rest.message.response.CompanyResponse;
+import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-public interface CompanyController {
+public interface CollaboratorController {
 
-    /*
+
     @PostMapping("/v1/save")
-    ResponseEntity<MessageResponse> add(@RequestBody CompanyRequest request);
+    ResponseEntity<MessageResponse> add(@RequestBody CollaboratorRequest request);
 
     @PutMapping("/v1/save")
-    ResponseEntity<MessageResponse> update(@Validated @RequestBody CompanyRequest request);
+    ResponseEntity<MessageResponse> update(@Validated @RequestBody CollaboratorRequest request);
 
+    /*
     @GetMapping(value = "/v1/get/id={id}", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CompanyResponse> getById(@PathVariable("id") final String id);
 
