@@ -12,6 +12,7 @@
 		<module>collaborator-starter</module>
 		<module>collaborator-messaging-avro-consumer</module>
         <module>lib-commons</module>
+        <module>collaborator-messaging-avro-produce</module>
     </modules>
 
 	<parent>
@@ -93,6 +94,11 @@
 			<dependency>
 				<groupId>br.com.developcorporation</groupId>
 				<artifactId>collaborator-messaging-avro-consumer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-messaging-avro-produce</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

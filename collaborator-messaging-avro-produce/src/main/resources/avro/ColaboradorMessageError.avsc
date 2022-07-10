@@ -1,7 +1,7 @@
 {
-  "name": "CompanyMessageError",
+  "name": "CollaboratorMessageError",
   "type": "record",
-  "namespace": "br.com.developcorporation.colaborador.message.avro",
+  "namespace": "br.com.developcorporation.collaborator.message.avro",
   "fields": [
     {
       "name": "code",

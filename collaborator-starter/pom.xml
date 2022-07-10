@@ -31,6 +31,10 @@
         </dependency>
         <dependency>
             <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-messaging-avro-produce</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.developcorporation</groupId>
             <artifactId>collaborator-jpa</artifactId>
         </dependency>
         <dependency>
