@@ -29,6 +29,10 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     @KafkaListener(topics = "${kafka.topic.consumer.collaborator}", groupId = "${kafka.topic.consumer.client.id}")
     @Override
     public void onReceive(ConsumerRecord<String, Colaborador> record) {
+        try {
 
+        }catch (Exception ex){
+            
+        }
     }
 }
