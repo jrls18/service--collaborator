@@ -15,15 +15,14 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 @EnableKafka
 public class ConsumerConfig {
     @Bean
-    public ConsumerFactory<String, GenericRecord> consumerFactory(final KafkaProperties kafkaProperties) {
-        return new DefaultKafkaConsumerFactory<>(kafkaProperties.buildConsumerProperties());
+    public ConsumerFactory<String, GenericRecord> consumerFactory(final KafkaProperties properties){
+        return new DefaultKafkaConsumerFactory<>(properties.buildConsumerProperties());
     }
 
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, GenericRecord>> containerFactory(final ConsumerFactory<String, GenericRecord> consumerFactory) {
         final ConcurrentKafkaListenerContainerFactory<String, GenericRecord> containerFactory = new ConcurrentKafkaListenerContainerFactory<>();
         containerFactory.setConsumerFactory(consumerFactory);
-        containerFactory.setConcurrency(20);
         return containerFactory;
     }
 }
