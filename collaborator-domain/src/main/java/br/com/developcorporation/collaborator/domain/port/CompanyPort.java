@@ -1,15 +1,15 @@
 package br.com.developcorporation.collaborator.domain.port;
 
-import br.com.developcorporation.collaborator.domain.model.Company;
+import br.com.developcorporation.collaborator.domain.model.Collaborator;
 
 public interface CompanyPort {
-    Long add(Company dto);
+    Long add(Collaborator dto);
 
-    void update(Company dto);
+    void update(Collaborator dto);
 
-    Company getById(Long id);
+    Collaborator getById(Long id);
 
-    Company getByCnpj(String cnpj);
+    Collaborator getByCnpj(String cnpj);
 
-    Company getByCorporateName(String corporateName);
+    Collaborator getByCorporateName(String corporateName);
 }

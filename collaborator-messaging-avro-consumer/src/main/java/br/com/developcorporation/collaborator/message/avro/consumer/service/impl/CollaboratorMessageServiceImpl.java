@@ -1,5 +1,6 @@
 package br.com.developcorporation.collaborator.message.avro.consumer.service.impl;
 
+import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.CollaboratorMessageService;
 import br.com.developcorporation.collaborator.message.avro.produce.Colaborador;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CollaboratorMessageServiceImpl implements CollaboratorMessageService<Colaborador> {
 
-    //private final CollaboratorMessageService collaboratorMessageService;
+    private final CollaboratorService collaboratorService;
 
     @RetryableTopic(
             attempts = "${kafka.topic.consumer.qtd.retry}",
@@ -30,7 +31,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     @Override
     public void onReceive(ConsumerRecord<String, Colaborador> record) {
         try {
-
+           // collaboratorService.add(record.value())
         }catch (Exception ex){
             
         }

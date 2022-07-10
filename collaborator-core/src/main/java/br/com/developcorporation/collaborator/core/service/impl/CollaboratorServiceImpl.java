@@ -4,12 +4,12 @@ import br.com.developcorporation.collaborator.core.constants.FieldConstants;
 import br.com.developcorporation.collaborator.core.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.core.infrastructure.ContextHolder;
-import br.com.developcorporation.collaborator.core.service.CompanyService;
+import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
 import br.com.developcorporation.collaborator.core.validation.CompanyValidation;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
-import br.com.developcorporation.collaborator.domain.model.Company;
+import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import br.com.developcorporation.collaborator.domain.port.SendMessagePort;
@@ -26,7 +26,7 @@ import java.util.Objects;
 
 @AllArgsConstructor
 @Service
-public class CompanyServiceImpl implements CompanyService {
+public class CollaboratorServiceImpl implements CollaboratorService {
 
     public static final long ACTIVE = 1L;
 
@@ -39,10 +39,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional
     @Override
-    public Message add(Company dto) {
+    public Message add(Collaborator dto) {
 
         validatorAuthorization.validCredentials();
 
+        /*
         validator.add(dto);
 
         dto.setCnpj(StringUtils.leftPad(dto.getCnpj(),14,"0"));
@@ -68,16 +69,19 @@ public class CompanyServiceImpl implements CompanyService {
                     null);
         }
 
+         */
+
         return new Message(CoreEnum.CREATED.getCode(),
                 MessageConstants.EMPRESA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
     }
 
     @Transactional
     @Override
-    public Message update(Company dto) {
+    public Message update(Collaborator dto) {
 
         validatorAuthorization.validCredentials();
 
+        /*
         validator.update(dto);
 
         dto.setCnpj(StringUtils.leftPad(dto.getCnpj(),14,"0"));
@@ -97,6 +101,8 @@ public class CompanyServiceImpl implements CompanyService {
                     null);
         }
 
+         */
+
         return new Message(CoreEnum.ACCEPTED.getCode(),
                 MessageConstants.EMPRESA_ATUALIZADA_COM_SUCESSO);
     }
@@ -104,27 +110,30 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public Company getById(Long id) {
+    public Collaborator getById(Long id) {
 
         validatorAuthorization.validCredentials();
 
-        return port.getById(id);
+       // return port.getById(id);
+        return null;
     }
 
     @Override
-    public Company getByCnpj(String cnpj) {
+    public Collaborator getByCnpj(String cnpj) {
 
         validatorAuthorization.validCredentials();
 
-        validator.validCnpj(cnpj);
+       // validator.validCnpj(cnpj);
 
-        return port.getByCnpj(cnpj);
+       // return port.getByCnpj(cnpj);
+        return null;
     }
 
 
-    private void validAddExists(Company dto){
+    private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();
 
+        /*
         Company companyCnpj =  port.getByCnpj(dto.getCnpj());
 
         Company companyCorporateName = port.getByCorporateName(dto.getCorporateName());
@@ -150,9 +159,12 @@ public class CompanyServiceImpl implements CompanyService {
                 CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
                 MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA,
                 details);
+
+         */
     }
 
-    private void validUpdateExists(Company dto) {
+    private void validUpdateExists(Collaborator dto) {
+        /*
         List<Message.Details> details = new ArrayList<>();
 
         Company companyOriginal = port.getById(dto.getId());
@@ -184,6 +196,8 @@ public class CompanyServiceImpl implements CompanyService {
                     CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
                     MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA,
                     details);
+
+         */
     }
 
 }

@@ -7,10 +7,8 @@ import br.com.developcorporation.collaborator.rest.logger.LogRest;
 import br.com.developcorporation.collaborator.rest.mapper.CompanyMapper;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.validation.CompanyValidator;
-import br.com.developcorporation.collaborator.core.service.CompanyService;
+import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.domain.message.Message;
-import br.com.developcorporation.collaborator.domain.model.Company;
-import br.com.developcorporation.collaborator.rest.message.request.CompanyRequest;
 import br.com.developcorporation.collaborator.rest.message.response.CompanyResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import lombok.AllArgsConstructor;
@@ -24,14 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.ROUTER_COMPANY)
+//@RequestMapping(FieldConstant.ROUTER_COMPANY)
 @CrossOrigin(origins = "*")
 public class CompanyControllerImpl  implements CompanyController {
 
+    /*
     private static final Logger LOG = LoggerFactory.getLogger(CompanyControllerImpl.class);
 
     private final CompanyValidator validator;
-    private final CompanyService service;
+    private final CollaboratorService service;
 
     private final LogRest logRest;
 
@@ -122,5 +121,7 @@ public class CompanyControllerImpl  implements CompanyController {
                 response,
                 HttpStatus.OK);
     }
+
+     */
 
 }

@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.domain.port;
 
-import br.com.developcorporation.collaborator.domain.model.Company;
+import br.com.developcorporation.collaborator.domain.model.Collaborator;
 
 public interface SendMessagePort {
-    void send(Company dto);
+    void send(Collaborator dto);
 }

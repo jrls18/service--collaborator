@@ -1,8 +1,6 @@
 package br.com.developcorporation.collaborator.rest.mapper;
 
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
-import br.com.developcorporation.collaborator.domain.model.Company;
-import br.com.developcorporation.collaborator.rest.message.request.CompanyRequest;
 import br.com.developcorporation.collaborator.rest.message.response.CompanyResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,6 +11,7 @@ public interface CompanyMapper {
 
     CompanyMapper INSTANCE = Mappers.getMapper(CompanyMapper.class);
 
+    /*
     @Mapping(source = "address.zipCode", target = "zipCode")
     @Mapping(source = "address.publicPlace", target = "publicPlace")
     @Mapping(source = "address.complement", target = "complement")
@@ -42,4 +41,5 @@ public interface CompanyMapper {
     @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_FORMAT)
     CompanyResponse toResponse(final Company dto);
 
+     */
 }

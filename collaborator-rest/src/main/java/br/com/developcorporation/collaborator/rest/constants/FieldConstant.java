@@ -8,22 +8,38 @@ public final class FieldConstant {
 
     public static final String IMAGE = "imagem";
     public static final String NOME_IMAGEM = "nome_imagem";
+    public static final String NOME = "nome";
+    public static final String CPF = "cpf";
+    public static final String RG = "rg";
+    public static final String DATA_NASCIMENTO = "data_nascimento";
+    public static final String ID_COMPANY = "codigo_empresa";
+    public static final String USUARIO = "usuario";
+    public static final String CPF_CNPJ = "cpf_cnpj";
+    public static final String TIPO_SISTEMA = "tipo_sistema";
+
+    public static final String CODIGO_EMPRESA = "codigo_empresa";
+    public static final String TIPO_ARQUIVO = "tipo_arquivo";
+    public static final String FILE_NAME = "file_name";
+
+
     public static final String ACEITA_TERMOS = "aceita_termos_de_uso";
 
     public static final String STATUS = "situacao";
     public static final String EMPRESA = "empresa";
-    public static final String AUTORIZACAO = "authorization";
+    public static final String AUTORIZACAO = "autorization";
     public static final String FOLLOW_UP = "seguimento";
     public static final String GROUP = "grupo";
-    public static final String TYPE_SYSTEM = "tiposistema";
+
+    public static final String NOME_APLICAO = "br.com.developcorporation.management.collaborators";
+    public static final String NAME_SIGLA_APP = "api_empresa";
 
     public static final String APPLICATION_JSON = "application/json";
-
-    public static final String ROUTER_STATUS = STATUS;
-    public static final String ROUTER_COMPANY =  EMPRESA;
-    public static final String ROUTER_AUTORIZACAO =  AUTORIZACAO;
-    public static final String ROUTER_FOLLOW_UP =  FOLLOW_UP;
-    public static final String ROUTER_TYPE_SYSTEM =  TYPE_SYSTEM;
+    public static final String ROUTER_FIX = "/api/develop_corporation/gestao_usuario/";
+    public static final String ROUTER_STATUS = ROUTER_FIX + STATUS;
+    public static final String ROUTER_CLIENTE = ROUTER_FIX + USUARIO;
+    public static final String ROUTER_AUTORIZACAO = ROUTER_FIX + AUTORIZACAO;
+    public static final String ROUTER_FOLLOW_UP = ROUTER_FIX + FOLLOW_UP;
+    public static final String ROUTER_GROUP = ROUTER_FIX + GROUP;
 
 
     public static final String CLIENT_ID = "client_id";
@@ -32,6 +48,7 @@ public final class FieldConstant {
 
     public static final String APPLICATION_NAME = "application_name";
     public static final String SIGLA_APP = "sigla_app";
+    public static final String ORIGEM = "origem";
 
     public static final String CODIGO = "codigo";
     public static final String DESCRICAO = "descricao";
@@ -65,5 +82,10 @@ public final class FieldConstant {
     public static final String USERNAME = "username";
 
     public static final String NUMERO = "numero";
-    public static final String TIPO_SISTEMA = "tipo_sistema";
+
+    public static final String ACCESS_TOKEN = "access_token";
+    public static final String TOKEN_TYPE = "token_type";
+    public static final String EXPIRES_IN = "expires_in";
+    public static final String LOGIN = "login";
+    public static final String TIPO_USUARIO = "tipo_usuario";
 }

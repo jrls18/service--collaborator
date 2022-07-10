@@ -23,6 +23,4 @@ public class StatusRequest implements Serializable {
     @JsonProperty(value = FieldConstant.DESCRICAO, index = 1)
     private String description;
 
-    @JsonProperty(value = FieldConstant.DATA_CONTROL, index = 2)
-    private DataControlRequest dataControl;
 }

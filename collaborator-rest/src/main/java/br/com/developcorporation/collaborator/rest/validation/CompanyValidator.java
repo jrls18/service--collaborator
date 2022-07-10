@@ -4,7 +4,7 @@ package br.com.developcorporation.collaborator.rest.validation;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
-import br.com.developcorporation.collaborator.rest.message.request.CompanyRequest;
+import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.lib.commons.validation.Validation;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +15,18 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class CompanyValidator implements BaseValidator<CompanyRequest>{
+public class CompanyValidator implements BaseValidator<CollaboratorRequest>{
+    @Override
+    public void addRequestValidation(CollaboratorRequest value) {
 
+    }
+
+    @Override
+    public void updateRequestValidation(CollaboratorRequest value) {
+
+    }
+
+    /*
     @Override
     public void addRequestValidation(CompanyRequest value) {
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
@@ -400,4 +410,6 @@ public class CompanyValidator implements BaseValidator<CompanyRequest>{
 
         return detailsResponses;
     }
+
+     */
 }
