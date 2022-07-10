@@ -1,0 +1,44 @@
+{
+  "name": "CompanyMessageError",
+  "type": "record",
+  "namespace": "br.com.developcorporation.colaborador.message.avro",
+  "fields": [
+    {
+      "name": "code",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "message",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "details",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "DetailsList",
+          "type": "record",
+          "fields": [
+            {
+              "name": "field",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "message",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "value",
+              "type": ["null", "string"],
+              "default": null
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

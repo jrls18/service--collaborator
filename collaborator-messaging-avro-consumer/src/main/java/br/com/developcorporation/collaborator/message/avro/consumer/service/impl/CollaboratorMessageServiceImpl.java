@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.message.avro.consumer.service.impl;
 
 import br.com.developcorporation.collaborator.message.avro.consumer.service.CollaboratorMessageService;
-import br.com.developcorporation.company.message.avro.produce.Colaborador;
+import br.com.developcorporation.collaborator.message.avro.produce.Colaborador;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
