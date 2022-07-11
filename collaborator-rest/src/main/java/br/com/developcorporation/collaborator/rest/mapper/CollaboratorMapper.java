@@ -13,8 +13,10 @@ public interface CollaboratorMapper {
 
     CollaboratorMapper INSTANCE = Mappers.getMapper(CollaboratorMapper.class);
 
+    @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
     Collaborator toDomain(final CollaboratorRequest request);
 
-   // @Mapping(source = "dataRegister", target = "dataRegister", dateFormat = MessageConstant.DATA_HORA_FORMAT)
+    @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
+    @Mapping(source = "dataRegister", target = "dataRegister", dateFormat = MessageConstant.DATA_HORA_FORMAT)
     CollaboratorResponse toResponse(final Collaborator domain);
 }

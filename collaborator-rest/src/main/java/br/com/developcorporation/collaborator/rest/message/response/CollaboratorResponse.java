@@ -38,10 +38,10 @@ public class CollaboratorResponse implements Serializable {
     private String dataRegister;
 
     @JsonProperty(value = FieldConstant.CONTATO, index = 5)
-    private CollaboratorRequest.Contact contact;
+    private CollaboratorResponse.Contact contact;
 
     @JsonProperty(value = FieldConstant.ENDERECO, index = 6)
-    private CollaboratorRequest.Address address;
+    private CollaboratorResponse.Address address;
 
     @JsonProperty(value = FieldConstant.PASSWORD, index = 7)
     private String password;
@@ -50,7 +50,7 @@ public class CollaboratorResponse implements Serializable {
     private String typeUser;
 
     @JsonProperty(value = FieldConstant.STATUS, index = 9)
-    private CollaboratorRequest.Status status;
+    private CollaboratorResponse.Status status;
 
     @JsonProperty(value = FieldConstant.IMAGE, index = 11)
     private String image;
@@ -113,8 +113,5 @@ public class CollaboratorResponse implements Serializable {
 
         @JsonProperty(value = FieldConstant.CODIGO, index = 0)
         private String id;
-
-        @JsonProperty(value = FieldConstant.DESCRICAO, index = 1)
-        private  String description;
     }
 }

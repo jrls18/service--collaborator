@@ -1,14 +1,18 @@
 package br.com.developcorporation.collaborator.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Collaborator implements Serializable {
 
     private static final long serialVersionUID = 7912848167188452899L;
@@ -19,7 +23,7 @@ public class Collaborator implements Serializable {
 
     private String cpfCnpj;
 
-    private String birthDate;
+    private LocalDate birthDate;
 
     private LocalDateTime dataRegister;
 
@@ -39,6 +43,8 @@ public class Collaborator implements Serializable {
 
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Contact implements Serializable  {
 
         private static final long serialVersionUID = -7231291149789420778L;
@@ -52,6 +58,8 @@ public class Collaborator implements Serializable {
 
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Address implements Serializable {
 
         private static final long serialVersionUID = -5922440009383664553L;
@@ -73,6 +81,8 @@ public class Collaborator implements Serializable {
 
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Status implements Serializable {
 
         private static final long serialVersionUID = 6648959694803135072L;
