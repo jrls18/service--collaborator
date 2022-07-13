@@ -1,14 +1,11 @@
 package br.com.developcorporation.collaborator.jpa.mapper;
 
-import br.com.developcorporation.collaborator.jpa.entity.Company;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
 @Mapper
-public interface CompanyMapper {
-    CompanyMapper INSTANCE = Mappers.getMapper(CompanyMapper.class);
+public interface CollaboratorMapper {
+    CollaboratorMapper INSTANCE = Mappers.getMapper(CollaboratorMapper.class);
 
    // Company toDto(final br.com.developcorporation.collaborator.jpa.entity.Company entity);
 

@@ -19,36 +19,46 @@ import java.time.LocalDateTime;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(
-        name = "empresa",
+        name = "tblColaborador",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"razao_social"})
-                ,@UniqueConstraint(columnNames = {"cnpj"})
+                 @UniqueConstraint(columnNames = {"email"})
+                ,@UniqueConstraint(columnNames = {"telefonePrincipal"})
         })
-public class Company implements Serializable {
+public class Collaborator implements Serializable {
 
-    private static final long serialVersionUID = 9165838500012386509L;
+    private static final long serialVersionUID = 7210073589481938603L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cod_empresa")
+    @Column(name = "cod_colaborador")
     private Long id;
 
-    @Column(name = "razao_social", length = 150, nullable = false, unique = true)
-    private String corporateName;
-
-    @Column(name = "nome_fantasia", length = 150, nullable = false)
-    private String fantasyName;
-
-    @Column(name = "cnpj", length = 14, nullable = false, unique = true)
-    private String cnpj;
-
-    @Column(name = "inscricao_estadual", length = 30)
-    private String stateRegistration;
+    @Column(name = "nome", length = 150, nullable = false, unique = true)
+    private String name;
 
     @Column(name = "data_fundacao", nullable = false)
-    private LocalDate foundationDate;
+    private LocalDate birthDate;
 
-    @Column(name = "telefone_principal", length = 11, nullable = false)
+    @Column(name = "dataCadastro", nullable = false)
+    private LocalDateTime dataRegister;
+
+    @Column(name = "senha", nullable = false)
+    private String password;
+
+    @Column(name = "tipoUsuario", nullable = false)
+    private String typeUser;
+
+    @Column(name = "codEmpresa", nullable = false)
+    private int idCompany;
+
+    @Column(name = "cpfCnpj", length = 14, nullable = false, unique = true)
+    private String cpfCnpj;
+
+
+    @Column(name = "email", length = 120, nullable = false)
+    private String email;
+
+    @Column(name = "telefonePrincipal", length = 11, nullable = false)
     private String  mainPhone;
 
     @Column(name = "telefone", length = 11)
@@ -75,28 +85,13 @@ public class Company implements Serializable {
     @Column(name = "numero", nullable = false)
     private int number;
 
-    @Column(name = "data_cadastro", nullable = false)
+    @Column(name = "dataCadastro", nullable = false)
     private LocalDateTime dateRegister;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cod_situacao", nullable = false)
+    @JoinColumn(name = "codSituacao", nullable = false)
     private Status status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cod_seguimento", nullable = false)
-    private FollowUp followUp;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cod_grupo")
-    private Group group;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cod_tiposistema", nullable = false)
-    private SystemType systemType;
-
-    @Column(name = "aceita_os_termos_de_uso", nullable = false)
-    private boolean acceptTerms;
-
-    @Column(name = "nome_logotipo")
+    @Column(name = "nomeImage")
     private String nameImage;
 }

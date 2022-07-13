@@ -2,7 +2,7 @@ package br.com.developcorporation.collaborator.jpa.adapter;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
-import br.com.developcorporation.collaborator.jpa.repository.CompanyRepository;
+import br.com.developcorporation.collaborator.jpa.repository.CollaboratorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class CompanyAdapter implements CompanyPort {
+public class CollaboratorAdapter implements CompanyPort {
 
-   private final CompanyRepository repository;
+   private final CollaboratorRepository repository;
 
     @Override
     public Long add(Collaborator dto) {
@@ -28,7 +28,7 @@ public class CompanyAdapter implements CompanyPort {
     @Override
     public Collaborator getById(Long id) {
 
-       Optional<br.com.developcorporation.collaborator.jpa.entity.Company> optionalCompany =  repository.findById(id);
+       Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> optionalCompany =  repository.findById(id);
 
        if (optionalCompany.isEmpty())
            return null;
@@ -40,7 +40,7 @@ public class CompanyAdapter implements CompanyPort {
     @Override
     public Collaborator getByCnpj(String cnpj) {
 
-        Optional<br.com.developcorporation.collaborator.jpa.entity.Company> optionalCompany =  repository.findByCnpj(cnpj);
+        Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> optionalCompany =  repository.findByCnpj(cnpj);
 
         if (optionalCompany.isEmpty())
             return null;
@@ -52,7 +52,7 @@ public class CompanyAdapter implements CompanyPort {
     @Override
     public Collaborator getByCorporateName(String corporateName) {
 
-        Optional<br.com.developcorporation.collaborator.jpa.entity.Company> optionalCompany =  repository.findByCorporateName(corporateName);
+        Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> optionalCompany =  repository.findByCorporateName(corporateName);
 
         if (optionalCompany.isEmpty())
             return null;

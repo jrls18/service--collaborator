@@ -1,6 +1,8 @@
 package br.com.developcorporation.collaborator.message.avro.consumer.service.impl;
 
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
+import br.com.developcorporation.collaborator.domain.exception.DomainException;
+import br.com.developcorporation.collaborator.message.avro.consumer.mapper.CollaboratorMessageMapper;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.CollaboratorMessageService;
 import br.com.developcorporation.collaborator.message.avro.produce.Colaborador;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.kafka.retrytopic.FixedDelayStrategy;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
     private final CollaboratorService collaboratorService;
 
+    @Transactional
     @RetryableTopic(
             attempts = "${kafka.topic.consumer.qtd.retry}",
             backoff = @Backoff(delay = 60000, multiplier = 1.0, maxDelay = 120000),
@@ -31,9 +35,9 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     @Override
     public void onReceive(ConsumerRecord<String, Colaborador> record) {
         try {
-           // collaboratorService.add(record.value())
-        }catch (Exception ex){
-            
+           collaboratorService.add(CollaboratorMessageMapper.INSTANCE.toDomain(record.value()));
+        }catch (DomainException ex){
+
         }
     }
 }
