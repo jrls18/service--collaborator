@@ -3,6 +3,7 @@ package br.com.developcorporation.collaborator.jpa.adapter;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import br.com.developcorporation.collaborator.jpa.repository.CollaboratorRepository;
+import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class CollaboratorAdapter implements CompanyPort {
 
-   private final CollaboratorRepository repository;
+   private final CollaboratorRepositoryService service;
 
     @Override
     public Long add(Collaborator dto) {
@@ -27,6 +28,22 @@ public class CollaboratorAdapter implements CompanyPort {
 
     @Override
     public Collaborator getById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Collaborator getByCnpj(String cnpj) {
+        return null;
+    }
+
+    @Override
+    public Collaborator getByCorporateName(String corporateName) {
+        return null;
+    }
+
+     /*
+    @Override
+    public Collaborator getById(Long id) {
 
        Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> optionalCompany =  repository.findById(id);
 
@@ -36,6 +53,8 @@ public class CollaboratorAdapter implements CompanyPort {
        // return CompanyMapper.INSTANCE.toDto(optionalCompany.get());
         return null;
     }
+
+
 
     @Override
     public Collaborator getByCnpj(String cnpj) {
@@ -60,4 +79,6 @@ public class CollaboratorAdapter implements CompanyPort {
         //return CompanyMapper.INSTANCE.toDto(optionalCompany.get());
        return null;
     }
+
+     */
 }
