@@ -1,15 +1,18 @@
 package br.com.developcorporation.collaborator.jpa.mapper;
 
+import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper
 public interface CollaboratorMapper {
     CollaboratorMapper INSTANCE = Mappers.getMapper(CollaboratorMapper.class);
 
-   // Company toDto(final br.com.developcorporation.collaborator.jpa.entity.Company entity);
+    Collaborator toDomain(final br.com.developcorporation.collaborator.jpa.entity.Collaborator entity);
 
-    //br.com.developcorporation.collaborator.jpa.entity.Company toEntity(final Company dto);
+     br.com.developcorporation.collaborator.jpa.entity.Collaborator toEntity(final Collaborator domain);
 
-    //List<Company> toEntityList(final List<br.com.developcorporation.collaborator.jpa.entity.Company> entityList);
+    List<Collaborator> toDomainList(final List<br.com.developcorporation.collaborator.jpa.entity.Collaborator> entityList);
 }

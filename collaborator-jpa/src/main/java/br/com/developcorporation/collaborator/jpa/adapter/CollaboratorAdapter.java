@@ -2,6 +2,7 @@ package br.com.developcorporation.collaborator.jpa.adapter;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
+import br.com.developcorporation.collaborator.jpa.mapper.CollaboratorMapper;
 import br.com.developcorporation.collaborator.jpa.repository.CollaboratorRepository;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
 import lombok.AllArgsConstructor;
@@ -17,18 +18,17 @@ public class CollaboratorAdapter implements CompanyPort {
 
     @Override
     public Long add(Collaborator dto) {
-      //return repository.save(CompanyMapper.INSTANCE.toEntity(dto)).getId();
-        return null;
+        return service.save(CollaboratorMapper.INSTANCE.toEntity(dto));
     }
 
     @Override
     public void update(Collaborator dto) {
-        //repository.save(CompanyMapper.INSTANCE.toEntity(dto));
+        service.save(CollaboratorMapper.INSTANCE.toEntity(dto));
     }
 
     @Override
     public Collaborator getById(Long id) {
-        return null;
+        return CollaboratorMapper.INSTANCE.toDomain(service.consultaPorCodigo(id).orElse(null));
     }
 
     @Override

@@ -5,18 +5,10 @@ VALUES('ATIVO', now())
      ,('FINALIZADO', now())
      ,('EM PROCESSAMENTO', now());
 
-
-INSERT INTO seguimento (descricao, data_cadastro)
-VALUES('Pizzaria e Esfiharia', now())
-     ,('Padaria e Lanchonetes', now())
-     ,('Mercado', now())
-     ,('Lojas de Utensilios domestico', now());
-
-INSERT INTO tiposistema(descricao)
-VALUES('BASIC')
-     ,('PROD')
-     ,('MID')
-     ,('DESKTOP');
+INSERT INTO tipoacesso(descricao)
+VALUES('ROLE_COLABORADOR')
+     ,('ROLE_USUARIO')
+     ,('ROLE_ADM');
 
 INSERT INTO authorization(application_name,client_id,client_secret,data_cadastro,sigla_app,cod_situacao)
 VALUES('Desktop Develop Corporation'
@@ -26,7 +18,6 @@ VALUES('Desktop Develop Corporation'
       ,'DESKTOP_WINDOWS_APP'
       , 1
       );
-
 
 INSERT INTO authorization(application_name,client_id,client_secret,data_cadastro,sigla_app,cod_situacao)
 VALUES('br.com.developcorporation.management.client'
@@ -46,15 +37,15 @@ VALUES('web-service-management-company'
       , 1
       );
 
-INSERT INTO empresa(razao_social,nome_fantasia,cnpj,inscricao_estadual,data_fundacao,telefone_principal,telefone,cep,logradouro,complemento,bairro,localidade,uf,numero,data_cadastro,cod_seguimento,cod_situacao,aceita_os_termos_de_uso, cod_tiposistema )
-VALUES('Rede Espaço Saboroso'
-      ,'Rede Espaço Saboroso Unidade Epaminondas'
-      ,'37738811000102'
-      , null
+INSERT INTO usuario(nome,cpf,rg,data_nascimento,telefone_principal,telefone,email,password,cep,logradouro,complemento,bairro,localidade,uf,numero,data_cadastro,cod_situacao,cod_empresa )
+VALUES('John Lenon Reis Santos'
+      ,'39729649863'
+      ,'46814710'
       ,'2020-08-10'
-      ,'1126194315'
-      ,'1126194318'
-
+      ,'11971210124'
+      ,null
+      ,'john.john16@hotmail.com'
+      ,'$2a$10$tWleJqmPvSGoYXXz.z./2O.opnUs8BUmRU9Ed89YJdYlSHkPWti2y'
       ,'02542000'
       ,'Rua Epaminondas Melo do Amaral'
       ,null
@@ -65,6 +56,7 @@ VALUES('Rede Espaço Saboroso'
       ,now()
       ,1
       ,1
-      ,true
-      ,1
       );
+
+INSERT INTO usuarioacesso (cod_usuario , cod_tipoacesso)
+                   VALUES (1,1);

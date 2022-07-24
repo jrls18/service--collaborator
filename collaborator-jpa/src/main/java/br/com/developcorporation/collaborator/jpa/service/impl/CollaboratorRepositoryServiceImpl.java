@@ -18,4 +18,16 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
     public Optional<Collaborator> findByUserName(String username) {
         return repository.findByUserName(username);
     }
+
+    @Override
+    public Long save(Collaborator collaborator) {
+        return repository.save(collaborator).getId();
+    }
+
+    @Override
+    public Optional<Collaborator> consultaPorCodigo(Long id) {
+        return repository.findById(id);
+    }
+
+
 }

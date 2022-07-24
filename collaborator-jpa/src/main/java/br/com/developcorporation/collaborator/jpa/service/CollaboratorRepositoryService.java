@@ -6,4 +6,8 @@ import java.util.Optional;
 
 public interface CollaboratorRepositoryService {
     Optional<Collaborator> findByUserName(final String username);
+
+    Long save(final Collaborator collaborator);
+
+    Optional<Collaborator> consultaPorCodigo(final Long id);
 }
