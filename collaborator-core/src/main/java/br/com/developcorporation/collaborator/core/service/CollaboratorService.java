@@ -7,6 +7,8 @@ public interface CollaboratorService {
 
     Message add(final Collaborator dto);
 
+    void addAsync(final Collaborator dto);
+
     Message update(final Collaborator dto);
 
     Collaborator getById(Long id);

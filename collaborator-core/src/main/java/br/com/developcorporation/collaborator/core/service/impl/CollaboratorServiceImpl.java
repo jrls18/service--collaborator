@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -35,12 +36,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final AuthorizationValidation validatorAuthorization;
 
 
-    @Transactional
-    @Override
-    public Message add(Collaborator dto) {
 
-        validatorAuthorization.validCredentials();
-
+    public Message save(Collaborator dto) {
 
         validator.add(dto);
 
@@ -71,6 +68,21 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         return new Message(CoreEnum.CREATED.getCode(),
                 MessageConstants.USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
+    }
+
+    @Transactional
+    @Override
+    public Message add(Collaborator dto) {
+        validatorAuthorization.validCredentials();
+        return save(dto);
+    }
+
+    @Transactional
+    @Override
+    public void addAsync(Collaborator dto) {
+        if(Objects.nonNull(dto)){
+            save(dto);
+        }
     }
 
     @Transactional
