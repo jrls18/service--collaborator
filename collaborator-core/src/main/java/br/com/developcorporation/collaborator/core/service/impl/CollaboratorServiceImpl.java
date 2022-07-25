@@ -1,28 +1,21 @@
 package br.com.developcorporation.collaborator.core.service.impl;
 
-import br.com.developcorporation.collaborator.core.constants.FieldConstants;
 import br.com.developcorporation.collaborator.core.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
-import br.com.developcorporation.collaborator.core.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
 import br.com.developcorporation.collaborator.core.validation.CompanyValidation;
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import br.com.developcorporation.collaborator.domain.port.SendMessagePort;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -72,7 +65,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
          */
 
         return new Message(CoreEnum.CREATED.getCode(),
-                MessageConstants.EMPRESA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
+                MessageConstants.USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
     }
 
     @Transactional

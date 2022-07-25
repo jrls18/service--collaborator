@@ -49,8 +49,8 @@ public final class MessageConstants {
 
     public static final String EMPRESA_CADASTRADA_COM_SUCESSO = "Empresa cadastrada com sucesso.";
 
-    public static final String EMPRESA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA =
-            "Empresa cadastrada com sucesso. No máximo 24 horas será liberado seu acesso no sistema.";
+    public static final String USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA =
+            "Usuário cadastrada com sucesso. No máximo 24 horas será liberado seu acesso no sistema.";
 
 
     public static final String EMPRESA_ATUALIZADA_COM_SUCESSO = "Empresa atualizada com sucesso.";

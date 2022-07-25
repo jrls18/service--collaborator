@@ -1,8 +1,8 @@
 package br.com.developcorporation.collaborator.message.avro.consumer.mapper;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
+import br.com.developcorporation.collaborator.message.avro.Colaborador;
 import br.com.developcorporation.collaborator.message.avro.consumer.constans.DataConstant;
-import br.com.developcorporation.collaborator.message.avro.produce.Colaborador;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
