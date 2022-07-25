@@ -1,10 +1,10 @@
-package br.com.developcorporation.collaborator.core.constants;
+package br.com.developcorporation.collaborator.domain.constants;
 
 public final class FieldConstants {
     private FieldConstants(){
     }
     public static final String CODIGO = "codigo";
-    public static final String DATA_FUNDACAO = "data_fundacao";
+    public static final String DATA_NASCIMENTO = "data_nascimento";
     public static final String RAZAO_SOCIAL = "razao_social";
     public static final String NOME_FANTASIA = "nome_fantasia";
     public static final String TELEFONE_PRINCIPAL = "telefone_principal";

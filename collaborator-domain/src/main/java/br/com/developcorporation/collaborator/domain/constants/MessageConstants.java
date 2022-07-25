@@ -1,7 +1,9 @@
-package br.com.developcorporation.collaborator.core.constants;
+package br.com.developcorporation.collaborator.domain.constants;
 
 
 public final class MessageConstants {
+    public static final String PREENCHA_OS_DADOS_DE_CONTATO = "Por favor preencha os dados de contato.";
+
     private MessageConstants(){
     }
 
@@ -17,7 +19,7 @@ public final class MessageConstants {
 
 
     public static final String EXISTE_ERROS_NOS_CAMPOS_DE_AUTORIZACAO = "Existe erro(s) no(s) campo(s) da autorização.";
-    public static final String EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA = "Existe erro(s) no(s) campo(s) da empresa.";
+    public static final String EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO = "Existe erro(s) no(s) campo(s) da usuário.";
 
 
     public static final String INFORME_A_CHAVE_DE_ACESSO_CLIENT_ID = "Informe a chave de acesso clientId";
@@ -27,7 +29,7 @@ public final class MessageConstants {
     public static final String INFORME_A_CHAVE_DE_RASTREIO_DE_UM_MICROSERVICE = "Informe a chave de rastreio de fluxo de um microservice.";
     public static final String INFORME_A_CHAVE_DE_RASTREIO_DE_UM_MICROSERVICE_NO_FORMATO_DE_UUID = "Informe a chave de rastreio de fluxo de um microservice válido no formato de UUID.";
     public static final String PREENCHA_O_FORMULARIO_DE_CADASTRO_DA_NOVA_AUTORIZACAO = "Preencha o formulário de cadastro da nova autorização.";
-    public static final String PREENCHA_O_FORMULARIO_DE_CADASTRO_DA_NOVA_EMPRESA = "Preencha o formulário de cadastro da nova empresa.";
+    public static final String PREENCHA_O_FORMULARIO_DE_CADASTRO_DA_NOVO_USUARIO = "Preencha o formulário de cadastro da novo usuario.";
 
 
     public static final String PREENCHA_O_FORMULARIO_DE_ALTERACAO_DA_AUTORIZACAO = "Preencha o formulário de alteração da autorização.";
@@ -68,7 +70,7 @@ public final class MessageConstants {
     public static final String RAZAO_SOCIAL_JA_EXISTE_CADASTRADA = "Razão social já existe cadastrada.";
 
     public static final String PARA_REALIZAR_O_CADASTRO_LEIA_O_CONTRATO_E_ACEITE_AS_CONDICOES = "Para realizar o cadastro leia o contrato e aceite as condições.";
-    public static final String DATA_DE_FUNDACAO_E_OBRIGATORIO = "Data de fundação é obrigatório.";
+    public static final String DATA_DE_NASCIMENTO_E_OBRIGATORIO = "Data de nascimento é obrigatório.";
     public static final String EMAIL_DEVE_SER_ENVIADO_NO_FORMATO_VALIDO = "Email deve ser enviado no formato válido.";
     public static final String PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACETERES_E_DEVE_CONTER_UMA_LETRA_MAIUSCULA_UMA_LETRA_MINUSCULA_UM_SIBOLO_E_UM_CARACTER_ESPECIAL = "Password deve conter no mínimo 8 caraceteres e deve conter uma letra maiuscula, uma letra minuscula, um sibolo e um caracter especial.";
     public static final String TELEFONE_DEVE_SER_NUMERO_VALIDO = "Telefone deve ser número válido.";

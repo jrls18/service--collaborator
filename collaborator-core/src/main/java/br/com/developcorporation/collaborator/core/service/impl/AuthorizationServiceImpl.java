@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.core.service.impl;
 
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
-import br.com.developcorporation.collaborator.core.constants.MessageConstants;
+import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
 import br.com.developcorporation.collaborator.core.service.StatusService;

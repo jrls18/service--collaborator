@@ -76,7 +76,7 @@ public class Collaborator implements Serializable {
 
         private String state;
 
-        private String number;
+        private Long number;
     }
 
     @Getter
