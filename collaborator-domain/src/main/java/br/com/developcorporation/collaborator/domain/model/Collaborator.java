@@ -87,6 +87,6 @@ public class Collaborator implements Serializable {
 
         private static final long serialVersionUID = 6648959694803135072L;
 
-        private String id;
+        private Long id;
     }
 }

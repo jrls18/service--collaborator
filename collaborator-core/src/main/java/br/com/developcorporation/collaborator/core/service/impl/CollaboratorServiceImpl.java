@@ -2,18 +2,23 @@ package br.com.developcorporation.collaborator.core.service.impl;
 
 import br.com.developcorporation.collaborator.core.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
+import br.com.developcorporation.collaborator.core.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
 import br.com.developcorporation.collaborator.core.validation.CompanyValidation;
+import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
+import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import br.com.developcorporation.collaborator.domain.port.SendMessagePort;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,25 +41,25 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         validatorAuthorization.validCredentials();
 
-        /*
+
         validator.add(dto);
 
-        dto.setCnpj(StringUtils.leftPad(dto.getCnpj(),14,"0"));
+        dto.setCpfCnpj(StringUtils.leftPad(dto.getCpfCnpj(),14,"0"));
         validAddExists(dto);
 
         try {
-            dto.setDateRegister(LocalDateTime.now());
+            dto.setDataRegister(LocalDateTime.now());
 
             dto.setPassword(encoder.encode(dto.getPassword()));
 
-            Status status = new Status();
+            Collaborator.Status status = new Collaborator.Status();
             status.setId(ACTIVE);
             dto.setStatus(status);
 
             Long id =  port.add(dto);
             dto.setId(id);
 
-            messagePort.send(dto);
+            //messagePort.send(dto);
         }catch (Exception ex){
             throw new DomainException(
                     CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
@@ -62,7 +67,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     null);
         }
 
-         */
+
 
         return new Message(CoreEnum.CREATED.getCode(),
                 MessageConstants.USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
@@ -72,16 +77,17 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Message update(Collaborator dto) {
 
+        /*
         validatorAuthorization.validCredentials();
 
-        /*
+
         validator.update(dto);
 
-        dto.setCnpj(StringUtils.leftPad(dto.getCnpj(),14,"0"));
+        dto.setCpfCnpj(StringUtils.leftPad(dto.getCpfCnpj(),14,"0"));
         validUpdateExists(dto);
 
         try {
-            Company companyOriginal = (Company)ContextHolder.get().getMap().get("company");
+            Collaborator companyOriginal = (Collaborator) ContextHolder.get().getMap().get("company");
 
             dto.setAcceptTerms(companyOriginal.isAcceptTerms());
             dto.setSystemType(companyOriginal.getSystemType());
@@ -95,6 +101,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
 
          */
+
+
 
         return new Message(CoreEnum.ACCEPTED.getCode(),
                 MessageConstants.EMPRESA_ATUALIZADA_COM_SUCESSO);
