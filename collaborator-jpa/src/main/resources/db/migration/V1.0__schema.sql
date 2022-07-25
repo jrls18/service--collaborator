@@ -2,7 +2,6 @@ CREATE TABLE IF NOT EXISTS situacao(
      cod_situacao INT AUTO_INCREMENT NOT NULL
     ,descricao VARCHAR(150) UNIQUE NOT NULL
     ,data_cadastro DATETIME NOT NULL
-    ,chave_unica_uuid VARCHAR(36) UNIQUE  NOT NULL
     ,PRIMARY KEY (cod_situacao)
 );
 

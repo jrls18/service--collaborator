@@ -13,10 +13,4 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
 
     @Query(value = "SELECT * FROM tblColaborador WHERE (email = :username OR telefonePrincipal = :username)", nativeQuery = true)
     Optional<Collaborator> findByUserName(@Param("username") final String username);
-
-    Optional<Collaborator> findByCorporateName(final String corporateName);
-
-    Optional<Collaborator> findByCnpj(final String cnpj);
-
-    Optional<Collaborator> findByMainPhone(String mainPhone);
 }

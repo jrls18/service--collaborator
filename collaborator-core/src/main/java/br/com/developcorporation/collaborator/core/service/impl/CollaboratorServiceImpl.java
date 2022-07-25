@@ -4,14 +4,13 @@ import br.com.developcorporation.collaborator.core.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
-import br.com.developcorporation.collaborator.core.validation.CompanyValidation;
+import br.com.developcorporation.collaborator.core.validation.CollaboratorValidation;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
-import br.com.developcorporation.collaborator.domain.port.CompanyPort;
-import br.com.developcorporation.collaborator.domain.port.SendMessagePort;
-import lombok.AllArgsConstructor;
+import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,18 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
 
     public static final long ACTIVE = 1L;
 
     private final PasswordEncoder encoder;
-    private final CompanyPort port;
-    private final SendMessagePort messagePort;
+    private final CollaboratorPort port;
+    //private final SendMessagePort messagePort;
 
     private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
-    private final CompanyValidation validator;
+    private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
 
 

@@ -39,9 +39,6 @@ public class Collaborator implements Serializable {
     @Column(name = "data_fundacao", nullable = false)
     private LocalDate birthDate;
 
-    @Column(name = "dataCadastro", nullable = false)
-    private LocalDateTime dataRegister;
-
     @Column(name = "senha", nullable = false)
     private String password;
 
@@ -85,7 +82,7 @@ public class Collaborator implements Serializable {
     @Column(name = "numero", nullable = false)
     private int number;
 
-    @Column(name = "dataCadastro", nullable = false)
+    @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime dateRegister;
 
     @ManyToOne(fetch = FetchType.EAGER)

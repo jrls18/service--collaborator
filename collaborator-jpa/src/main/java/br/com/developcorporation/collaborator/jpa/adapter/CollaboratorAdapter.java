@@ -1,18 +1,15 @@
 package br.com.developcorporation.collaborator.jpa.adapter;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.port.CompanyPort;
+import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
 import br.com.developcorporation.collaborator.jpa.mapper.CollaboratorMapper;
-import br.com.developcorporation.collaborator.jpa.repository.CollaboratorRepository;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @AllArgsConstructor
 @Service
-public class CollaboratorAdapter implements CompanyPort {
+public class CollaboratorAdapter implements CollaboratorPort {
 
    private final CollaboratorRepositoryService service;
 

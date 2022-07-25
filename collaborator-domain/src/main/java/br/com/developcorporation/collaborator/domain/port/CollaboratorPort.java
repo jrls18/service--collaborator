@@ -2,7 +2,7 @@ package br.com.developcorporation.collaborator.domain.port;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 
-public interface CompanyPort {
+public interface CollaboratorPort {
     Long add(Collaborator dto);
 
     void update(Collaborator dto);
