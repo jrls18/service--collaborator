@@ -37,7 +37,7 @@ public class Collaborator implements Serializable {
 
     private Status status;
 
-    private String image;
+    private String nameImage;
 
     private String idCompany;
 

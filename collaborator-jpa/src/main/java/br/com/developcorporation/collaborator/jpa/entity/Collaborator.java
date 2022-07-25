@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(
-        name = "tblColaborador",
+        name = "colaborador",
         uniqueConstraints = {
                  @UniqueConstraint(columnNames = {"email"})
                 ,@UniqueConstraint(columnNames = {"telefonePrincipal"})
