@@ -37,7 +37,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
         try {
            collaboratorService.add(CollaboratorMessageMapper.INSTANCE.toDomain(record.value()));
         }catch (DomainException ex){
-
+            collaboratorService.sendMessageError(ex);
         }
     }
 }

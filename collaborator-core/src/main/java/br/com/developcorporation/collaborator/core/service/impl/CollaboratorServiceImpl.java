@@ -2,14 +2,13 @@ package br.com.developcorporation.collaborator.core.service.impl;
 
 import br.com.developcorporation.collaborator.core.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
-import br.com.developcorporation.collaborator.core.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
 import br.com.developcorporation.collaborator.core.validation.CompanyValidation;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.model.Status;
+import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import br.com.developcorporation.collaborator.domain.port.SendMessagePort;
 import lombok.AllArgsConstructor;
@@ -32,12 +31,14 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final PasswordEncoder encoder;
     private final CompanyPort port;
     private final SendMessagePort messagePort;
+
+    private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
     private final CompanyValidation validator;
     private final AuthorizationValidation validatorAuthorization;
 
 
 
-    public Message save(Collaborator dto) {
+    private void save(Collaborator dto) {
 
         validator.add(dto);
 
@@ -63,18 +64,17 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     MessageConstants.OCORREU_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE,
                     null);
         }
-
-
-
-        return new Message(CoreEnum.CREATED.getCode(),
-                MessageConstants.USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
     }
 
     @Transactional
     @Override
     public Message add(Collaborator dto) {
         validatorAuthorization.validCredentials();
-        return save(dto);
+
+        save(dto);
+
+        return new Message(CoreEnum.CREATED.getCode(),
+                MessageConstants.USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
     }
 
     @Transactional
@@ -140,6 +140,13 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
        // return port.getByCnpj(cnpj);
         return null;
+    }
+
+    @Override
+    public void sendMessageError(DomainException domainException) {
+        if(Objects.nonNull(domainException)){
+            collaboratorSendMessageErrorPort.send(domainException);
+        }
     }
 
 
