@@ -80,7 +80,10 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public void addAsync(Collaborator dto) {
         if(Objects.nonNull(dto)){
-            save(dto);
+            if(StringUtils.isEmpty(dto.getOperationType()) || dto.getOperationType().equalsIgnoreCase("I"))
+                save(dto);
+            else
+                update(dto);
         }
     }
 
