@@ -41,6 +41,8 @@ public class Collaborator implements Serializable {
 
     private String idCompany;
 
+    private String operationType;
+
     @Getter
     @Setter
     @AllArgsConstructor

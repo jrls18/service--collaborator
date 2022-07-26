@@ -4,10 +4,18 @@
   "name": "Colaborador",
   "version": "1",
   "fields":[
-    { "name": "typeUser", "type": "string",
+    {
+      "name": "typeUser",
+      "type": "string",
       "default": "ADM",
-      "doc": "ADM" },
-
+      "doc": "ADM"
+    },
+    {
+      "name": "operationType",
+      "type": "string",
+      "default": "I",
+      "doc": "I - INCLUSAO, A - ALTERACAO"
+    },
     { "name": "idCompany", "type": "string", "doc": "Código da empresa" },
     { "name": "birthDate", "type": "string", "doc": "Data de nascimento" },
     { "name": "name", "type": "string", "doc": "Nome" },
