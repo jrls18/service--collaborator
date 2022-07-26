@@ -47,7 +47,7 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
         detailsList.addAll(validPhone(value.getContact()));
 
-        detailsList.addAll(validPassword(value));
+        //detailsList.addAll(validPassword(value));
 
         detailsList.addAll(validAddress(value.getAddress()));
 

@@ -47,8 +47,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         try {
             dto.setDataRegister(LocalDateTime.now());
 
-            dto.setPassword(encoder.encode(dto.getPassword()));
-
             Collaborator.Status status = new Collaborator.Status();
             status.setId(ACTIVE);
             dto.setStatus(status);
@@ -69,6 +67,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Message add(Collaborator dto) {
         validatorAuthorization.validCredentials();
+
+        dto.setPassword(encoder.encode(dto.getPassword()));
 
         save(dto);
 

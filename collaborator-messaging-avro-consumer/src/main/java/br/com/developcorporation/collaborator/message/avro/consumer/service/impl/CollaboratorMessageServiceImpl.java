@@ -35,7 +35,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     @Override
     public void onReceive(ConsumerRecord<String, Colaborador> record) {
         try {
-           collaboratorService.add(CollaboratorMessageMapper.INSTANCE.toDomain(record.value()));
+           collaboratorService.addAsync(CollaboratorMessageMapper.INSTANCE.toDomain(record.value()));
         }catch (DomainException ex){
             collaboratorService.sendMessageError(ex);
         }
