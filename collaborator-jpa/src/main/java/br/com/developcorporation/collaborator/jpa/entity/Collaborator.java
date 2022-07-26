@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
         name = "colaborador",
         uniqueConstraints = {
                  @UniqueConstraint(columnNames = {"email"})
-                ,@UniqueConstraint(columnNames = {"telefonePrincipal"})
+                ,@UniqueConstraint(columnNames = {"telefone_principal"})
         })
 public class Collaborator implements Serializable {
 
@@ -36,26 +36,26 @@ public class Collaborator implements Serializable {
     @Column(name = "nome", length = 150, nullable = false, unique = true)
     private String name;
 
-    @Column(name = "data_fundacao", nullable = false)
+    @Column(name = "data_nascimento", nullable = false)
     private LocalDate birthDate;
 
     @Column(name = "senha", nullable = false)
     private String password;
 
-    @Column(name = "tipoUsuario", nullable = false)
+    @Column(name = "tipo_usuario", nullable = false)
     private String typeUser;
 
-    @Column(name = "codEmpresa", nullable = false)
+    @Column(name = "cod_empresa", nullable = false)
     private int idCompany;
 
-    @Column(name = "cpfCnpj", length = 14, nullable = false, unique = true)
+    @Column(name = "cpf_cnpj", length = 14, nullable = false, unique = true)
     private String cpfCnpj;
 
 
     @Column(name = "email", length = 120, nullable = false)
     private String email;
 
-    @Column(name = "telefonePrincipal", length = 11, nullable = false)
+    @Column(name = "telefone_principal", length = 11, nullable = false)
     private String  mainPhone;
 
     @Column(name = "telefone", length = 11)
@@ -86,9 +86,9 @@ public class Collaborator implements Serializable {
     private LocalDateTime dateRegister;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "codSituacao", nullable = false)
+    @JoinColumn(name = "cod_situacao", nullable = false)
     private Status status;
 
-    @Column(name = "nomeImage")
+    @Column(name = "nome_image")
     private String nameImage;
 }

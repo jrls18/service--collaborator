@@ -37,10 +37,9 @@ VALUES('web-service-management-company'
       , 1
       );
 
-INSERT INTO usuario(nome,cpf,rg,data_nascimento,telefone_principal,telefone,email,password,cep,logradouro,complemento,bairro,localidade,uf,numero,data_cadastro,cod_situacao,cod_empresa )
+INSERT INTO colaborador(nome,cpf_cnpj,data_nascimento,telefone_principal,telefone,email,senha,cep,logradouro,complemento,bairro,localidade,uf,numero,data_cadastro,cod_situacao,cod_empresa, tipo_usuario )
 VALUES('John Lenon Reis Santos'
       ,'39729649863'
-      ,'46814710'
       ,'2020-08-10'
       ,'11971210124'
       ,null
@@ -56,7 +55,8 @@ VALUES('John Lenon Reis Santos'
       ,now()
       ,1
       ,1
+      ,'ADM'
       );
 
-INSERT INTO usuarioacesso (cod_usuario , cod_tipoacesso)
+INSERT INTO colaboradoracesso (cod_colaborador , cod_tipoacesso)
                    VALUES (1,1);

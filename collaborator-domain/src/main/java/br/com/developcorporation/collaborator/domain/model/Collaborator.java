@@ -25,7 +25,7 @@ public class Collaborator implements Serializable {
 
     private LocalDate birthDate;
 
-    private LocalDateTime dataRegister;
+    private LocalDateTime dateRegister;
 
     private Contact contact;
 

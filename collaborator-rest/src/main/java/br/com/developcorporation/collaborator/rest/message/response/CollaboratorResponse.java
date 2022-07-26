@@ -35,7 +35,7 @@ public class CollaboratorResponse implements Serializable {
     private String birthDate;
 
     @JsonProperty(value = FieldConstant.DATA_CADASTRO)
-    private String dataRegister;
+    private String dateRegister;
 
     @JsonProperty(value = FieldConstant.CONTATO, index = 5)
     private CollaboratorResponse.Contact contact;

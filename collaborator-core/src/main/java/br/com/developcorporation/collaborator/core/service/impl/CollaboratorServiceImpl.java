@@ -45,7 +45,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         validAddExists(dto);
 
         try {
-            dto.setDataRegister(LocalDateTime.now());
+            dto.setDateRegister(LocalDateTime.now());
 
             Collaborator.Status status = new Collaborator.Status();
             status.setId(ACTIVE);
