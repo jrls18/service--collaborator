@@ -20,7 +20,6 @@ import java.util.Objects;
 @Service
 public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
-
     @Override
     public void add(Collaborator value) {
 
@@ -47,7 +46,7 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
         detailsList.addAll(validPhone(value.getContact()));
 
-        //detailsList.addAll(validPassword(value));
+        detailsList.addAll(validPassword(value));
 
         detailsList.addAll(validAddress(value.getAddress()));
 
@@ -123,11 +122,14 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
         detailsList.add(
                 MessageMapper.INSTANCE.toDetailsDto(
-                        Validation.mandatoryPassword(
+                        Validation.validationNullOrEmptyMaxCaracter(
                                 collaborator.getPassword(),
                                 FieldConstants.PASSWORD,
-                                MessageConstants.PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACETERES_E_DEVE_CONTER_UMA_LETRA_MAIUSCULA_UMA_LETRA_MINUSCULA_UM_SIBOLO_E_UM_CARACTER_ESPECIAL
-                        )
+                                MessageConstants.PASSWORD_NAO_PODE_SER_NULO,
+                                MessageConstants.PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACTERES_E_MAXIMO_15_CARACTERES,
+                                6,
+                                350)
+
                 )
         );
 

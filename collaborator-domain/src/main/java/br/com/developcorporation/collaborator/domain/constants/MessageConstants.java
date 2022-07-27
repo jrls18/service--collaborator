@@ -16,6 +16,8 @@ public final class MessageConstants {
     public static final String CODIGO_DA_SITUACAO_DEVE_SER_MAIOR_QUE_ZERO = "Código da situação deve ser maior que zero.";
     public static final String AUTORIZACAO_NAO_EXISTE_CADASTRADA = "Autorização não existe cadastrada.";
 
+    public static final String PASSWORD_NAO_PODE_SER_NULO = "Password não pode ser nulo.";
+    public static final String PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACTERES_E_MAXIMO_15_CARACTERES = "Password deve conter no mínimo 8 caracteres e máximo 15 caracteres.";
 
 
     public static final String EXISTE_ERROS_NOS_CAMPOS_DE_AUTORIZACAO = "Existe erro(s) no(s) campo(s) da autorização.";
