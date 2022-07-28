@@ -14,8 +14,6 @@ public interface CollaboratorService {
 
     Collaborator getById(Long id);
 
-    Collaborator getByCnpj(final String cnpj);
-
     void sendMessageError(final DomainException ex);
 
 }

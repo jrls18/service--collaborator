@@ -57,7 +57,7 @@ public final class MessageConstants {
             "Usuário cadastrada com sucesso. No máximo 24 horas será liberado seu acesso no sistema.";
 
 
-    public static final String EMPRESA_ATUALIZADA_COM_SUCESSO = "Empresa atualizada com sucesso.";
+    public static final String COLABORADOR_ATUALIZADA_COM_SUCESSO = "Colaborador atualizada com sucesso.";
 
 
     public static final String APPLICATION_NAME_DEVE_SER_UM_TEXTO_ALFANUMERICO = "Application name deve ser um texto alfanumérico.";

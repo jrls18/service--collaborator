@@ -35,8 +35,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
 
-
-
     private void save(Collaborator dto) {
 
         validator.add(dto);
@@ -83,7 +81,32 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             if(StringUtils.isEmpty(dto.getOperationType()) || dto.getOperationType().equalsIgnoreCase("I"))
                 save(dto);
             else
-                update(dto);
+                updateAsync(dto);
+        }
+    }
+
+
+    private void updateAsync(final Collaborator domain){
+       try{
+           this.updateBase(domain);
+       }catch (DomainException exception){
+           collaboratorSendMessageErrorPort.send(exception);
+       }
+    }
+
+    private void updateBase(Collaborator domain){
+        validator.update(domain);
+
+        domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
+        validUpdateExists(domain);
+
+        try {
+            port.update(domain);
+        }catch (Exception ex){
+            throw new DomainException(
+                    CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
+                    MessageConstants.OCORREU_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE,
+                    null);
         }
     }
 
@@ -91,57 +114,22 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Message update(Collaborator dto) {
 
-        /*
         validatorAuthorization.validCredentials();
-
 
         validator.update(dto);
 
-        dto.setCpfCnpj(StringUtils.leftPad(dto.getCpfCnpj(),14,"0"));
-        validUpdateExists(dto);
-
-        try {
-            Collaborator companyOriginal = (Collaborator) ContextHolder.get().getMap().get("company");
-
-            dto.setAcceptTerms(companyOriginal.isAcceptTerms());
-            dto.setSystemType(companyOriginal.getSystemType());
-
-            port.update(dto);
-        }catch (Exception ex){
-            throw new DomainException(
-                    CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
-                    MessageConstants.OCORREU_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE,
-                    null);
-        }
-
-         */
-
-
+        this.updateBase(dto);
 
         return new Message(CoreEnum.ACCEPTED.getCode(),
-                MessageConstants.EMPRESA_ATUALIZADA_COM_SUCESSO);
+                MessageConstants.COLABORADOR_ATUALIZADA_COM_SUCESSO);
     }
 
 
 
     @Override
     public Collaborator getById(Long id) {
-
         validatorAuthorization.validCredentials();
-
-       // return port.getById(id);
-        return null;
-    }
-
-    @Override
-    public Collaborator getByCnpj(String cnpj) {
-
-        validatorAuthorization.validCredentials();
-
-       // validator.validCnpj(cnpj);
-
-       // return port.getByCnpj(cnpj);
-        return null;
+        return port.getById(id);
     }
 
     @Override
@@ -150,7 +138,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             collaboratorSendMessageErrorPort.send(domainException);
         }
     }
-
 
     private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();
