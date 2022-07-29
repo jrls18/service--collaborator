@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
         name = "colaborador",
         uniqueConstraints = {
                  @UniqueConstraint(columnNames = {"email"})
-                ,@UniqueConstraint(columnNames = {"telefone_principal"})
         })
 public class Collaborator implements Serializable {
 

@@ -1,5 +1,7 @@
 package br.com.developcorporation.collaborator.core.service.impl;
 
+
+import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
@@ -142,71 +144,50 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();
 
-        /*
-        Company companyCnpj =  port.getByCnpj(dto.getCnpj());
 
-        Company companyCorporateName = port.getByCorporateName(dto.getCorporateName());
+        Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
 
-        if(Objects.nonNull(companyCnpj)){
+
+        if(Objects.nonNull(collaborator)){
             details.add(
                     new Message.Details(
-                            FieldConstants.CNPJ_CPF,
-                            MessageConstants.CNPJ_CPF_JA_EXISTE_CADASTRADO,
-                            companyCnpj.getCnpj()));
+                            FieldConstants.EMAIL,
+                            MessageConstants.EMAIL_DEVE_SER_ENVIADO_NO_FORMATO_VALIDO,
+                            dto.getContact().getEmail()));
         }
 
-        if(Objects.nonNull(companyCorporateName)){
-            details.add(
-                    new Message.Details(
-                            FieldConstants.RAZAO_SOCIAL,
-                            MessageConstants.RAZAO_SOCIAL_JA_EXISTE_CADASTRADA,
-                            companyCorporateName.getCorporateName()));
-        }
+
 
         if(!details.isEmpty())
             throw new DomainException(
                 CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
-                MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA,
+                MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
                 details);
 
-         */
+
     }
 
     private void validUpdateExists(Collaborator dto) {
-        /*
+
         List<Message.Details> details = new ArrayList<>();
 
-        Company companyOriginal = port.getById(dto.getId());
+        Collaborator collaboratorOriginal = port.getById(dto.getId());
 
-        ContextHolder.get().setMap("company", companyOriginal);
+        Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
 
-        Company companyCnpj =  port.getByCnpj(dto.getCnpj());
-
-        Company companyCorporateName = port.getByCorporateName(dto.getCorporateName());
-
-        if(!companyOriginal.getId().equals(companyCnpj.getId())){
+        if(!collaboratorOriginal.getId().equals(collaborator.getId())){
             details.add(
                     new Message.Details(
-                            FieldConstants.CNPJ_CPF,
-                            MessageConstants.CNPJ_CPF_JA_EXISTE_CADASTRADO,
-                            companyCnpj.getCnpj()));
-        }
-
-        if(!companyOriginal.getId().equals(companyCorporateName.getId())){
-            details.add(
-                    new Message.Details(
-                            FieldConstants.RAZAO_SOCIAL,
-                            MessageConstants.RAZAO_SOCIAL_JA_EXISTE_CADASTRADA,
-                            companyCorporateName.getCorporateName()));
+                            FieldConstants.EMAIL,
+                            MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
+                            collaborator.getContact().getEmail()));
         }
 
         if(!details.isEmpty())
             throw new DomainException(
                     CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
-                    MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA,
+                    MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
                     details);
-
-         */
     }
 
 }

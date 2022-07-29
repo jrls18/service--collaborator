@@ -20,6 +20,11 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
     }
 
     @Override
+    public Optional<Collaborator> findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    @Override
     public Long save(Collaborator collaborator) {
         return repository.save(collaborator).getId();
     }

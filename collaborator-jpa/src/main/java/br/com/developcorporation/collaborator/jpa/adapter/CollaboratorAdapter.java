@@ -29,14 +29,11 @@ public class CollaboratorAdapter implements CollaboratorPort {
     }
 
     @Override
-    public Collaborator getByCnpj(String cnpj) {
-        return null;
+    public Collaborator getEmail(String email) {
+        return CollaboratorMapper.INSTANCE.toDomain(service.findByEmail(email).orElse(null));
     }
 
-    @Override
-    public Collaborator getByCorporateName(String corporateName) {
-        return null;
-    }
+
 
      /*
     @Override

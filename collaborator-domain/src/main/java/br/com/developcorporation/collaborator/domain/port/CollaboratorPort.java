@@ -9,7 +9,5 @@ public interface CollaboratorPort {
 
     Collaborator getById(Long id);
 
-    Collaborator getByCnpj(String cnpj);
-
-    Collaborator getByCorporateName(String corporateName);
+    Collaborator getEmail(String email);
 }
