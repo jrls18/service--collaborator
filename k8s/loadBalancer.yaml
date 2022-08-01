@@ -15,9 +15,9 @@ spec:
       name: http-monitoration
       port: 9181
       targetPort: 9090
-  clusterIP: 10.106.200.127
+  clusterIP: 10.105.213.153
   type: LoadBalancer
 status:
   loadBalancer:
     ingress:
-      - ip: 192.168.0.131
+      - ip: 192.168.15.17

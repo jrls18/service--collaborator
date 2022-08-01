@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service--company
+  name: service--collaborator
   namespace: services-develop-corporation
   labels:
     app: service--collaborator
