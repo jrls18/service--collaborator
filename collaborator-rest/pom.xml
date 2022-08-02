@@ -24,6 +24,7 @@
         <commons-lang3-version>3.0</commons-lang3-version>
         <spring-boot-admin-starter-client>2.5.0</spring-boot-admin-starter-client>
         <resilience4j-micrometer-version>1.7.1</resilience4j-micrometer-version>
+        <jjwt-version>0.9.1</jjwt-version>
 
     </properties>
 
@@ -109,6 +110,11 @@
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
             <version>${spring-boot-admin-starter-client}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt-version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

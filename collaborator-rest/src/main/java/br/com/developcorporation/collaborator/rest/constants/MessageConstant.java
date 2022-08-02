@@ -3,6 +3,21 @@ package br.com.developcorporation.collaborator.rest.constants;
 public final class MessageConstant {
 
 
+    public static final String NAO_AUTORIZADO = "Não autorizado.";
+    public static final String NAO_E_POSSIVEL_DEFINIR_A_AUTENTICACAO_DO_USUARIO_MENSAGEM = "NãO é possível definir a autenticação do usuário -> Mensagem: {}";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
+    public static final String TOKEN_TWT_INVALIDO_MENSAGEM = "Token JWT inválido -> Mensagem: {}";
+    public static final String INFORME_USUARIO_E_SENHA = "Informe usuario e senha.";
+    public static final String EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO = "Existe erro(s) no(s) campo(s) do usuario.";
+    public static final String INFORME_O_USUARIO_DE_ACESSO = "Informe o usuário de acesso.";
+    public static final String INFORME_A_SENHA_DE_ACESSO = "Informe a senha de acesso.";
+    public static final String USUARIO_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150 = "Usuário deve conter no mínimo 5 caracteres e no máximo 150.";
+
+    public static final String SENHA_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150 = "Senha deve conter no mínimo 5 caracteres e no máximo 150.";
+    public static final String USUARIO_OU_SENHA_INVALIDO = "Usuario ou senha inválido.";
+
+
     private MessageConstant() {
 
     }

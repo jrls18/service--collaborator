@@ -1,17 +1,17 @@
 package br.com.developcorporation.collaborator.core.service.impl;
 
 
-import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
-import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
 import br.com.developcorporation.collaborator.core.validation.CollaboratorValidation;
+import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
+import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
+import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +37,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
+
 
     private void save(Collaborator dto) {
 
@@ -140,6 +142,18 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             collaboratorSendMessageErrorPort.send(domainException);
         }
     }
+
+    @Override
+    public Optional<Collaborator> findByUsername(String username) {
+        return port.findByUserName(username);
+    }
+
+
+
+
+
+
+
 
     private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();

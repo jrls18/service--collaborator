@@ -3,11 +3,12 @@ package br.com.developcorporation.collaborator.rest.validation;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
+import br.com.developcorporation.collaborator.rest.exception.error.BadRequestEntityException;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
+import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.lib.commons.validation.Validation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class CompanyValidator implements BaseValidator<CollaboratorRequest>{
+public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>{
     @Override
     public void addRequestValidation(CollaboratorRequest value) {
 
@@ -24,6 +25,29 @@ public class CompanyValidator implements BaseValidator<CollaboratorRequest>{
     @Override
     public void updateRequestValidation(CollaboratorRequest value) {
 
+    }
+
+
+    public void loginRequestValidator(final LoginRequest request) {
+
+        if(Objects.isNull(request))
+            throw new BadRequestEntityException(MessageConstant.INFORME_USUARIO_E_SENHA, null);
+
+        List<MessageResponse.DetailsResponse> detailsResponseList = new ArrayList<>();
+
+        if(Objects.isNull(request.getUsername()))
+            detailsResponseList.add(new MessageResponse.DetailsResponse(FieldConstant.USERNAME,MessageConstant.INFORME_O_USUARIO_DE_ACESSO, request.getUsername()));
+        else
+            detailsResponseList.add(MessageMapper.INSTANCE.toDetailsResponse(Validation.stringMinAndMax(request.getUsername(), FieldConstant.USERNAME, 5, 150, MessageConstant.USUARIO_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150)));
+
+        if(Objects.isNull(request.getPassword()))
+            detailsResponseList.add(new MessageResponse.DetailsResponse(FieldConstant.PASSWORD,MessageConstant.INFORME_A_SENHA_DE_ACESSO, request.getPassword()));
+        else
+            detailsResponseList.add(MessageMapper.INSTANCE.toDetailsResponse(Validation.stringMinAndMax(request.getPassword(), FieldConstant.PASSWORD, 5, 150, MessageConstant.SENHA_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150)));
+
+        throwBadRequestGeneric(
+                detailsResponseList,
+                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO);
     }
 
     /*

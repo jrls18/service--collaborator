@@ -4,6 +4,8 @@ import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 
+import java.util.Optional;
+
 public interface CollaboratorService {
 
     Message add(final Collaborator dto);
@@ -15,5 +17,7 @@ public interface CollaboratorService {
     Collaborator getById(Long id);
 
     void sendMessageError(final DomainException ex);
+
+    Optional<Collaborator> findByUsername(final String username);
 
 }

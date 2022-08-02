@@ -7,6 +7,8 @@ import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepository
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class CollaboratorAdapter implements CollaboratorPort {
@@ -33,6 +35,16 @@ public class CollaboratorAdapter implements CollaboratorPort {
         return CollaboratorMapper.INSTANCE.toDomain(service.findByEmail(email).orElse(null));
     }
 
+    @Override
+    public Optional<Collaborator> findByUserName(final String username){
+
+        Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> collaboratorOptional  = service.findByUserName(username);
+
+        if(collaboratorOptional.isEmpty())
+            return Optional.empty();
+
+       return Optional.of(CollaboratorMapper.INSTANCE.toDomain(collaboratorOptional.get()));
+    }
 
 
      /*

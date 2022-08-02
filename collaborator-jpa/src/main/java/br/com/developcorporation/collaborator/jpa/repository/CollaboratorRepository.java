@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface CollaboratorRepository extends JpaRepository<Collaborator, Long> {
 
-    @Query(value = "SELECT * FROM colaborador WHERE (email = :username OR telefonePrincipal = :username)", nativeQuery = true)
+    @Query(value = "SELECT * FROM colaborador WHERE (email = :username OR telefone_principal = :username)", nativeQuery = true)
     Optional<Collaborator> findByUserName(@Param("username") final String username);
 
     @Query(value = "SELECT * FROM colaborador WHERE email = :email ", nativeQuery = true)

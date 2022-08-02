@@ -1,6 +1,9 @@
 package br.com.developcorporation.collaborator.rest.controller;
 
+import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
+import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
+import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -9,11 +12,15 @@ import org.springframework.web.bind.annotation.*;
 public interface CollaboratorController {
 
 
-    @PostMapping("/v1/save")
+    @PostMapping("/auth/v1/save")
     ResponseEntity<MessageResponse> add(@RequestBody CollaboratorRequest request);
 
     @PutMapping("/v1/save")
     ResponseEntity<MessageResponse> update(@Validated @RequestBody CollaboratorRequest request);
+
+    @PostMapping(value =  "/auth/v1/signin", produces = FieldConstant.APPLICATION_JSON)
+    ResponseEntity<JwtResponse> authenticateUser(@Validated @RequestBody LoginRequest loginRequest);
+
 
     /*
     @GetMapping(value = "/v1/get/id={id}", produces = FieldConstant.APPLICATION_JSON)

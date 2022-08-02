@@ -6,11 +6,23 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface CollaboratorMapper {
     CollaboratorMapper INSTANCE = Mappers.getMapper(CollaboratorMapper.class);
 
+    @Mapping(target = "contact.telephone", source = "telephone")
+    @Mapping(target = "contact.mainPhone", source = "mainPhone")
+    @Mapping(target = "contact.email", source = "email")
+
+    @Mapping(target = "address.zipCode", source = "zipCode")
+    @Mapping(target = "address.address", source = "publicPlace")
+    @Mapping(target = "address.complement", source = "complement")
+    @Mapping(target = "address.neighborhood", source = "neighborhood")
+    @Mapping(target = "address.location", source = "location")
+    @Mapping(target = "address.state", source = "state")
+    @Mapping(target = "address.number", source = "number")
     Collaborator toDomain(final br.com.developcorporation.collaborator.jpa.entity.Collaborator entity);
 
 

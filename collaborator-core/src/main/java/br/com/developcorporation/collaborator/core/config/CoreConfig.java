@@ -20,7 +20,7 @@ public class CoreConfig {
                 .build();
     }
 
-    @Bean
+    @Bean(name = "corePassword")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
