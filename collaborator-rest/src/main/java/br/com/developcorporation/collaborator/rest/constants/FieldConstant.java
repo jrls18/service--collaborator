@@ -28,7 +28,7 @@ public final class FieldConstant {
 
     public static final String STATUS = "situacao";
     public static final String EMPRESA = "empresa";
-    public static final String AUTORIZACAO = "autorization";
+    public static final String AUTORIZACAO = "authorization";
     public static final String FOLLOW_UP = "seguimento";
     public static final String GROUP = "grupo";
 
@@ -39,7 +39,6 @@ public final class FieldConstant {
     public static final String ROUTER_FIX = "/api/develop_corporation/gestao_usuario/";
     public static final String ROUTER_STATUS = ROUTER_FIX + STATUS;
     public static final String ROUTER_CLIENTE = ROUTER_FIX + USUARIO;
-    public static final String ROUTER_AUTORIZACAO = ROUTER_FIX + AUTORIZACAO;
     public static final String ROUTER_FOLLOW_UP = ROUTER_FIX + FOLLOW_UP;
     public static final String ROUTER_GROUP = ROUTER_FIX + GROUP;
 
@@ -66,7 +65,7 @@ public final class FieldConstant {
     public static final String RAZAO_SOCIAL = "razao_social";
     public static final String NOME_FANTASIA = "nome_fantasia";
     public static final String CNPJ = "cnpj";
-    public static final String DATA_FUNDACAO = "data_fundacao";
+    public static final String DATA_FUNDACAO = "data_nascimento";
     public static final String INSCRICAO_ESTADUAL = "inscricao_estadual";
     public static final String TELEFONE_PRINCIPAL = "telefone_principal";
     public static final String TELEFONE = "telefone";

@@ -25,7 +25,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.ROUTER_AUTORIZACAO)
+@RequestMapping(FieldConstant.AUTORIZACAO)
 @CrossOrigin(origins = "*")
 public class AuthorizationControllerImpl implements AuthorizationController {
 

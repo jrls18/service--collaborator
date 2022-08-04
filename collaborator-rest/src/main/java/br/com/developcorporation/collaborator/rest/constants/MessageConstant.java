@@ -12,7 +12,7 @@ public final class MessageConstant {
     public static final String EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO = "Existe erro(s) no(s) campo(s) do usuario.";
     public static final String INFORME_O_USUARIO_DE_ACESSO = "Informe o usuário de acesso.";
     public static final String INFORME_A_SENHA_DE_ACESSO = "Informe a senha de acesso.";
-    public static final String USUARIO_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150 = "Usuário deve conter no mínimo 5 caracteres e no máximo 150.";
+    public static final String USUARIO_DEVE_SER_INFORMADO_UM_NUMERO_DE_TELEFONE_OU_UM_EMAIL = "Usuario deve ser informado um número de telefone ou um email.";
 
     public static final String SENHA_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150 = "Senha deve conter no mínimo 5 caracteres e no máximo 150.";
     public static final String USUARIO_OU_SENHA_INVALIDO = "Usuario ou senha inválido.";
@@ -35,7 +35,7 @@ public final class MessageConstant {
     public static final String HOUVE_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE = "Houve um erro interno tente novamente mais tarde.";
     public static final String PARA_REALIZAR_O_CADASTRO_DA_AUTORIZACAO_DEVE_SE_PREENCHER_O_FORMULARIO_E_ENVIAR_UMA_NOVA_REQUISICAO = "Para realizar o cadastro da autorizacao deve-se preencher o formulário e enviar uma nova requisição.";
     public static final String PARA_ATUALIZAR_O_REGISTRO_DE_UMA_AUTORIZACAO_DEVE_SE_PREENCHER_O_FORMULARIO_E_ENVIAR_UMA_NOVA_REQUISICAO = "Para atualizar o registro de uma autorização deve-se preencher o formulario e enviar uma nova requisição.";
-    public static final String EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA = "Existe erro(s) no(s) campo(s) da empresa.";
+    public static final String EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR = "Existe erro(s) no(s) campo(s) do colaborador.";
     public static final String EXISTE_ERROS_NOS_CAMPOS_DE_AUTORIZACAO = "Existe erro(s) no(s) campo(s) da autorização.";
     public static final String CNPJ_DEVE_CONTER_NO_MINIMO_11_CARACTERES_E_NO_MAXIMO_14_NA_AUSENCIA_DO_CNPJ_PODE_INFORMAR_O_CPF = "Cnpj deve conter no mínimo 11 caracteres e no máximo 14. Na ausência do cnpj informar o CPF.";
     public static final String CODIGO_DEVE_CONTER_NO_MINIMO_1_CARACTERE_E_NO_MAXIMO_8 = "Código deve ser um número válido e conter no minimo 1 caracter e no máximo 8.";
@@ -51,7 +51,7 @@ public final class MessageConstant {
     public static final String RAZAO_SOCIAL_E_OBRIGATORIO = "Razão social é obrigatório.";
     public static final String NOME_FANTASIA_E_OBRIGATORIO = "Nome fantasia é obrigatório.";
     public static final String TIPO_SISTEMA_E_OBRIGATORIO = "Tipo sistema é obrigatório.";
-    public static final String CODIGO_DO_TIPO_DE_SYSTEMA_E_OBRIGATORIO = "Código do tipo de systema é obrigatório.";
+    public static final String CODIGO_DA_EMPRESA_E_OBRIGATORIO = "Codigo da empresa é obrigatório.";
     public static final String DADOS_DE_CONTATO_E_OBRIGATORIO = "Dados de contato é obrigatório.";
     public static final String TELEFONE_PRINCIPAL_E_OBRIGATORIO = "Telefone principal é obrigatório.";
     public static final String TELEFONE_INVALIDO = "Telefone inválido.";
@@ -60,8 +60,8 @@ public final class MessageConstant {
     public static final String CEP_E_OBRIGATORIO = "Cep é obrigatório.";
     public static final String CEP_INVALIDO = "Cep inválido.";
     public static final String LOGRADOURO_E_OBRIGATORIO = "Logradouro é obrigatório.";
-    public static final String DATA_FUNDACAO_DEVE_ESTA_NO_FORMATO_ANO_MES_DIA_OU_ANO_MES_DIA_HORAS_MINUTOS_E_SEGUNDO = "Data fundação deve está no formato (ano mes dia) ou (ano mes dia horas minutos e segundo).";
-    public static final String DATA_FUNDACAO_E_OBRIGATORIO = "Data fundação é obrigatório.";
+    public static final String DATA_NASCIMENTO_DEVE_ESTA_NO_FORMATO_ANO_MES_DIA_OU_ANO_MES_DIA_HORAS_MINUTOS_E_SEGUNDO = "Data nascimento deve está no formato (ano mes dia) ou (ano mes dia horas minutos e segundo).";
+    public static final String DATA_NASCIMENTO_E_OBRIGATORIO = "Data nascimento é obrigatório.";
     public static final String PASSWORD_E_OBRIGATORIO = "Password é obrigatório.";
     public static final String NUMERO_E_OBRIGATORIO_OU_INVALIDO = "Número é obrigatório ou inválido.";
     public static final String UF_E_OBRIGATORIO = "UF é obrigatório.";

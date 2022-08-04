@@ -1,11 +1,14 @@
 package br.com.developcorporation.collaborator.rest.controller.impl;
 
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
+import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.CollaboratorController;
 import br.com.developcorporation.collaborator.rest.logger.LogRest;
+import br.com.developcorporation.collaborator.rest.mapper.CollaboratorMapper;
 import br.com.developcorporation.collaborator.rest.mapper.JwtMapper;
+import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
 import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
@@ -32,7 +35,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CollaboratorControllerImpl implements CollaboratorController {
 
     private final CollaboratorValidator validator;
-    //private final CollaboratorService service;
+
+    private final CollaboratorService service;
 
     private final AuthenticateService authenticateService;
 
@@ -41,12 +45,44 @@ public class CollaboratorControllerImpl implements CollaboratorController {
 
     @Override
     public ResponseEntity<MessageResponse> add(CollaboratorRequest request) {
-        return null;
+        final String jsonRequest =  logRest.jsonLogInfo(request, MessageConstant.INICIALIZADO);
+
+        log.info(MessageConstant.REQUISICAO, jsonRequest);
+
+        this.validator.addRequestValidation(request);
+
+        Message message = service.add(CollaboratorMapper.INSTANCE.toDomain(request));
+
+        MessageResponse response = MessageMapper.INSTANCE.dtoToResponse(message);
+
+        final String jsonResponse = logRest.jsonLogInfo(response, HttpStatus.CREATED.value(), MessageConstant.FINALIZADO);
+
+        log.info(MessageConstant.RESPOSTA, jsonResponse);
+
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<MessageResponse> update(CollaboratorRequest request) {
-        return null;
+        final String jsonRequest = logRest.jsonLogInfo(request, MessageConstant.INICIALIZADO);
+
+        log.info(MessageConstant.REQUISICAO, jsonRequest);
+
+        this.validator.updateRequestValidation(request);
+
+        Message message = service.update(CollaboratorMapper.INSTANCE.toDomain(request));
+
+        MessageResponse response = MessageMapper.INSTANCE.dtoToResponse(message);
+
+        final String jsonResponse = logRest.jsonLogInfo(response, HttpStatus.ACCEPTED.value(), MessageConstant.FINALIZADO);
+
+        log.info(MessageConstant.RESPOSTA, jsonResponse);
+
+        return new ResponseEntity<>(
+                response,
+                HttpStatus.ACCEPTED);
     }
 
     @Override

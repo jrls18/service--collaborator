@@ -9,6 +9,7 @@ import br.com.developcorporation.collaborator.rest.message.request.CollaboratorR
 import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.lib.commons.validation.Validation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,40 +20,6 @@ import java.util.Objects;
 public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>{
     @Override
     public void addRequestValidation(CollaboratorRequest value) {
-
-    }
-
-    @Override
-    public void updateRequestValidation(CollaboratorRequest value) {
-
-    }
-
-
-    public void loginRequestValidator(final LoginRequest request) {
-
-        if(Objects.isNull(request))
-            throw new BadRequestEntityException(MessageConstant.INFORME_USUARIO_E_SENHA, null);
-
-        List<MessageResponse.DetailsResponse> detailsResponseList = new ArrayList<>();
-
-        if(Objects.isNull(request.getUsername()))
-            detailsResponseList.add(new MessageResponse.DetailsResponse(FieldConstant.USERNAME,MessageConstant.INFORME_O_USUARIO_DE_ACESSO, request.getUsername()));
-        else
-            detailsResponseList.add(MessageMapper.INSTANCE.toDetailsResponse(Validation.stringMinAndMax(request.getUsername(), FieldConstant.USERNAME, 5, 150, MessageConstant.USUARIO_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150)));
-
-        if(Objects.isNull(request.getPassword()))
-            detailsResponseList.add(new MessageResponse.DetailsResponse(FieldConstant.PASSWORD,MessageConstant.INFORME_A_SENHA_DE_ACESSO, request.getPassword()));
-        else
-            detailsResponseList.add(MessageMapper.INSTANCE.toDetailsResponse(Validation.stringMinAndMax(request.getPassword(), FieldConstant.PASSWORD, 5, 150, MessageConstant.SENHA_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150)));
-
-        throwBadRequestGeneric(
-                detailsResponseList,
-                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO);
-    }
-
-    /*
-    @Override
-    public void addRequestValidation(CompanyRequest value) {
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         detailsResponses.add(
@@ -63,29 +30,79 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                 )
         );
 
-        detailsResponses.addAll(validName(value));
-
         detailsResponses.addAll(validCnpj(value));
 
-        detailsResponses.addAll(validTypeSystem(value));
+        detailsResponses.addAll(validTypeUser(value));
 
         detailsResponses.addAll(validFoundationDate(value));
 
         detailsResponses.addAll(validPassword(value));
 
-        detailsResponses.addAll(validFollowUp(value));
-
         detailsResponses.addAll(validContact(value));
 
         detailsResponses.addAll(validAddress(value));
 
+        detailsResponses.addAll(validIdCompany(value));
+
         throwBadRequestGeneric(
                 detailsResponses,
-                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA);
+                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
     }
 
+
+    public void loginRequestValidator(final LoginRequest request) {
+
+        if(Objects.isNull(request))
+            throw new BadRequestEntityException(MessageConstant.INFORME_USUARIO_E_SENHA, null);
+
+        List<MessageResponse.DetailsResponse> detailsResponseList = new ArrayList<>();
+
+        detailsResponseList.add(
+                MessageMapper.INSTANCE.toDetailsResponse(
+                        Validation.notNullOrEmpty(
+                                FieldConstant.USERNAME,request.getUsername(),
+                                MessageConstant.INFORME_O_USUARIO_DE_ACESSO))
+        );
+
+        detailsResponseList.add(
+                MessageMapper.INSTANCE.toDetailsResponse(
+                        Validation.stringMinAndMax(
+                                request.getUsername(),
+                                FieldConstant.USERNAME,
+                                11,
+                                150,
+                                MessageConstant.USUARIO_DEVE_SER_INFORMADO_UM_NUMERO_DE_TELEFONE_OU_UM_EMAIL
+                        ) )
+        );
+
+        detailsResponseList.add(
+                MessageMapper.INSTANCE.toDetailsResponse(
+                        Validation.notNullOrEmpty(
+                                FieldConstant.PASSWORD,
+                                request.getPassword(),
+                                MessageConstant.INFORME_A_SENHA_DE_ACESSO))
+        );
+
+
+        detailsResponseList.add(
+                MessageMapper.INSTANCE.toDetailsResponse(
+                        Validation.stringMinAndMax(
+                                request.getPassword(),
+                                FieldConstant.PASSWORD,
+                                5,
+                                150,
+                                MessageConstant.SENHA_DEVE_CONTER_NO_MINIMO_5_CARACTERES_E_NO_MAXIMO_150
+                        ) )
+        );
+
+        throwBadRequestGeneric(
+                detailsResponseList,
+                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO);
+    }
+
+
     @Override
-    public void updateRequestValidation(CompanyRequest value) {
+    public void updateRequestValidation(CollaboratorRequest value) {
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         detailsResponses.add(
@@ -98,25 +115,23 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                 )
         );
 
-        detailsResponses.addAll(validName(value));
-
         detailsResponses.addAll(validCnpj(value));
 
-        detailsResponses.addAll(validTypeSystem(value));
+        detailsResponses.addAll(validTypeUser(value));
 
         detailsResponses.addAll(validFoundationDate(value));
 
         detailsResponses.addAll(validPassword(value));
 
-        detailsResponses.addAll(validFollowUp(value));
-
         detailsResponses.addAll(validContact(value));
 
         detailsResponses.addAll(validAddress(value));
 
+        detailsResponses.addAll(validIdCompany(value));
+
         throwBadRequestGeneric(
                 detailsResponses,
-                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA);
+                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
     }
 
     public void pathVariableId(final String id){
@@ -132,7 +147,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
 
         throwBadRequestGeneric(
                 detailsResponses,
-                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA);
+                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
     }
 
     public void pathVariableCnpj(final String cnpj){
@@ -151,28 +166,19 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
 
         throwBadRequestGeneric(
                 detailsResponses,
-                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DA_EMPRESA);
+                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
     }
 
-    private List<MessageResponse.DetailsResponse> validName(final CompanyRequest request){
+
+    private List<MessageResponse.DetailsResponse> validIdCompany(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         detailsResponses.add(
                 MessageMapper.INSTANCE.toDetailsResponse(
-                        Validation.notNullOrEmpty(
-                                FieldConstant.RAZAO_SOCIAL,
-                                request.getCorporateName(),
-                                MessageConstant.RAZAO_SOCIAL_E_OBRIGATORIO
-                        )
-                )
-        );
-
-        detailsResponses.add(
-                MessageMapper.INSTANCE.toDetailsResponse(
-                        Validation.notNullOrEmpty(
-                                FieldConstant.NOME_FANTASIA,
-                                request.getFantasyName(),
-                                MessageConstant.NOME_FANTASIA_E_OBRIGATORIO
+                        Validation.mandatoryNumber8(
+                                request.getIdCompany(),
+                                FieldConstant.ID_COMPANY,
+                                MessageConstant.CODIGO_DA_EMPRESA_E_OBRIGATORIO
                         )
                 )
         );
@@ -180,10 +186,11 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         return detailsResponses;
     }
 
-    private List<MessageResponse.DetailsResponse> validTypeSystem(final CompanyRequest request){
+    private List<MessageResponse.DetailsResponse> validTypeUser(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
-        if(Objects.isNull(request.getSystemType())){
+        /*
+        if(Objects.isNull(request.getTypeUser())){
             detailsResponses.add(
                     new MessageResponse.DetailsResponse(
                             FieldConstant.TIPO_SISTEMA,
@@ -194,7 +201,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
             detailsResponses.add(
                     MessageMapper.INSTANCE.toDetailsResponse(
                             Validation.mandatoryNumber8(
-                                    request.getSystemType().getId(),
+                                    request.getTypeUser(),
                                     FieldConstant.CODIGO,
                                     MessageConstant.CODIGO_DO_TIPO_DE_SYSTEMA_E_OBRIGATORIO
                             )
@@ -202,35 +209,12 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
             );
         }
 
-        return detailsResponses;
-    }
-
-    private List<MessageResponse.DetailsResponse> validFollowUp(final CompanyRequest request){
-        List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
-
-        if(Objects.isNull(request.getFollowUp())){
-            detailsResponses.add(
-                    new MessageResponse.DetailsResponse(
-                            FieldConstant.FOLLOW_UP,
-                            MessageConstant.TIPO_SISTEMA_E_OBRIGATORIO,
-                            null)
-            );
-        }else{
-            detailsResponses.add(
-                    MessageMapper.INSTANCE.toDetailsResponse(
-                            Validation.mandatoryNumber8(
-                                    request.getFollowUp().getId(),
-                                    FieldConstant.CODIGO,
-                                    MessageConstant.CODIGO_DO_TIPO_DE_SYSTEMA_E_OBRIGATORIO
-                            )
-                    )
-            );
-        }
+         */
 
         return detailsResponses;
     }
 
-    private List<MessageResponse.DetailsResponse> validContact(final CompanyRequest request){
+    private List<MessageResponse.DetailsResponse> validContact(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         if(Objects.isNull(request.getContact())){
@@ -282,13 +266,13 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         return detailsResponses;
     }
 
-    private List<MessageResponse.DetailsResponse> validCnpj(final CompanyRequest request){
+    private List<MessageResponse.DetailsResponse> validCnpj(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         detailsResponses.add(
                 MessageMapper.INSTANCE.toDetailsResponse(
                         Validation.mandatoryCNPJorCPF(
-                                request.getCnpj(),
+                                request.getCpfCnpj(),
                                 FieldConstant.CNPJ,
                                 MessageConstant.CNPJ_CPF_E_OBRIGATORIO,
                                 MessageConstant.CNPJ_E_INVALIDO,
@@ -301,7 +285,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         return detailsResponses;
     }
 
-    private List<MessageResponse.DetailsResponse> validAddress(final CompanyRequest request){
+    private List<MessageResponse.DetailsResponse> validAddress(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         if(Objects.isNull(request.getAddress())){
@@ -340,7 +324,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                 MessageMapper.INSTANCE.toDetailsResponse(
                         Validation.notNullOrEmpty(
                                 FieldConstant.LOGRADOURO,
-                                request.getAddress().getPublicPlace(),
+                                request.getAddress().getNeighborhood(),
                                 MessageConstant.LOGRADOURO_E_OBRIGATORIO
                         )
                 )
@@ -391,7 +375,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         return detailsResponses;
     }
 
-    private List<MessageResponse.DetailsResponse> validPassword(final CompanyRequest request){
+    private List<MessageResponse.DetailsResponse> validPassword(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         detailsResponses.add(
@@ -407,15 +391,15 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         return detailsResponses;
     }
 
-    private List<MessageResponse.DetailsResponse> validFoundationDate(final CompanyRequest request){
+    private List<MessageResponse.DetailsResponse> validFoundationDate(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         detailsResponses.add(
                 MessageMapper.INSTANCE.toDetailsResponse(
                         Validation.notNullOrEmpty(
-                                FieldConstant.DATA_FUNDACAO,
-                                request.getFoundationDate(),
-                                MessageConstant.DATA_FUNDACAO_E_OBRIGATORIO
+                                FieldConstant.DATA_NASCIMENTO,
+                                request.getBirthDate(),
+                                MessageConstant.DATA_NASCIMENTO_E_OBRIGATORIO
                         )
                 )
         );
@@ -424,9 +408,9 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
             detailsResponses.add(
                     MessageMapper.INSTANCE.toDetailsResponse(
                             Validation.mandatoryDate(
-                                    request.getFoundationDate(),
-                                    FieldConstant.DATA_FUNDACAO,
-                                    MessageConstant.DATA_FUNDACAO_DEVE_ESTA_NO_FORMATO_ANO_MES_DIA_OU_ANO_MES_DIA_HORAS_MINUTOS_E_SEGUNDO
+                                    request.getBirthDate(),
+                                    FieldConstant.DATA_NASCIMENTO,
+                                    MessageConstant.DATA_NASCIMENTO_DEVE_ESTA_NO_FORMATO_ANO_MES_DIA_OU_ANO_MES_DIA_HORAS_MINUTOS_E_SEGUNDO
                             )
                     )
             );
@@ -434,6 +418,4 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
 
         return detailsResponses;
     }
-
-     */
 }

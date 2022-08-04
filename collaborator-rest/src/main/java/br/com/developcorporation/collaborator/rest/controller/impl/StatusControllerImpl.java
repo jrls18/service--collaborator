@@ -20,7 +20,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.ROUTER_STATUS)
+@RequestMapping(FieldConstant.STATUS)
 @CrossOrigin(origins = "*")
 public class StatusControllerImpl implements StatusController {
 
