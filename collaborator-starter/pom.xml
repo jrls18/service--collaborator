@@ -35,6 +35,10 @@
         </dependency>
         <dependency>
             <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-services-internal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.developcorporation</groupId>
             <artifactId>collaborator-jpa</artifactId>
         </dependency>
         <dependency>

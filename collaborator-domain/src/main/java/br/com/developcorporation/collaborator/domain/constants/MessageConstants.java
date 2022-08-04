@@ -3,6 +3,7 @@ package br.com.developcorporation.collaborator.domain.constants;
 
 public final class MessageConstants {
     public static final String PREENCHA_OS_DADOS_DE_CONTATO = "Por favor preencha os dados de contato.";
+    public static final String USUARIO_CADASTRODO_COM_SUCESSO = "Colaborador cadastrado com sucesso.";
 
     private MessageConstants(){
     }
@@ -74,6 +75,12 @@ public final class MessageConstants {
     public static final String PARA_REALIZAR_O_CADASTRO_LEIA_O_CONTRATO_E_ACEITE_AS_CONDICOES = "Para realizar o cadastro leia o contrato e aceite as condições.";
     public static final String DATA_DE_NASCIMENTO_E_OBRIGATORIO = "Data de nascimento é obrigatório.";
     public static final String EMAIL_DEVE_SER_ENVIADO_NO_FORMATO_VALIDO = "Email deve ser enviado no formato válido.";
+
+
+    public static final String CODIGO_EMPRESA_INFORMADO_NAO_EXISTE_CADASTRADO = "O código empresa informado não existe.";
+
+
+
     public static final String EMAIL_INFORMADO_JA_EXISTE_CADASTRADO = "O Email informado já existe cadastrado.";
 
     public static final String PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACETERES_E_DEVE_CONTER_UMA_LETRA_MAIUSCULA_UMA_LETRA_MINUSCULA_UM_SIBOLO_E_UM_CARACTER_ESPECIAL = "Password deve conter no mínimo 8 caraceteres e deve conter uma letra maiuscula, uma letra minuscula, um sibolo e um caracter especial.";

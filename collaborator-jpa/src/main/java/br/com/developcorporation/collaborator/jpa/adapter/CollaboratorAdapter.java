@@ -1,5 +1,6 @@
 package br.com.developcorporation.collaborator.jpa.adapter;
 
+import antlr.StringUtils;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
 import br.com.developcorporation.collaborator.jpa.mapper.CollaboratorMapper;
@@ -23,6 +24,11 @@ public class CollaboratorAdapter implements CollaboratorPort {
     @Override
     public void update(Collaborator dto) {
         service.save(CollaboratorMapper.INSTANCE.toEntity(dto));
+    }
+
+    @Override
+    public Boolean existeEmpresa(String id) {
+        return service.existeEmpresa(Long.parseLong(id));
     }
 
     @Override

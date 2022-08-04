@@ -9,6 +9,8 @@ public interface CollaboratorPort {
 
     void update(Collaborator dto);
 
+    Boolean existeEmpresa(final String id);
+
     Collaborator getById(Long id);
 
     Collaborator getEmail(String email);

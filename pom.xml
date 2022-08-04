@@ -13,6 +13,7 @@
 		<module>collaborator-messaging-avro-consumer</module>
         <module>lib-commons</module>
         <module>collaborator-messaging-avro-produce</module>
+        <module>collaborator-services-internal</module>
     </modules>
 
 	<parent>
@@ -41,6 +42,7 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+		<resilience4j-spring-boot2-version>1.7.1</resilience4j-spring-boot2-version>
 
 		<lombok.version>1.18.20</lombok.version>
 		<jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
@@ -103,10 +105,14 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-services-internal</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
 				<artifactId>lib-commons</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>

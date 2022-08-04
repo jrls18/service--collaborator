@@ -12,6 +12,7 @@ import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
+import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final PasswordEncoder encoder;
     private final CollaboratorPort port;
+
+    private final CompanyPort companyPort;
+
     //private final SendMessagePort messagePort;
 
     private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
@@ -75,7 +79,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         save(dto);
 
         return new Message(CoreEnum.CREATED.getCode(),
-                MessageConstants.USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA);
+                MessageConstants.USUARIO_CADASTRODO_COM_SUCESSO);
     }
 
     @Transactional
@@ -158,9 +162,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();
 
-
         Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
-
 
         if(Objects.nonNull(collaborator)){
             details.add(
@@ -170,7 +172,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                             dto.getContact().getEmail()));
         }
 
-
+        details.addAll(validExistsIdCompany(dto.getIdCompany()));
 
         if(!details.isEmpty())
             throw new DomainException(
@@ -179,6 +181,22 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 details);
 
 
+    }
+
+    private List<Message.Details> validExistsIdCompany(final String idCompany){
+        List<Message.Details> details = new ArrayList<>();
+
+       if(Boolean.FALSE.equals(port.existeEmpresa(idCompany))){
+
+         if(Objects.isNull(companyPort.consultaPorId(Long.parseLong(idCompany)))) {
+             details.add(
+                     new Message.Details(
+                             FieldConstants.ID_COMPANY,
+                             MessageConstants.CODIGO_EMPRESA_INFORMADO_NAO_EXISTE_CADASTRADO,
+                             idCompany));
+         }
+       }
+       return details;
     }
 
     private void validUpdateExists(Collaborator dto) {

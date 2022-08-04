@@ -1,6 +1,8 @@
 package br.com.developcorporation.collaborator.domain.constants;
 
 public final class FieldConstants {
+    public static final String ID_COMPANY = "codigo_empresa";
+
     private FieldConstants(){
     }
     public static final String CODIGO = "codigo";
