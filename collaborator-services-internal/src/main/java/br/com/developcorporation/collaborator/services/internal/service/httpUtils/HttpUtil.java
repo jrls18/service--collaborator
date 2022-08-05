@@ -1,5 +1,6 @@
 package br.com.developcorporation.collaborator.services.internal.service.httpUtils;
 
+import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +23,7 @@ public class HttpUtil {
         headers.set("Content-Type", "application/json");
         headers.set("client_id", clientId);
         headers.set("client_secret", clientSecret);
-        headers.set("correlation_id", UUID.randomUUID().toString());
+        headers.set("correlation_id", ContextHolder.get().getCorrelationId());
 
         return headers;
     }

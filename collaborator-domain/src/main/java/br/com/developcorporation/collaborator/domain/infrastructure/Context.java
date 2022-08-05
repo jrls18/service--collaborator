@@ -1,4 +1,4 @@
-package br.com.developcorporation.collaborator.core.infrastructure;
+package br.com.developcorporation.collaborator.domain.infrastructure;
 
 import java.util.Map;
 

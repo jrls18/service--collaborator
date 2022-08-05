@@ -1,6 +1,6 @@
 package br.com.developcorporation.collaborator.rest.logger;
 
-import br.com.developcorporation.collaborator.core.infrastructure.ContextHolder;
+import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.lib.commons.monitorable.SpringLogger;
 import br.com.developcorporation.lib.commons.util.Convert;
 import org.apache.commons.lang3.StringUtils;

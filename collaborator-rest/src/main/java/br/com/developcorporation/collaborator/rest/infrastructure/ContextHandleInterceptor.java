@@ -1,8 +1,8 @@
 package br.com.developcorporation.collaborator.rest.infrastructure;
 
 import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
-import br.com.developcorporation.collaborator.core.infrastructure.ContextHolder;
-import br.com.developcorporation.collaborator.core.infrastructure.RequestContext;
+import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
+import br.com.developcorporation.collaborator.domain.infrastructure.RequestContext;
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import lombok.SneakyThrows;
