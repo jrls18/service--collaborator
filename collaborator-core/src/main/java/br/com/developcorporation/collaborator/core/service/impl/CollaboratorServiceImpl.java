@@ -168,7 +168,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             details.add(
                     new Message.Details(
                             FieldConstants.EMAIL,
-                            MessageConstants.EMAIL_DEVE_SER_ENVIADO_NO_FORMATO_VALIDO,
+                            MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
                             dto.getContact().getEmail()));
         }
 
