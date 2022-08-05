@@ -26,7 +26,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final RestTemplate restTemplate;
 
-    @Retry(name = "serviceRetry")
+    @Retry(name = "serviceRetry", fallbackMethod = "fallback")
     @Override
     public CompanyModel consultaPorCodigoEmpresa(Long id) {
         CompanyModel companyModel = null;
@@ -50,9 +50,13 @@ public class CompanyServiceImpl implements CompanyService {
                         MessageConstants.MICROSERICE_DA_EMPRESA_ENCONTRA_SE_FORA_OU_ROTA_NAO_EXISTE,
                         null);
             }
-        } catch (Exception ex){
-            log.info("004 - Modulo -> Service-Internal { Falha na consulta do service--company detalhes: " + ex.getMessage() +" }");
         }
         return companyModel;
+    }
+
+    private CompanyModel fallback(Long id, RuntimeException runtimeException) {
+        log.error("Falha ao fazer a requisição com a api do service--company detalhes do erro: " + runtimeException.getMessage());
+        log.error("004 - Modulo -> Service-Internal { Fim da consulta da empresa. (fallback) }");
+        return null;
     }
 }
