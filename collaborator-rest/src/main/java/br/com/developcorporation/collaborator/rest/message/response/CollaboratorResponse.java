@@ -43,6 +43,7 @@ public class CollaboratorResponse implements Serializable {
     @JsonProperty(value = FieldConstant.ENDERECO, index = 6)
     private CollaboratorResponse.Address address;
 
+    @JsonIgnore
     @JsonProperty(value = FieldConstant.PASSWORD, index = 7)
     private String password;
 

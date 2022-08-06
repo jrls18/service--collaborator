@@ -2,6 +2,9 @@ package br.com.developcorporation.collaborator.rest.constants;
 
 public final class FieldConstant {
 
+    public static final String PAGE = "page";
+    public static final String SIZE = "size";
+
     private FieldConstant(){
 
     }

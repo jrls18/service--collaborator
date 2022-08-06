@@ -23,6 +23,9 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Query(value = "SELECT CASE WHEN count(*) > 0 THEN true ELSE false END FROM colaborador WHERE cod_empresa = :id", nativeQuery = true)
     Boolean existsByIdCompany(Long id);
 
-    @Query(value = "SELECT * FROM colaborador WHERE (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm%)", nativeQuery = true)
+
+    @Query(value = "SELECT * FROM colaborador WHERE (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
+            countQuery = "SELECT * FROM colaborador WHERE (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
+            nativeQuery = true)
     Page<Collaborator> search(@Param("searchTerm") String searchTerm, Pageable pageable);
 }

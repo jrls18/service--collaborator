@@ -1,6 +1,7 @@
 package br.com.developcorporation.collaborator.domain.port;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
+import br.com.developcorporation.collaborator.domain.model.Pagination;
 
 import java.util.Optional;
 
@@ -17,4 +18,5 @@ public interface CollaboratorPort {
 
     Optional<Collaborator> findByUserName(final String username);
 
+    Pagination<Collaborator> search(final String searchTerm, final int page, final int size);
 }

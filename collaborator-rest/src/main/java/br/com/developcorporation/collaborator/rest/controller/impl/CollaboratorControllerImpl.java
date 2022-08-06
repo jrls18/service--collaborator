@@ -11,8 +11,10 @@ import br.com.developcorporation.collaborator.rest.mapper.JwtMapper;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
+import br.com.developcorporation.collaborator.rest.message.response.CollaboratorResponse;
 import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
 import br.com.developcorporation.collaborator.rest.security.service.AuthenticateService;
 import br.com.developcorporation.collaborator.rest.validation.CollaboratorValidator;
 import br.com.developcorporation.lib.commons.monitorable.SpringLogger;
@@ -26,6 +28,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 @Log4j2
 @AllArgsConstructor
@@ -91,6 +95,22 @@ public class CollaboratorControllerImpl implements CollaboratorController {
         this.validator.loginRequestValidator(loginRequest);
 
         JwtResponse response =  JwtMapper.INSTANCE.toResponse(authenticateService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<PaginationResponse<CollaboratorResponse>> paginationResponse(
+            String searchTerm, String page, String size) {
+
+        this.validator.pathPaginationValidator(searchTerm, page, size);
+
+        PaginationResponse<CollaboratorResponse> response =
+               CollaboratorMapper.INSTANCE.toResponse(
+                       service.search(
+                               searchTerm,
+                               Integer.parseInt(page),
+                               Integer.parseInt(size)));
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

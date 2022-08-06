@@ -52,7 +52,7 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
                 "nome");
 
         return repository.search(
-                searchTerm.toLowerCase(),
+                searchTerm,
                 pageRequest);
     }
 

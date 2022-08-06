@@ -3,8 +3,10 @@ package br.com.developcorporation.collaborator.rest.controller;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
+import br.com.developcorporation.collaborator.rest.message.response.CollaboratorResponse;
 import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,12 @@ public interface CollaboratorController {
 
     @PostMapping(value =  "/auth/v1/signin", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<JwtResponse> authenticateUser(@Validated @RequestBody LoginRequest loginRequest);
+
+    @GetMapping(value = "", produces = FieldConstant.APPLICATION_JSON)
+    ResponseEntity<PaginationResponse<CollaboratorResponse>> paginationResponse(
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(defaultValue = "0") String page,
+            @RequestParam(defaultValue = "10") String size);
 
 
     /*

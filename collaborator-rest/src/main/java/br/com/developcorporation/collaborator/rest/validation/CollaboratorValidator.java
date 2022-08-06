@@ -169,6 +169,32 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                 MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
     }
 
+    public void pathPaginationValidator(final String searchTerm, final String page, final String size){
+        List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
+
+        detailsResponses.add(
+                MessageMapper.INSTANCE.toDetailsResponse(
+                        Validation.notNullOrEmpty(
+                                FieldConstant.PAGE,
+                                page,
+                                "O campo page é obrigatório.")
+                )
+        );
+
+        detailsResponses.add(
+                MessageMapper.INSTANCE.toDetailsResponse(
+                        Validation.notNullOrEmpty(
+                                FieldConstant.SIZE,
+                                size,
+                                "O campo size é obrigatório.")
+                )
+        );
+
+        throwBadRequestGeneric(
+                detailsResponses,
+                MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
+    }
+
 
     private List<MessageResponse.DetailsResponse> validIdCompany(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();

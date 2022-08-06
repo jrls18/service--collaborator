@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.jpa.adapter;
 
-import antlr.StringUtils;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
+import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
 import br.com.developcorporation.collaborator.jpa.mapper.CollaboratorMapper;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
@@ -50,6 +50,11 @@ public class CollaboratorAdapter implements CollaboratorPort {
             return Optional.empty();
 
        return Optional.of(CollaboratorMapper.INSTANCE.toDomain(collaboratorOptional.get()));
+    }
+
+    @Override
+    public Pagination<Collaborator> search(String searchTerm, int page, int size) {
+        return CollaboratorMapper.INSTANCE.toDomain(service.search(searchTerm, page, size));
     }
 
 

@@ -10,11 +10,13 @@ import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
+import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +38,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final CompanyPort companyPort;
 
-    //private final SendMessagePort messagePort;
-
     private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
+
+    @Value(value = "${quantidade.de.itens.na.paginacao}")
+    private String qtdItems;
 
 
     private void save(Collaborator dto) {
@@ -152,11 +155,14 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         return port.findByUserName(username);
     }
 
+    @Override
+    public Pagination<Collaborator> search(String searchTerm, int page, int size) {
 
+        if(size == 0)
+            size = Integer.parseInt(qtdItems);
 
-
-
-
+        return port.search(searchTerm, page, size);
+    }
 
 
     private void validAddExists(Collaborator dto){
