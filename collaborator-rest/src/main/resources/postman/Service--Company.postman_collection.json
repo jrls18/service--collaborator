@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "41fe9304-50fa-446d-b846-6c97b8482e47",
+		"name": "Service--Company",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8082/service--company/authorization/v1/all",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/service--company/authorization/v1/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"service--company",
+						"authorization",
+						"v1",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/service--company/authorization/v1/save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n    \"sigla_app\":\"perfor-ttdrt \",\r\n    \"application_name\":\"br.perfor-ttdrt \"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/service--company/authorization/v1/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"service--company",
+						"authorization",
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/service--company/authorization/v1/save",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n\t\"codigo\":\"4\",\r\n    \"sigla_app\":\"aplicationbr\",\r\n    \"application_name\":\"br.com.aplication\",\r\n    \"situacao\": {\r\n    \t\"codigo\": \"2\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/service--company/authorization/v1/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"service--company",
+						"authorization",
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/service--company/situacao/v1/all",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/service--company/situacao/v1/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"service--company",
+						"situacao",
+						"v1",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/service--company/seguimento/v1/all",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/service--company/seguimento/v1/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"service--company",
+						"seguimento",
+						"v1",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/service--company/tiposistema/v1/all",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/service--company/tiposistema/v1/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"service--company",
+						"tiposistema",
+						"v1",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8082/service--company/empresa/v1/get/cnpj",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/service--company/empresa/v1/get/cnpj_cpf=37738811000102",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"service--company",
+						"empresa",
+						"v1",
+						"get",
+						"cnpj_cpf=37738811000102"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/service--company/empresa/v1/get/id=",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/service--company/empresa/v1/get/id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"service--company",
+						"empresa",
+						"v1",
+						"get",
+						"id=1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/service--company/empresa/v1/save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+					},
+					{
+						"key": "client_secret",
+						"value": "343a5f53-6797-4930-82b7-1a96cb416ead"
+					},
+					{
+						"key": "correlation_id",
+						"value": "785cc075-a2fe-4a1f-892a-9c39aa2a9955"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"razao_social\": \"Julio e Evelyn Telas ME\",\r\n    \"nome_fantasia\": \"Julio e Evelyn Telas ME\",\r\n    \"cnpj\":\"84035605000107\",\r\n    \"inscricao_estadual\":\"738474975031\", \r\n    \"password\":\"@@HMNXpT00\",\r\n    \"tipo_sistema\":{\r\n        \"codigo\": \"1\"\r\n    },\r\n    \"aceita_termos_de_uso\": true,\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11985247707\",\r\n        \"telefone\":\"1128562867\",\r\n        \"email\":\"juridico@julioeevelyntelasme.com.br\"\r\n    },\r\n    \"seguimento\":{\r\n        \"codigo\":1\r\n    },\r\n    \"endereco\":{\r\n        \"cep\":\"03738160\",\r\n        \"logradouro\":\"Rua Os Vedas\",\r\n        \"numero\":\"927\",\r\n        \"complemento\":\"\",\r\n        \"bairro\":\"Parque Penha\",\r\n        \"localidade\":\"São Paulo\",\r\n        \"uf\":\"SP\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/service--company/empresa/v1/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"service--company",
+						"empresa",
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
