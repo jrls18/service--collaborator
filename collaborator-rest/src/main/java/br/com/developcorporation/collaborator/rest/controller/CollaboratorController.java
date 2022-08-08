@@ -7,9 +7,14 @@ import br.com.developcorporation.collaborator.rest.message.response.Collaborator
 import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
+import br.com.developcorporation.collaborator.rest.security.model.UserPrinciple;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URISyntaxException;
 
 public interface CollaboratorController {
 
@@ -28,6 +33,9 @@ public interface CollaboratorController {
             @RequestParam(required = false) String searchTerm,
             @RequestParam(defaultValue = "0") String page,
             @RequestParam(defaultValue = "10") String size);
+
+    @GetMapping(path = "/v1/profile", produces = FieldConstant.APPLICATION_JSON)
+    ResponseEntity<CollaboratorResponse> getUserProfile(@AuthenticationPrincipal UserPrinciple userDetails);
 
 
     /*

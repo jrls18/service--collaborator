@@ -5,6 +5,8 @@ public final class MessageConstants {
     public static final String PREENCHA_OS_DADOS_DE_CONTATO = "Por favor preencha os dados de contato.";
     public static final String USUARIO_CADASTRODO_COM_SUCESSO = "Colaborador cadastrado com sucesso.";
 
+    public static final String TIPO_DE_COLABORADOR_INVALIDO = "Tipo de colaborador inválido.";
+
     private MessageConstants(){
     }
 

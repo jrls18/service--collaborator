@@ -12,7 +12,7 @@ public final class FieldConstants {
     public static final String TELEFONE_PRINCIPAL = "telefone_principal";
     public static final String TELEFONE = "telefone";
     public static final String INSCRICAO_ESTADUAL = "inscricao_estadual";
-    public static final String TIPO_SISTEMA = "tipo_sistema";
+    public static final String TIPO_COLABORATOR = "tipo_colaborador";
 
     public static final String CEP = "cep";
     public static final String LOGRADOURO = "logradouro";
