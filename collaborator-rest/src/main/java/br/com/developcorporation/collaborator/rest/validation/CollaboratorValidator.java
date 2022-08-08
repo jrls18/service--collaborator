@@ -31,9 +31,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         );
 
         detailsResponses.addAll(validCnpj(value));
-
-        detailsResponses.addAll(validTypeUser(value));
-
+        
         detailsResponses.addAll(validFoundationDate(value));
 
         detailsResponses.addAll(validPassword(value));
@@ -116,8 +114,6 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         );
 
         detailsResponses.addAll(validCnpj(value));
-
-        detailsResponses.addAll(validTypeUser(value));
 
         detailsResponses.addAll(validFoundationDate(value));
 
@@ -208,34 +204,6 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                         )
                 )
         );
-
-        return detailsResponses;
-    }
-
-    private List<MessageResponse.DetailsResponse> validTypeUser(final CollaboratorRequest request){
-        List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
-
-        /*
-        if(Objects.isNull(request.getTypeUser())){
-            detailsResponses.add(
-                    new MessageResponse.DetailsResponse(
-                            FieldConstant.TIPO_SISTEMA,
-                            MessageConstant.TIPO_SISTEMA_E_OBRIGATORIO,
-                            null)
-            );
-        }else{
-            detailsResponses.add(
-                    MessageMapper.INSTANCE.toDetailsResponse(
-                            Validation.mandatoryNumber8(
-                                    request.getTypeUser(),
-                                    FieldConstant.CODIGO,
-                                    MessageConstant.CODIGO_DO_TIPO_DE_SYSTEMA_E_OBRIGATORIO
-                            )
-                    )
-            );
-        }
-
-         */
 
         return detailsResponses;
     }
