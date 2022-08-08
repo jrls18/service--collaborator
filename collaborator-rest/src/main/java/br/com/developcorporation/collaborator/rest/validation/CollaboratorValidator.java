@@ -31,7 +31,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         );
 
         detailsResponses.addAll(validCnpj(value));
-        
+
         detailsResponses.addAll(validFoundationDate(value));
 
         detailsResponses.addAll(validPassword(value));

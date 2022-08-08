@@ -62,7 +62,42 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
     @Override
     public void update(Collaborator value) {
+        if(Objects.isNull(value)){
+            throw new DomainException(
+                    CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.PREENCHA_O_FORMULARIO_DE_ALTERACAO_DO_USUARIO,
+                    null
+            );
+        }
 
+        List<Message.Details> detailsList = new ArrayList<>();
+
+        if(value.getId() == null)
+            value.setId(0L);
+
+        if(value.getId() <= 0){
+            detailsList.add(
+                    new Message.Details(
+                            FieldConstants.CODIGO,
+                            MessageConstants.CODIGO_E_OBRIGATORIO,
+                            value.getId().toString())
+            );
+        }
+
+        detailsList.addAll(validBirthDate(value));
+
+        detailsList.addAll(validPhone(value.getContact()));
+
+        detailsList.addAll(validPassword(value));
+
+        detailsList.addAll(validAddress(value.getAddress()));
+
+        detailsList.addAll(validTypeCollaborator(value));
+
+        throwDomainExceptionGeneric(
+                CoreEnum.UNPROCESSABLE_ENTITY,
+                MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
+                detailsList);
     }
 
     public List<Message.Details> validTypeCollaborator(final Collaborator collaborator){

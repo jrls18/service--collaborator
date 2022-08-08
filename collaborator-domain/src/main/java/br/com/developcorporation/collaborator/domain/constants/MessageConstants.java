@@ -38,7 +38,7 @@ public final class MessageConstants {
 
 
     public static final String PREENCHA_O_FORMULARIO_DE_ALTERACAO_DA_AUTORIZACAO = "Preencha o formulário de alteração da autorização.";
-    public static final String PREENCHA_O_FORMULARIO_DE_ALTERACAO_DA_EMPRESA = "Preencha o formulário de alteração da empresa.";
+    public static final String PREENCHA_O_FORMULARIO_DE_ALTERACAO_DO_USUARIO = "Preencha o formulário de alteração do usuário.";
 
 
 
