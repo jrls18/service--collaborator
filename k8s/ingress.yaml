@@ -3,9 +3,13 @@ kind: Ingress
 metadata:
   name: service-ingress
   namespace: services-develop-corporation
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
-    - http:
+    - host: foo.bar.com
+      http:
         paths:
           - path: /service--collaborator
             pathType: Prefix

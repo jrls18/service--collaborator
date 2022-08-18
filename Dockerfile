@@ -13,7 +13,7 @@ ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/release
 
 WORKDIR /app
 ENV JAVA_OPTS "$JAVA_OPTS \
--Dspring.profiles.active=dev \
+-Dspring.profiles.active=local \
 -javaagent:/app/opentelemetry-javaagent.jar"
 
 EXPOSE 5000 9090
