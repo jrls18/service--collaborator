@@ -32,7 +32,7 @@
 
 	<properties>
 		<revision>1.0.0</revision>
-		<java.version>9</java.version>
+		<java.version>11</java.version>
 
 		<aggregate.report.dir>target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 

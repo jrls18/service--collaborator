@@ -99,12 +99,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         validator.validCorrelationId();
 
-        Authorization authorizationOptional = port.getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret());
+        Optional<Authorization> authorizationOptional = port.getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret());
 
-        if(Objects.isNull(authorizationOptional))
+        if(authorizationOptional.isEmpty())
             unauthorized();
 
-        if(!authorizationOptional.getStatus().getId().equals(ATIVO))
+        if(!authorizationOptional.get().getStatus().getId().equals(ATIVO))
             unauthorized();
     }
 
