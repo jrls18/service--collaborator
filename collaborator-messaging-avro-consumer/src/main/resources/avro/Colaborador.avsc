@@ -1,0 +1,36 @@
+{
+  "type": "record",
+  "namespace": "br.com.developcorporation.collaborator.message.avro",
+  "name": "Colaborador",
+  "version": "1",
+  "fields":[
+    {
+      "name": "typeUser",
+      "type": "string",
+      "default": "ADM",
+      "doc": "ADM"
+    },
+    {
+      "name": "operationType",
+      "type": "string",
+      "default": "I",
+      "doc": "I - INCLUSAO, A - ALTERACAO"
+    },
+    { "name": "idCompany", "type": "string", "doc": "Código da empresa" },
+    { "name": "birthDate", "type": "string", "doc": "Data de nascimento" },
+    { "name": "name", "type": "string", "doc": "Nome" },
+    { "name": "cpfCnpj", "type": "string", "doc": "cnpj" },
+    { "name": "email", "type": "string", "doc": "email" },
+    { "name": "password", "type": "string", "doc": "Senha encriptografada." },
+    { "name": "mainPhone", "type": "string", "doc": "Telefone Principal" },
+    { "name": "telephone", "type": "string", "doc": "Telefone" },
+    { "name": "zipCode", "type": "string", "doc": "Cep" },
+    { "name": "publicPlace", "type": "string", "doc": "Endereço" },
+    { "name": "neighborhood", "type": "string", "doc": "" },
+    { "name": "location", "type": "string", "doc": "Localidade" },
+    { "name": "state", "type": "string", "doc": "Uf" },
+    { "name": "number", "type": "string", "doc": "Número" },
+    { "name": "complement", "type": ["null","string"],
+      "default": null, "doc": "complemento" }
+  ]
+}

@@ -1,50 +1,248 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
 
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<modules>
+		<module>collaborator-core</module>
+		<module>collaborator-domain</module>
+		<module>collaborator-jpa</module>
+		<module>collaborator-rest</module>
+		<module>collaborator-starter</module>
+		<module>collaborator-messaging-avro-consumer</module>
+        <module>lib-commons</module>
+        <module>collaborator-messaging-avro-produce</module>
+        <module>collaborator-services-internal</module>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.1.RELEASE</version>
+		<version>2.6.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
+	<groupId>br.com.developcorporation</groupId>
+	<artifactId>collaborator</artifactId>
+	<version>${revision}</version>
+	<name>collaborator</name>
+	<description>Demo project for Spring Boot</description>
+
+
 	<properties>
+		<revision>1.0.0</revision>
+		<java.version>16</java.version>
+
+		<aggregate.report.dir>target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+
+
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
+		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+
+		<lombok.version>1.18.20</lombok.version>
+		<jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
+		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
+		<jaxb-api.version>2.3.1</jaxb-api.version>
+
+
+
+		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+		<sonar-maven-plugin-version>3.9.0.2155</sonar-maven-plugin-version>
+		<maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
+		<spring-boot-maven-plugin-version>2.5.2</spring-boot-maven-plugin-version>
+		<spring-cloud.version>2020.0.0-M6</spring-cloud.version>
+		<maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
+		<jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
+		<spring-cloud-version>2020.0.3</spring-cloud-version>
+		<maven-install-plugin-version>2.5.2</maven-install-plugin-version>
+		<maven-source-plugin-version>3.2.1</maven-source-plugin-version>
+		<maven-release-plugin-version>2.5.3</maven-release-plugin-version>
+		<maven-deploy-plugin-version>2.8.2</maven-deploy-plugin-version>
+
+
+
+		<sonar.exclusions>
+			**/App.java,
+			**/test/**
+		</sonar.exclusions>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-rest</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-jpa</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-messaging-avro-consumer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-messaging-avro-produce</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-services-internal</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>lib-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud-version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+		</dependencies>
+	</dependencyManagement>
+
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin-version}</version>
+					<configuration>
+						<useSystemClassLoader>false</useSystemClassLoader>
+						<forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<inherited>true</inherited>
+					<version>${maven-deploy-plugin-version}</version>
+					<configuration>
+						<updateReleaseInfo>true</updateReleaseInfo>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${maven-release-plugin-version}</version>
+					<configuration>
+						<localCheckout>true</localCheckout>
+						<pushChanges>false</pushChanges>
+						<mavenExecutorId>forked-path</mavenExecutorId>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin-version}</version>
+					<inherited>true</inherited>
+					<executions>
+						<execution>
+							<id>attach-source</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven-install-plugin-version}</version>
+					<inherited>true</inherited>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin-version}</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<debug>false</debug>
+						<optimize>true</optimize>
+						<annotationProcessorPaths>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+								<version>${lombok.version}</version>
+							</path>
+							<path>
+								<groupId>org.mapstruct</groupId>
+								<artifactId>mapstruct-processor</artifactId>
+								<version>${org.mapstruct.version}</version>
+							</path>
+						</annotationProcessorPaths>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin-version}</version>
+					<configuration>
+						<excludes>
+							<exclude>**/App.*</exclude>
+						</excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<id>report-unit-tests</id>
+							<goals>
+								<goal>report</goal>
+							</goals>
+							<configuration>
+								<dataFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</dataFile>
+								<outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
+							</configuration>
+						</execution>
+						<execution>
+							<id>prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<destFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</destFile>
+								<propertyName>surefire.jacoco.args</propertyName>
+							</configuration>
+						</execution>
+						<execution>
+							<id>report-aggregate</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>report-aggregate</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.basedir}/../target/site/jacoco-aggregate</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
 	</build>
-
-
 </project>
