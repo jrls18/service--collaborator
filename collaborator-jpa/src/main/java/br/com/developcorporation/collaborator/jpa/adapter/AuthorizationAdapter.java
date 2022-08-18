@@ -76,16 +76,16 @@ public class AuthorizationAdapter implements AuthorizationPort {
 
 
     @Override
-    public Authorization getByClientIdAndClientSecret(String clientId, String clientSecret) {
+    public Optional<Authorization> getByClientIdAndClientSecret(String clientId, String clientSecret) {
 
         if(Objects.isNull(clientId) || Objects.isNull(clientSecret))
-            return null;
+            return Optional.empty();
 
         Optional<br.com.developcorporation.collaborator.jpa.entity.Authorization> entity = repository.findByClientIdAndClientSecret(clientId, clientSecret);
 
         if(entity.isPresent())
-            return AuthorizationMapper.INSTANCE.toDto(entity.get());
-
-        return null;
+            return Optional.ofNullable(AuthorizationMapper.INSTANCE.toDto(entity.get()));
+        else
+            return Optional.empty();
     }
 }

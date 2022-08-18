@@ -23,5 +23,5 @@ public interface AuthorizationPort {
 
     boolean existsBySiglaApp(final String app);
 
-    Authorization getByClientIdAndClientSecret(String clientId, String clientSecret);
+    Optional<Authorization> getByClientIdAndClientSecret(String clientId, String clientSecret);
 }
