@@ -5,8 +5,10 @@ Install Kustomize
 https://kubectl.docs.kubernetes.io/installation/kustomize/docker/
 
 https://kustomize.io/
+docker run --rm k8s.gcr.io/metrics-server/metrics-server:v0.6.1 --help
 
 Essa funcionou
+versão do kubernetes v1.22.5
 kubectl -n kube-system get pods
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.5/components.yaml
 kubectl -n kube-system edit deploy metrics-server
@@ -43,3 +45,19 @@ kubectl get pods --all-namespaces
 
 publicar no kubert
 kubectl apply -k .\k8s\dev\
+
+containers:
+- args:
+- --cert-dir=/tmp
+- --secure-port=4443
+- --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+- --kubelet-use-node-status-port
+- --authorization-always-allow-paths=/livez,/readyz
+- --kubelet-use-node-status-port
+- --metric-resolution=15s
+- --kubelet-insecure-tls=true
+command:
+- /metrics-server
+- --kubelet-insecure-tls
+- --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+- --logtostderr

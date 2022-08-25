@@ -24,14 +24,14 @@ spec:
             httpGet:
               path: /actuator/health
               port: 9090
-            initialDelaySeconds: 60
-            periodSeconds: 10
+            initialDelaySeconds: 120
+            periodSeconds: 60
             timeoutSeconds: 10
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 9090
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 60
             timeoutSeconds: 10
             successThreshold: 1
@@ -41,11 +41,11 @@ spec:
               value: "local"
           resources:
             requests:
-              memory: "400Mi"
-              cpu: "400m"
+              memory: "750Mi"
+              cpu: "0.4"
             limits:
               memory: "800Mi"
-              cpu: "800m"
+              cpu: "0.8"
           ports:
             - containerPort: 9090
             - containerPort: 5000
