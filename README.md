@@ -1,16 +1,16 @@
 ## Web Service Rest Gestão de Uma Empresa
 #### Microservice responsável por gerenciar o cadastro das empresas, com esse cadastro será possível utilizar o sistema de gestão de controle de estoque e pedidos de acordo com sua versão.
 
-Install Kustomize
+## Install Kustomize
 https://kubectl.docs.kubernetes.io/installation/kustomize/docker/
 
-https://kustomize.io/
-docker run --rm k8s.gcr.io/metrics-server/metrics-server:v0.6.1 --help
+## Install Metrics Server
+Versão do kubernetes v1.22.5
 
-Essa funcionou
-versão do kubernetes v1.22.5
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
 kubectl -n kube-system get pods
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.5/components.yaml
+
 kubectl -n kube-system edit deploy metrics-server
 
 containers:
@@ -20,44 +20,43 @@ containers:
 - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
 - --kubelet-use-node-status-port
 - --metric-resolution=15s
-command:
-- /metrics-server
-- --kubelet-insecure-tls
-- --kubelet-preferred-address-types=InternalIP
-
-https://gist.github.com/NileshGule/8f772cf04ea6ae9c76d3f3e9186165c2
-
-
-https://istio.io/latest/docs/setup/getting-started/
-https://github.com/istio/istio/releases
-
-restart kubectl
-
-https://www.youtube.com/watch?v=0UDG52REs68
-
-
-https://www.youtube.com/watch?v=7o7e8OAAWyg
-
-docker build -t service--company-img .
-docker run -d -p 10020:5000 -t service--company-img .
-
-kubectl get pods --all-namespaces
-
-publicar no kubert
-kubectl apply -k .\k8s\dev\
-
-containers:
-- args:
-- --cert-dir=/tmp
-- --secure-port=4443
-- --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
-- --kubelet-use-node-status-port
 - --authorization-always-allow-paths=/livez,/readyz
-- --kubelet-use-node-status-port
-- --metric-resolution=15s
 - --kubelet-insecure-tls=true
 command:
 - /metrics-server
 - --kubelet-insecure-tls
 - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
 - --logtostderr
+
+## Install istio
+
+https://istio.io/latest/docs/setup/getting-started/
+https://github.com/istio/istio/releases
+
+istioctl install --set profile=demo -y
+
+kubectl apply -k .\k8s\gtw.yaml
+
+## Deploy Kubernetes
+
+docker build -t service--company-img .
+docker run -d -p 10020:5000 -t service--company-img .
+
+kubectl get pods --all-namespaces
+kubectl apply -k .\k8s\dev\
+
+## Deploy Kubernetes MiniKube
+minikube image build -t service--collaborator-img .
+minikube image build -t service--company-img .
+minikube image load service--collaborator-img
+
+## Configure HOST
+Adicionar no host o ip com o nome da host exemplo
+
+C:\Windows\System32\drivers\etc
+For example:
+102.54.94.97     rhino.acme.com          source server 
+38.25.63.10     x.acme.com               client host
+192.168.15.94    cloud.local.develop.corporation.com
+
+

@@ -1,14 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: service-ingress
+  labels:
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  name: service--ingress
   namespace: services-develop-corporation
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/ssl-redirect: "false"
+    #kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/rewrite-target: /
+
 spec:
-  ingressClassName: nginx
+  #ingressClassName: "nginx"
+  tls:
+    - hosts:
+        - "cloud.local.develop.corporation.com"
+      #secretName: ssl-certificate
   rules:
-    - host: foo.bar.com
+    - host: "cloud.local.develop.corporation.com"
       http:
         paths:
           - path: /service--collaborator
@@ -17,4 +27,4 @@ spec:
               service:
                 name: service--collaborator
                 port:
-                  number: 5000
+                  name: http-5000
