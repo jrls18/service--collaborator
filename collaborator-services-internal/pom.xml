@@ -22,7 +22,8 @@
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 
         <resilience4j-spring-boot2-version>1.7.1</resilience4j-spring-boot2-version>
-
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <dependencies>
