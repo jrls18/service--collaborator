@@ -65,3 +65,5 @@ For example:
 kubectl create namespace monitoramento
 
 kubectl create configmap prometheus-configmap --from-file=.\Prometheus\server\config\prometheus.yml --namespace=monitoramento
+
+kubectl apply -f .\gateway\
