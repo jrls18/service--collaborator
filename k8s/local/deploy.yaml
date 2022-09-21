@@ -5,6 +5,11 @@ metadata:
   namespace: services-develop-corporation
   labels:
     app: service--collaborator
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/scheme: "http"
 spec:
   selector:
     matchLabels:
@@ -41,10 +46,10 @@ spec:
               value: "local"
           resources:
             requests:
-              memory: "750Mi"
+              memory: "800Mi"
               cpu: "0.4"
             limits:
-              memory: "800Mi"
+              memory: "1000Mi"
               cpu: "0.8"
           ports:
             - containerPort: 9090
