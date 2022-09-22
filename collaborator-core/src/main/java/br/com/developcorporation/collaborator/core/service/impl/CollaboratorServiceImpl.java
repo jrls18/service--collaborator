@@ -108,7 +108,15 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private void updateBase(Collaborator domain){
         validator.update(domain);
 
+        Collaborator dto = port.getById(domain.getId());
+        domain.setPassword(dto.getPassword());
+
         domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
+
+        domain.setDateRegister(dto.getDateRegister());
+
+        domain.setStatus(dto.getStatus());
+
         validUpdateExists(domain);
 
         try {
@@ -211,14 +219,24 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         Collaborator collaboratorOriginal = port.getById(dto.getId());
 
-        Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
-
-        if(!collaboratorOriginal.getId().equals(collaborator.getId())){
+        if(Objects.isNull(collaboratorOriginal)){
             details.add(
                     new Message.Details(
-                            FieldConstants.EMAIL,
-                            MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
-                            collaborator.getContact().getEmail()));
+                            FieldConstants.CODIGO,
+                            MessageConstants.CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO,
+                            dto.getId().toString()));
+        }else{
+            Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
+
+            if(Objects.nonNull(collaborator)){
+                if(!collaboratorOriginal.getId().equals(collaborator.getId())){
+                    details.add(
+                            new Message.Details(
+                                    FieldConstants.EMAIL,
+                                    MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
+                                    collaborator.getContact().getEmail()));
+                }
+            }
         }
 
         if(!details.isEmpty())

@@ -80,6 +80,7 @@ public final class MessageConstants {
 
 
     public static final String CODIGO_EMPRESA_INFORMADO_NAO_EXISTE_CADASTRADO = "O código empresa informado não existe.";
+    public static final String CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO = "O código colaborador informado não existe.";
 
 
 
