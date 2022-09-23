@@ -35,7 +35,9 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
 
     @Override
     public Boolean existeEmpresa(Long id) {
-        return repository.existsByIdCompany(id);
+        if(repository.existsByIdCompany(id).intValue() > 0)
+            return true;
+        return false;
     }
 
     @Override

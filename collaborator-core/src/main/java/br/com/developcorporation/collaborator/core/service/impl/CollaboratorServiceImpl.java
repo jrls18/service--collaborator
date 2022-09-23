@@ -85,7 +85,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 MessageConstants.USUARIO_CADASTRODO_COM_SUCESSO);
     }
 
-    @Transactional
     @Override
     public void addAsync(Collaborator dto) {
         if(Objects.nonNull(dto)){

@@ -14,7 +14,6 @@ import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.kafka.retrytopic.FixedDelayStrategy;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Log
 @RequiredArgsConstructor
@@ -23,7 +22,6 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
     private final CollaboratorService collaboratorService;
 
-    @Transactional
     @RetryableTopic(
             attempts = "${kafka.topic.consumer.qtd.retry}",
             backoff = @Backoff(delay = 60000, multiplier = 1.0, maxDelay = 120000),
