@@ -31,4 +31,13 @@ public enum RoleName {
     public static boolean exisDescription(final String description) {
         return map.containsKey(description.toUpperCase());
     }
+
+    public static int getId(final String description){
+        if(description.equalsIgnoreCase(ROLE_ADM.getDescription()))
+            return ROLE_ADM.getId();
+        else if(description.equalsIgnoreCase(ROLE_COLABORADOR.getDescription()))
+            return ROLE_COLABORADOR.getId();
+        else
+            return ROLE_USUARIO.getId();
+    }
 }

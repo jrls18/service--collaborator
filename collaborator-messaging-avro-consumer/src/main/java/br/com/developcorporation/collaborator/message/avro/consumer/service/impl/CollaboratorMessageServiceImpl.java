@@ -24,7 +24,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
     @RetryableTopic(
             attempts = "${kafka.topic.consumer.qtd.retry}",
-            backoff = @Backoff(delay = 60000, multiplier = 1.0, maxDelay = 120000),
+            backoff = @Backoff(delay = 80000, multiplier = 1.0, maxDelay = 120000),
             autoCreateTopics = "false",
             fixedDelayTopicStrategy = FixedDelayStrategy.SINGLE_TOPIC,
             dltStrategy = DltStrategy.FAIL_ON_ERROR

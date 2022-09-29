@@ -7,11 +7,13 @@ import br.com.developcorporation.collaborator.core.validation.AuthorizationValid
 import br.com.developcorporation.collaborator.core.validation.CollaboratorValidation;
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
+import br.com.developcorporation.collaborator.domain.enums.RoleName;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
+import br.com.developcorporation.collaborator.domain.port.CollaboratorRolePort;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
 import br.com.developcorporation.collaborator.domain.port.CompanyPort;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +40,15 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final CompanyPort companyPort;
 
+    private final CollaboratorRolePort collaboratorRolePort;
+
     private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
 
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
+
 
 
     private void save(Collaborator dto) {
@@ -63,6 +68,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             Long id =  port.add(dto);
             dto.setId(id);
 
+            collaboratorRolePort.save(id, (long)RoleName.getId(dto.getTypeUser()));
+
             //messagePort.send(dto);
         }catch (Exception ex){
             throw new DomainException(
@@ -71,6 +78,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     null);
         }
     }
+
 
     @Transactional
     @Override
@@ -195,6 +203,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 
     }
+
 
     private List<Message.Details> validExistsIdCompany(final String idCompany){
         List<Message.Details> details = new ArrayList<>();
