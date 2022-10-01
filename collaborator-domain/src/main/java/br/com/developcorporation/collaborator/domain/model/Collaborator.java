@@ -27,15 +27,15 @@ public class Collaborator implements Serializable {
 
     private LocalDateTime dateRegister;
 
-    private Contact contact;
+    private Collaborator.Contact contact;
 
-    private Address address;
+    private Collaborator.Address address;
 
     private String password;
 
-    private String typeUser;
+    private Collaborator.TypeCollaborator typeCollaborator;
 
-    private Status status;
+    private Collaborator.Status status;
 
     private String nameImage;
 
@@ -90,5 +90,21 @@ public class Collaborator implements Serializable {
         private static final long serialVersionUID = 6648959694803135072L;
 
         private Long id;
+
+
+    }
+
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TypeCollaborator implements Serializable {
+
+        private static final long serialVersionUID = 6148560197178848612L;
+
+        private Long id;
+
+        private String name;
     }
 }

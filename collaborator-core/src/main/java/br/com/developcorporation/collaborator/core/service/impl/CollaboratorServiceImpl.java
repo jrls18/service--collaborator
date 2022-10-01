@@ -7,15 +7,11 @@ import br.com.developcorporation.collaborator.core.validation.AuthorizationValid
 import br.com.developcorporation.collaborator.core.validation.CollaboratorValidation;
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
-import br.com.developcorporation.collaborator.domain.enums.RoleName;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorRolePort;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
-import br.com.developcorporation.collaborator.domain.port.CompanyPort;
+import br.com.developcorporation.collaborator.domain.port.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +35,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final CollaboratorPort port;
 
     private final CompanyPort companyPort;
+
+    private final TypeCollaboratorPort typeCollaboratorPort;
 
     private final CollaboratorRolePort collaboratorRolePort;
 
@@ -68,7 +66,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             Long id =  port.add(dto);
             dto.setId(id);
 
-            collaboratorRolePort.save(id, (long)RoleName.getId(dto.getTypeUser()));
+            collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
             //messagePort.send(dto);
         }catch (Exception ex){
@@ -155,7 +153,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Collaborator getById(Long id) {
         validatorAuthorization.validCredentials();
-        return port.getById(id);
+
+        return  port.getById(id);
     }
 
     @Override
@@ -176,6 +175,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         if(size == 0)
             size = Integer.parseInt(qtdItems);
 
+        if(StringUtils.isEmpty(searchTerm))
+            searchTerm = null;
+
         return port.search(searchTerm, page, size);
     }
 
@@ -195,6 +197,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         details.addAll(validExistsIdCompany(dto.getIdCompany()));
 
+        details.addAll(validTypeCollaborator(dto.getTypeCollaborator()));
+
         if(!details.isEmpty())
             throw new DomainException(
                 CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
@@ -204,6 +208,19 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     }
 
+    public List<Message.Details> validTypeCollaborator(final Collaborator.TypeCollaborator typeCollaborator){
+        List<Message.Details> detailsList = new ArrayList<>();
+
+        if(Boolean.FALSE.equals(typeCollaboratorPort.getById(typeCollaborator.getId()))){
+            detailsList.add(
+                    new Message.Details(
+                            FieldConstants.TIPO_COLABORATOR,
+                            MessageConstants.TIPO_DE_COLABORADOR_INVALIDO,
+                            typeCollaborator.getId().toString()));
+        }
+
+        return detailsList;
+    }
 
     private List<Message.Details> validExistsIdCompany(final String idCompany){
         List<Message.Details> details = new ArrayList<>();
@@ -246,6 +263,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 }
             }
         }
+
+        details.addAll(validTypeCollaborator(dto.getTypeCollaborator()));
 
         if(!details.isEmpty())
             throw new DomainException(

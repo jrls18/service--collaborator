@@ -2,10 +2,22 @@ package br.com.developcorporation.collaborator.domain.constants;
 
 
 public final class MessageConstants {
+
+    public static final String ASYNC_REQUEST = "Async Request {}";
+
+    public static final String ASYNC_RESPONSE = "Async Response {}";
+
+    public static final String INICIALIZADO = "INICIALIZADO";
+
+    public static final String FINALIZADO = "FINALIZADO";
+
     public static final String PREENCHA_OS_DADOS_DE_CONTATO = "Por favor preencha os dados de contato.";
     public static final String USUARIO_CADASTRODO_COM_SUCESSO = "Colaborador cadastrado com sucesso.";
 
     public static final String TIPO_DE_COLABORADOR_INVALIDO = "Tipo de colaborador inválido.";
+    public static final String CODIGO_TIPO_USUARIO_DEVE_SER_UM_NUMERO_VALIDO = "Código tipo usuario deve ser informado um número válido.";
+    public static final String TIPO_USUARIO_DEVE_SER_INFORMADO = "Tipo usuário é obrigatório.";
+
 
     private MessageConstants(){
     }

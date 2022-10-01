@@ -1,17 +1,17 @@
 package br.com.developcorporation.collaborator.rest.controller.impl;
 
+import br.com.developcorporation.collaborator.core.service.AuthorizationService;
+import br.com.developcorporation.collaborator.domain.logger.*;
+import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.AuthorizationController;
-import br.com.developcorporation.collaborator.rest.logger.LogRest;
 import br.com.developcorporation.collaborator.rest.mapper.AuthorizationMapper;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
-import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
-import br.com.developcorporation.collaborator.core.service.AuthorizationService;
-import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.rest.message.request.AuthorizationRequest;
 import br.com.developcorporation.collaborator.rest.message.response.AuthorizationResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
     private final AuthorizationService service;
     private final AuthorizationValidator validator;
 
-    private final LogRest logRest;
+    private final LogDomain logRest;
 
     @Override
     public ResponseEntity<MessageResponse> add(AuthorizationRequest request) {
