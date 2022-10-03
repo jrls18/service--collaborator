@@ -8,6 +8,7 @@ import br.com.developcorporation.collaborator.core.validation.CollaboratorValida
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
+import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
@@ -40,7 +41,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final CollaboratorRolePort collaboratorRolePort;
 
-    private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
+    private final CollaboratorSendMessagePort collaboratorSendMessagePort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
 
@@ -103,11 +104,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 
     private void updateAsync(final Collaborator domain){
-       try{
-           this.updateBase(domain);
-       }catch (DomainException exception){
-           collaboratorSendMessageErrorPort.send(exception);
-       }
+        this.updateBase(domain);
     }
 
     private void updateBase(Collaborator domain){
@@ -158,9 +155,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     @Override
-    public void sendMessageError(DomainException domainException) {
-        if(Objects.nonNull(domainException)){
-            collaboratorSendMessageErrorPort.send(domainException);
+    public void sendMessage(CollaboratorMessage collaboratorMessage) {
+        if(Objects.nonNull(collaboratorMessage)){
+            collaboratorSendMessagePort.send(collaboratorMessage);
         }
     }
 

@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.message.avro.produce.service.impl;
 
-import br.com.developcorporation.collaborator.message.avro.CollaboratorMessageError;
-import br.com.developcorporation.collaborator.message.avro.produce.service.CollaboratorSendMessageErrorService;
+import br.com.developcorporation.collaborator.message.avro.Colaborador;
+import br.com.developcorporation.collaborator.message.avro.produce.service.CollaboratorSendMessageService;
 import br.com.developcorporation.collaborator.message.avro.produce.service.send.SendMessage;
 import lombok.Getter;
 import org.apache.avro.specific.SpecificRecord;
@@ -10,18 +10,18 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CollaboratorSendMessageErrorServiceImpl extends SendMessage<CollaboratorMessageError> implements CollaboratorSendMessageErrorService<CollaboratorMessageError> {
+public class CollaboratorSendMessageServiceImpl extends SendMessage<Colaborador> implements CollaboratorSendMessageService<Colaborador> {
 
     @Getter
     @Value(value = "${kafka.topic.produce.collaborator.message.error}")
     private String topicName;
 
-    public CollaboratorSendMessageErrorServiceImpl(KafkaTemplate<String, SpecificRecord> producerKafkaTemplate) {
+    public CollaboratorSendMessageServiceImpl(KafkaTemplate<String, SpecificRecord> producerKafkaTemplate) {
         super(producerKafkaTemplate);
     }
 
     @Override
-    public void sendMassage(CollaboratorMessageError classSpecificRecord) {
+    public void sendMassage(Colaborador classSpecificRecord) {
         super.sendMassage(classSpecificRecord, this.getTopicName());
     }
 }
