@@ -39,7 +39,6 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     private final LogDomain logDomain;
     private final CollaboratorService collaboratorService;
 
-    @SneakyThrows
     @RetryableTopic(
             attempts = "${kafka.topic.consumer.qtd.retry}",
             backoff = @Backoff(delay = 80000, multiplier = 1.0, maxDelay = 120000),
@@ -52,23 +51,20 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     public void onReceive(ConsumerRecord<String, Colaborador> record) {
 
         CollaboratorMessage message = setDadosDeControleDeProcessamento(record);
-        CollaboratorMessage.MessageControl messageControl = new CollaboratorMessage.MessageControl();
 
         try {
 
-            messageControl.setDataInicioProcessamento(LocalDateTime.now().toString());
-            messageControl.setSituacaoDoProcessamento(INICIO_PROCESSAMENTO);
-
-            message.setMessageControl(messageControl);
+            message.getMessageControl().setDataInicioProcessamento(LocalDateTime.now().toString());
+            message.getMessageControl().setSituacaoDoProcessamento(INICIO_PROCESSAMENTO);
 
             final String jsonRequest = logDomain.jsonLogInfo(message, MessageConstants.INICIALIZADO);
 
             LOG.info(MessageConstants.ASYNC_REQUEST, jsonRequest);
 
-            collaboratorService.addAsync(CollaboratorMessageMapper.INSTANCE.toDomain(message));
+            collaboratorService.addAsync(CollaboratorMessageMapper.INSTANCE.toDomain(message.getCollaborator()));
 
-            messageControl.setDataFimProcessamento(LocalDateTime.now().toString());
-            messageControl.setSituacaoDoProcessamento(FIM_PROCESSAMENTO);
+            message.getMessageControl().setDataFimProcessamento(LocalDateTime.now().toString());
+            message.getMessageControl().setSituacaoDoProcessamento(FIM_PROCESSAMENTO);
 
             collaboratorService.sendMessage(message);
 
@@ -76,8 +72,8 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
         }catch (DomainException ex){
 
-            messageControl.setDataFimProcessamento(LocalDateTime.now().toString());
-            messageControl.setSituacaoDoProcessamento(FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO);
+            message.getMessageControl().setDataFimProcessamento(LocalDateTime.now().toString());
+            message.getMessageControl().setSituacaoDoProcessamento(FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO);
 
             message.setMessage(CollaboratorMessageMapper.INSTANCE.toMessage(ex));
 
@@ -89,13 +85,9 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
         }
     }
 
-    private CollaboratorMessage setDadosDeControleDeProcessamento(final ConsumerRecord<String, Colaborador> record) throws Exception {
-        try{
+    private CollaboratorMessage setDadosDeControleDeProcessamento(final ConsumerRecord<String, Colaborador> record)  {
             CollaboratorMessage message = CollaboratorMessageMapper.INSTANCE.toDomainAvro(record.value());
             ContextHolder.get().setCorrelationId(message.getMessageControl().getUuid());
             return message;
-        }catch (Exception ex){
-            throw new Exception("Erro na conversão do avro. Detalhes: " + ex.getMessage());
-        }
     }
 }

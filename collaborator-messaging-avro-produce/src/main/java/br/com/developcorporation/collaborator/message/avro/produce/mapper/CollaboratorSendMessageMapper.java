@@ -13,6 +13,10 @@ public interface CollaboratorSendMessageMapper {
     CollaboratorSendMessageMapper INSTANCE = Mappers.getMapper(CollaboratorSendMessageMapper.class);
 
 
+    @Mapping(source = "collaborator", target = "collaborator")
+    @Mapping(source = "messageControl", target = "messageControl")
+    @Mapping(source = "message.code", target = "message.code")
+    @Mapping(source = "message.message", target = "message.message")
     @Mapping(source = "message.detailsList", target = "message.details")
     Colaborador toAvro(CollaboratorMessage collaboratorMessage);
 }

@@ -13,22 +13,22 @@ import org.mapstruct.factory.Mappers;
 public interface CollaboratorMessageMapper {
     CollaboratorMessageMapper INSTANCE = Mappers.getMapper(CollaboratorMessageMapper.class);
 
-    @Mapping(source = "collaborator.birthDate", target = "birthDate", dateFormat = DataConstant.DATA_FORMAT)
-    @Mapping(source = "collaborator.mainPhone", target = "contact.mainPhone")
-    @Mapping(source = "collaborator.telephone", target = "contact.telephone")
-    @Mapping(source = "collaborator.email", target = "contact.email")
+    @Mapping(source = "birthDate", target = "birthDate", dateFormat = DataConstant.DATA_FORMAT)
+    @Mapping(source = "mainPhone", target = "contact.mainPhone")
+    @Mapping(source = "telephone", target = "contact.telephone")
+    @Mapping(source = "email", target = "contact.email")
 
-    @Mapping(source = "collaborator.id", target = "id")
+    @Mapping(source = "id", target = "id")
 
-    @Mapping(source = "collaborator.typeUser", target = "typeCollaborator.id")
-    @Mapping(source = "collaborator.zipCode", target = "address.zipCode")
-    @Mapping(source = "collaborator.publicPlace", target = "address.address")
-    @Mapping(source = "collaborator.neighborhood", target = "address.neighborhood")
-    @Mapping(source = "collaborator.location", target = "address.location")
-    @Mapping(source = "collaborator.state", target = "address.state")
-    @Mapping(source = "collaborator.number", target = "address.number")
-    @Mapping(source = "collaborator.complement", target = "address.complement")
-    Collaborator toDomain(final CollaboratorMessage request);
+    @Mapping(source = "typeUser", target = "typeCollaborator.id")
+    @Mapping(source = "zipCode", target = "address.zipCode")
+    @Mapping(source = "publicPlace", target = "address.address")
+    @Mapping(source = "neighborhood", target = "address.neighborhood")
+    @Mapping(source = "location", target = "address.location")
+    @Mapping(source = "state", target = "address.state")
+    @Mapping(source = "number", target = "address.number")
+    @Mapping(source = "complement", target = "address.complement")
+    Collaborator toDomain(final CollaboratorMessage.Collaborator request);
 
 
     CollaboratorMessage toDomainAvro(final Colaborador colaborador);
