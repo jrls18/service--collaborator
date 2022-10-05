@@ -33,7 +33,6 @@ public interface CollaboratorMessageMapper {
 
     CollaboratorMessage toDomainAvro(final Colaborador colaborador);
 
-    @Mapping(source = "details", target = "detailsList")
     CollaboratorMessage.Message toMessage(final DomainException ex);
 
 }

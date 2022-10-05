@@ -3,43 +3,52 @@
   "namespace": "br.com.developcorporation.collaborator.message.avro",
   "name": "Colaborador",
   "version": "1",
-  "fields":[
+  "fields": [
     {
       "name": "messageControl",
       "type": {
-        "type" : "record",
-        "name" : "MessageControl",
-        "fields" : [
+        "type": "record",
+        "name": "MessageControl",
+        "fields": [
           {
-            "name" : "uuid",
-            "type" : "string",
+            "name": "uuid",
+            "type": "string",
             "doc": "Chave de controle de trace exemplo: 94f5b1f9-b96b-40ee-a0e2-bdde1518c5fc"
           },
           {
-            "name" : "dataPostagem",
-            "type" : "string",
+            "name": "dataPostagem",
+            "type": "string",
             "doc": "Data de postagem na fila Exemplo: yyyy-MM-dd h:mm:ss"
           },
           {
-            "name" : "dataInicioProcessamento",
-            "type" : ["null","string"],
+            "name": "dataInicioProcessamento",
+            "type": [
+              "null",
+              "string"
+            ],
             "default": null,
             "doc": "Data de quanto iniciou o processamento. Exemplo: yyyy-MM-dd h:mm:ss"
           },
           {
-            "name" : "dataFimProcessamento",
-            "type" : ["null","string"],
+            "name": "dataFimProcessamento",
+            "type": [
+              "null",
+              "string"
+            ],
             "default": null,
             "doc": "Data de quanto concluiu o processamento na fila. Exemplo: yyyy-MM-dd h:mm:ss"
           },
           {
-            "name" : "siglaSistemaOrigem",
-            "type" : "string",
+            "name": "siglaSistemaOrigem",
+            "type": "string",
             "doc": "Sigla do Sistema Origem da requisição: exemplo: service--company"
           },
           {
-            "name" : "situacaoDoProcessamento",
-            "type" : ["null","string"],
+            "name": "situacaoDoProcessamento",
+            "type": [
+              "null",
+              "string"
+            ],
             "default": null,
             "doc": "Situação do processamento. Exemplo: PROCESSADO ou PROCESSADO-COM-ERRO-DE-NEGOCIO"
           }
@@ -49,12 +58,15 @@
     {
       "name": "collaborator",
       "type": {
-        "type" : "record",
-        "name" : "Collaborator",
-        "fields" : [
+        "type": "record",
+        "name": "Collaborator",
+        "fields": [
           {
             "name": "id",
-            "type": ["null","long"],
+            "type": [
+              "null",
+              "long"
+            ],
             "default": null
           },
           {
@@ -67,70 +79,160 @@
             "default": "I",
             "doc": "I - INCLUSAO, A - ALTERACAO"
           },
-          { "name": "idCompany", "type": "string", "doc": "Código da empresa" },
-          { "name": "birthDate", "type": "string", "doc": "Data de nascimento" },
-          { "name": "name", "type": "string", "doc": "Nome" },
-          { "name": "cpfCnpj", "type": "string", "doc": "cnpj" },
-          { "name": "email", "type": "string", "doc": "email" },
-          { "name": "password", "type": "string", "doc": "Senha encriptografada." },
-          { "name": "mainPhone", "type": "string", "doc": "Telefone Principal" },
-          { "name": "telephone", "type": "string", "doc": "Telefone" },
-          { "name": "zipCode", "type": "string", "doc": "Cep" },
-          { "name": "publicPlace", "type": "string", "doc": "Endereço" },
-          { "name": "neighborhood", "type": "string", "doc": "" },
-          { "name": "location", "type": "string", "doc": "Localidade" },
-          { "name": "state", "type": "string", "doc": "Uf" },
-          { "name": "number", "type": "string", "doc": "Número" },
-          { "name": "complement", "type": ["null","string"],
-            "default": null, "doc": "complemento" }
+          {
+            "name": "idCompany",
+            "type": "string",
+            "doc": "Código da empresa"
+          },
+          {
+            "name": "birthDate",
+            "type": "string",
+            "doc": "Data de nascimento"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "doc": "Nome"
+          },
+          {
+            "name": "cpfCnpj",
+            "type": "string",
+            "doc": "cnpj"
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "doc": "email"
+          },
+          {
+            "name": "password",
+            "type": "string",
+            "doc": "Senha encriptografada."
+          },
+          {
+            "name": "mainPhone",
+            "type": "string",
+            "doc": "Telefone Principal"
+          },
+          {
+            "name": "telephone",
+            "type": "string",
+            "doc": "Telefone"
+          },
+          {
+            "name": "zipCode",
+            "type": "string",
+            "doc": "Cep"
+          },
+          {
+            "name": "publicPlace",
+            "type": "string",
+            "doc": "Endereço"
+          },
+          {
+            "name": "neighborhood",
+            "type": "string",
+            "doc": ""
+          },
+          {
+            "name": "location",
+            "type": "string",
+            "doc": "Localidade"
+          },
+          {
+            "name": "state",
+            "type": "string",
+            "doc": "Uf"
+          },
+          {
+            "name": "number",
+            "type": "string",
+            "doc": "Número"
+          },
+          {
+            "name": "complement",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "complemento"
+          }
         ]
       }
     },
     {
       "name": "message",
-      "type":[ "null", {
-        "type" : "record",
-        "name" : "Message",
-        "fields" : [
-          {
-            "name": "code",
-            "type": ["null", "string"],
-            "default": null
-          },
-          {
-            "name": "message",
-            "type": ["null", "string"],
-            "default": null
-          },
-          {
-            "name": "details",
-            "type": {
-              "type": "array",
-              "items": {
-                "name": "DetailsList",
-                "type": "record",
-                "fields": [
-                  {
-                    "name": "field",
-                    "type": ["null", "string"],
-                    "default": null
-                  },
-                  {
-                    "name": "message",
-                    "type": ["null", "string"],
-                    "default": null
-                  },
-                  {
-                    "name": "value",
-                    "type": ["null", "string"],
-                    "default": null
-                  }
-                ]
-              }
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "Message",
+          "fields": [
+            {
+              "name": "code",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "date",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "message",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "details",
+              "type": ["null", {
+                "type": "array",
+                "items": {
+                  "name": "Details",
+                  "type": "record",
+                  "fields": [
+                    {
+                      "name": "code",
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "default": null
+                    },
+                    {
+                      "name": "message",
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "default": null
+                    },
+                    {
+                      "name": "value",
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "default": null
+                    }
+                  ]
+                }
+              }],
+              "default": null
             }
-          }
-        ]
-      }],
+          ]
+        }
+      ],
       "default": null
     }
   ]

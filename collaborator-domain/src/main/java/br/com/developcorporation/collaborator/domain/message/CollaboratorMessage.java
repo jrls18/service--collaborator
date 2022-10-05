@@ -98,12 +98,8 @@ public class CollaboratorMessage implements Serializable {
         private String code;
         private String date = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
         private String message;
-        private List<CollaboratorMessage.Message.Details> detailsList;
 
-        public Message(String code, final String message){
-            this.code = code;
-            this.message = message;
-        }
+        private List<Message.Details> details;
 
         @Getter
         @Setter

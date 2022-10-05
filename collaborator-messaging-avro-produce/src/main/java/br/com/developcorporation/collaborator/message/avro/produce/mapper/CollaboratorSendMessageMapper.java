@@ -15,8 +15,6 @@ public interface CollaboratorSendMessageMapper {
 
     @Mapping(source = "collaborator", target = "collaborator")
     @Mapping(source = "messageControl", target = "messageControl")
-    @Mapping(source = "message.code", target = "message.code")
-    @Mapping(source = "message.message", target = "message.message")
-    @Mapping(source = "message.detailsList", target = "message.details")
+    @Mapping(source = "message", target = "message")
     Colaborador toAvro(CollaboratorMessage collaboratorMessage);
 }
