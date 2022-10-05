@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "br.com.developcorporation.collaborator.message.avro",
+  "namespace": "br.com.developcorporation.collaborator.message.result.avro",
   "name": "Colaborador",
   "version": "1",
   "fields": [

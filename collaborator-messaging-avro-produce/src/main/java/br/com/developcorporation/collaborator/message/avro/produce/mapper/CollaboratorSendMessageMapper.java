@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.message.avro.produce.mapper;
 
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
-import br.com.developcorporation.collaborator.message.avro.Colaborador;
+import br.com.developcorporation.collaborator.message.result.avro.Colaborador;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -9,8 +9,6 @@ import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage
 import br.com.developcorporation.collaborator.message.avro.consumer.mapper.CollaboratorMessageMapper;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.CollaboratorMessageService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +22,6 @@ import br.com.developcorporation.collaborator.domain.logger.*;
 
 import java.time.LocalDateTime;
 
-@Log
 @RequiredArgsConstructor
 @Service
 public class CollaboratorMessageServiceImpl implements CollaboratorMessageService<Colaborador> {
@@ -57,14 +54,13 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
             message.getMessageControl().setDataInicioProcessamento(LocalDateTime.now().toString());
             message.getMessageControl().setSituacaoDoProcessamento(INICIO_PROCESSAMENTO);
 
-            final String jsonRequest = logDomain.jsonLogInfo(message, MessageConstants.INICIALIZADO);
+            final String json = logDomain.jsonLogInfo(message, MessageConstants.INICIALIZADO);
 
-            LOG.info(MessageConstants.ASYNC_REQUEST, jsonRequest);
+            LOG.info(MessageConstants.ASYNC_REQUEST, json);
 
             collaboratorService.addAsync(CollaboratorMessageMapper.INSTANCE.toDomain(message.getCollaborator()));
 
-            message.getMessageControl().setDataFimProcessamento(LocalDateTime.now().toString());
-            message.getMessageControl().setSituacaoDoProcessamento(FIM_PROCESSAMENTO);
+            setDadosController(message, FIM_PROCESSAMENTO);
 
             collaboratorService.sendMessage(message);
 
@@ -72,17 +68,21 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
         }catch (DomainException ex){
 
-            message.getMessageControl().setDataFimProcessamento(LocalDateTime.now().toString());
-            message.getMessageControl().setSituacaoDoProcessamento(FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO);
-
             message.setMessage(CollaboratorMessageMapper.INSTANCE.toMessage(ex));
+
+            setDadosController(message, FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO);
 
             collaboratorService.sendMessage(message);
 
-            final String jsonRequest = logDomain.jsonLogInfo(ex, MessageConstants.FINALIZADO);
+            final String json = logDomain.jsonLogInfo(ex, MessageConstants.FINALIZADO);
 
-            LOG.info(MessageConstants.ASYNC_RESPONSE, jsonRequest);
+            LOG.info(MessageConstants.ASYNC_RESPONSE, json);
         }
+    }
+
+    private static void setDadosController(CollaboratorMessage message, String situacaoProcessamento) {
+        message.getMessageControl().setDataFimProcessamento(LocalDateTime.now().toString());
+        message.getMessageControl().setSituacaoDoProcessamento(situacaoProcessamento);
     }
 
     private CollaboratorMessage setDadosDeControleDeProcessamento(final ConsumerRecord<String, Colaborador> record)  {
