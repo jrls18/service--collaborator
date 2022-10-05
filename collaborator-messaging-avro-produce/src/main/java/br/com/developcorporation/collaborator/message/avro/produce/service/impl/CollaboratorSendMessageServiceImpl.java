@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class CollaboratorSendMessageServiceImpl extends SendMessage<Colaborador> implements CollaboratorSendMessageService<Colaborador> {
 
     @Getter
-    @Value(value = "${kafka.topic.produce.collaborator.message.result}")
+    @Value(value = "${kafka.topic.produce.collaborator.message.processo-cadastrar-alterar-retorno}")
     private String topicName;
 
     public CollaboratorSendMessageServiceImpl(KafkaTemplate<String, SpecificRecord> producerKafkaTemplate) {

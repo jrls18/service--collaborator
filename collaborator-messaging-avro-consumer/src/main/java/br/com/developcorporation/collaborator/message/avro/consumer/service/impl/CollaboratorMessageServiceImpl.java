@@ -43,7 +43,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
             fixedDelayTopicStrategy = FixedDelayStrategy.SINGLE_TOPIC,
             dltStrategy = DltStrategy.FAIL_ON_ERROR
     )
-    @KafkaListener(topics = "${kafka.topic.consumer.collaborator}", groupId = "${kafka.topic.consumer.client.id}")
+    @KafkaListener(topics = "${kafka.topic.consumer.collaborator.processo-cadastrar-alterar}", groupId = "${kafka.topic.consumer.collaborator.processo-cadastrar-alterar.client.id}")
     @Override
     public void onReceive(ConsumerRecord<String, Colaborador> record) {
 
