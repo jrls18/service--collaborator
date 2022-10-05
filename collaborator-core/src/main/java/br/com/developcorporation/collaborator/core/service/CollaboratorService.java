@@ -1,6 +1,7 @@
 package br.com.developcorporation.collaborator.core.service;
 
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
+import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
@@ -17,7 +18,7 @@ public interface CollaboratorService {
 
     Collaborator getById(Long id);
 
-    void sendMessageError(final DomainException ex);
+    void sendMessage(final CollaboratorMessage collaboratorMessage);
 
     Optional<Collaborator> findByUsername(final String username);
 

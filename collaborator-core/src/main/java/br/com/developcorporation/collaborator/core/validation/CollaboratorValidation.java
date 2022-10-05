@@ -1,6 +1,5 @@
 package br.com.developcorporation.collaborator.core.validation;
 
-import br.com.developcorporation.collaborator.core.enums.TypeCollaboratorEnum;
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.core.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
@@ -52,8 +51,6 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
         detailsList.addAll(validAddress(value.getAddress()));
 
-        detailsList.addAll(validTypeCollaborator(value));
-
         throwDomainExceptionGeneric(
                 CoreEnum.UNPROCESSABLE_ENTITY,
                 MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
@@ -92,27 +89,12 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
         detailsList.addAll(validAddress(value.getAddress()));
 
-        detailsList.addAll(validTypeCollaborator(value));
-
         throwDomainExceptionGeneric(
                 CoreEnum.UNPROCESSABLE_ENTITY,
                 MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
                 detailsList);
     }
 
-    public List<Message.Details> validTypeCollaborator(final Collaborator collaborator){
-        List<Message.Details> detailsList = new ArrayList<>();
-
-        if(Boolean.FALSE.equals(TypeCollaboratorEnum.existsCode(collaborator.getTypeUser()))){
-            detailsList.add(
-                    new Message.Details(
-                            FieldConstants.TIPO_COLABORATOR,
-                            MessageConstants.TIPO_DE_COLABORADOR_INVALIDO,
-                            collaborator.getTypeUser()));
-        }
-
-        return detailsList;
-    }
 
     private List<Message.Details> validBirthDate(final Collaborator collaborator){
         List<Message.Details> detailsList = new ArrayList<>();

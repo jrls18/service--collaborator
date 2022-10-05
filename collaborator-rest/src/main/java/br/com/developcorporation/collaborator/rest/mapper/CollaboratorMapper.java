@@ -10,13 +10,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = BaseMapper.class)
+@Mapper(uses =  BaseMapper.class)
 public interface CollaboratorMapper {
 
     CollaboratorMapper INSTANCE = Mappers.getMapper(CollaboratorMapper.class);
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
-    Collaborator toDomain(final CollaboratorRequest request);
+    Collaborator toDomain(final CollaboratorRequest collaborator);
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
     @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_HORA_FORMAT)

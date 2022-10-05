@@ -4,18 +4,21 @@ package br.com.developcorporation.collaborator.rest.exception.handler;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.exception.error.*;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
-import br.com.developcorporation.lib.commons.monitorable.SpringLogger;
 import br.com.developcorporation.lib.commons.util.Convert;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.SneakyThrows;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,61 +26,29 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
+import br.com.developcorporation.collaborator.domain.logger.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@Component
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
-    @SneakyThrows
-    private SpringLogger springLogger(final Object value, final String info, final String statusCode, final Exception ex){
-      return  new SpringLogger(
-                ContextHolder.get().getCorrelationId(),
-                "service--company",
-                ContextHolder.get().getMethod(),
-                ContextHolder.get().getRequestUri(),
-                value,
-                ex,
-                ContextHolder.get().getInstanceId(),
-                info,
-                statusCode
-        );
-    }
+    private final LogDomain logDomain;
 
-    @SneakyThrows
-    private void setLogger(final Object value, final String info, final String statusCode, final Exception ex){
-        LOG.warn(MessageConstant.RESPOSTA, Convert.toJson(
-
-               new SpringLogger(
-                       ContextHolder.get().getCorrelationId(),
-                       "service--company",
-                       ContextHolder.get().getMethod(),
-                       ContextHolder.get().getRequestUri(),
-                       value,
-                       ex,
-                       ContextHolder.get().getInstanceId(),
-                       info,
-                       statusCode
-                       )
-        ));
-    }
 
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<MessageResponse> handleUserNotFoundException
             (RecordNotFoundException ex, WebRequest request) throws JsonProcessingException {
         MessageResponse error = new MessageResponse(String.valueOf(HttpStatus.NOT_FOUND.value()), null, ex.getLocalizedMessage(), null);
 
-        setLogger(error, "WARN",  HttpStatus.NOT_FOUND.toString(), ex);
+        LOG.warn(MessageConstant.RESPOSTA, logDomain.setLogger(error, "WARN",  HttpStatus.NOT_FOUND.toString(), ex));
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-
-
-   // ((DomainException) ex).getCode()
-
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) throws JsonProcessingException {
@@ -86,8 +57,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             details.add(ex.getLocalizedMessage());
             MessageResponse error = new MessageResponse(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), null,MessageConstant.HOUVE_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE, null);
 
-            LOG.warn(MessageConstant.RESPOSTA, Convert.toJson(
-                    springLogger(error, "ERROR",HttpStatus.INTERNAL_SERVER_ERROR.toString(), ex)
+            LOG.error(MessageConstant.RESPOSTA, Convert.toJson(
+                    logDomain.springLogger(error, "ERROR",HttpStatus.INTERNAL_SERVER_ERROR.toString(), ex)
             ));
 
             return genericResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -123,9 +94,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 ((DomainException) ex).getMessage(),
                 MessageMapper.INSTANCE.domainToDetailsResponseList(((DomainException) ex).getDetails()));
 
-        LOG.warn(MessageConstant.RESPOSTA, Convert.toJson(
-                springLogger(messageResponse, info,httpStatus.toString(), ex)
-        ));
+        LOG.warn(MessageConstant.RESPOSTA,
+                logDomain.springLogger(messageResponse, info,httpStatus.toString(), ex)
+        );
 
         return new ResponseEntity<>(messageResponse, httpStatus);
     }
@@ -145,7 +116,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         MessageResponse error = new MessageResponse(String.valueOf(HttpStatus.BAD_REQUEST.value()),null, ex.getMessage(),  detailsResponses);
 
-        setLogger(error, "WARN",  HttpStatus.BAD_REQUEST.toString(), ex);
+        LOG.warn(MessageConstant.RESPOSTA,logDomain.setLogger(error, "WARN",  HttpStatus.BAD_REQUEST.toString(), ex));
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -160,7 +131,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         MessageResponse error = new MessageResponse(String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY.value()),null, ex.getMessage(), detailsResponses);
 
-        setLogger(error, "WARN",  HttpStatus.UNPROCESSABLE_ENTITY.toString(), ex);
+        LOG.warn(MessageConstant.RESPOSTA,logDomain.setLogger(error, "WARN",  HttpStatus.UNPROCESSABLE_ENTITY.toString(), ex));
 
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -178,7 +149,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         MessageResponse error = new MessageResponse(String.valueOf(HttpStatus.BAD_REQUEST.value()),null, ex.getMessage(), details);
 
-        setLogger(error, "WARN",  HttpStatus.BAD_REQUEST.toString(), ex);
+        LOG.warn(MessageConstant.RESPOSTA,logDomain.setLogger(error, "WARN",  HttpStatus.BAD_REQUEST.toString(), ex));
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -188,9 +159,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         MessageResponse error = new MessageResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()),null, ex.getMessage(), null);
 
-        LOG.warn(MessageConstant.RESPOSTA, Convert.toJson(error) );
 
-        setLogger(error, "WARN",  HttpStatus.UNAUTHORIZED.toString(), ex);
+        LOG.warn(MessageConstant.RESPOSTA, logDomain.setLogger(error, "WARN",  HttpStatus.UNAUTHORIZED.toString(), ex));
 
         return new ResponseEntity<>(error,HttpStatus.UNAUTHORIZED);
     }
@@ -200,7 +170,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         LOG.warn(MessageConstant.RESPOSTA, ex.getMessage() );
 
-        setLogger(ex.getResponseBodyAsString(), "WARN", String.valueOf(ex.getStatusCode().value()), ex);
+        LOG.warn(MessageConstant.RESPOSTA, logDomain.setLogger(ex.getResponseBodyAsString(), "WARN", String.valueOf(ex.getStatusCode().value()), ex));
 
         return new ResponseEntity<>(ex.getResponseBodyAsString(),ex.getStatusCode());
     }
@@ -213,7 +183,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         }
         MessageResponse error = new MessageResponse( String.valueOf(HttpStatus.BAD_REQUEST.value()),null, MessageConstant.FALHA_NA_VALIDACAO, null);
 
-        setLogger(error, "WARN",  HttpStatus.BAD_REQUEST.toString(), ex);
+        LOG.warn(MessageConstant.RESPOSTA,logDomain.setLogger(error, "WARN",  HttpStatus.BAD_REQUEST.toString(), ex));
 
         return genericResponseEntity(error, HttpStatus.BAD_REQUEST);
     }

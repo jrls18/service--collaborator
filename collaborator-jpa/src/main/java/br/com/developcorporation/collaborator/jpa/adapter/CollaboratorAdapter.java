@@ -5,16 +5,19 @@ import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
 import br.com.developcorporation.collaborator.jpa.mapper.CollaboratorMapper;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
+import br.com.developcorporation.collaborator.jpa.service.RoleRepositoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class CollaboratorAdapter implements CollaboratorPort {
 
    private final CollaboratorRepositoryService service;
+   private final RoleRepositoryService roleRepositoryService;
 
     @Override
     public Long add(Collaborator dto) {
@@ -33,12 +36,23 @@ public class CollaboratorAdapter implements CollaboratorPort {
 
     @Override
     public Collaborator getById(Long id) {
-        return CollaboratorMapper.INSTANCE.toDomain(service.consultaPorCodigo(id).orElse(null));
+
+        Collaborator collaborator = CollaboratorMapper.INSTANCE.toDomain(service.consultaPorCodigo(id).orElse(null));
+
+        return setRoleCollaborator(collaborator);
     }
 
     @Override
     public Collaborator getEmail(String email) {
-        return CollaboratorMapper.INSTANCE.toDomain(service.findByEmail(email).orElse(null));
+        return setRoleCollaborator(CollaboratorMapper.INSTANCE.toDomain(service.findByEmail(email).orElse(null)));
+    }
+
+
+    private Collaborator setRoleCollaborator(Collaborator collaborator){
+        if(Objects.nonNull(collaborator))
+            collaborator.setTypeCollaborator(CollaboratorMapper.INSTANCE.toDomain(roleRepositoryService.findByIdCollaboratorTypeAccess(collaborator.getId())));
+
+        return collaborator;
     }
 
     @Override
@@ -49,53 +63,24 @@ public class CollaboratorAdapter implements CollaboratorPort {
         if(collaboratorOptional.isEmpty())
             return Optional.empty();
 
-       return Optional.of(CollaboratorMapper.INSTANCE.toDomain(collaboratorOptional.get()));
+       return Optional.of(setRoleCollaborator(CollaboratorMapper.INSTANCE.toDomain(collaboratorOptional.get())));
     }
 
     @Override
     public Pagination<Collaborator> search(String searchTerm, int page, int size) {
-        return CollaboratorMapper.INSTANCE.toDomain(service.search(searchTerm, page, size));
+
+        Pagination<Collaborator> pagination = CollaboratorMapper.INSTANCE.toDomain(service.search(searchTerm, page, size));
+
+        List<Collaborator> collaborators = new ArrayList<>(pagination.getItems().size());
+
+        for (Collaborator line : pagination.getItems()) {
+            collaborators.add(setRoleCollaborator(line));
+        }
+        pagination.setItems(collaborators.stream()
+                .sorted(Comparator.comparingLong(Collaborator::getId))
+                .collect(Collectors.toList()));
+
+        return pagination;
     }
 
-
-     /*
-    @Override
-    public Collaborator getById(Long id) {
-
-       Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> optionalCompany =  repository.findById(id);
-
-       if (optionalCompany.isEmpty())
-           return null;
-
-       // return CompanyMapper.INSTANCE.toDto(optionalCompany.get());
-        return null;
-    }
-
-
-
-    @Override
-    public Collaborator getByCnpj(String cnpj) {
-
-        Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> optionalCompany =  repository.findByCnpj(cnpj);
-
-        if (optionalCompany.isEmpty())
-            return null;
-
-        //return CompanyMapper.INSTANCE.toDto(optionalCompany.get());
-        return null;
-    }
-
-    @Override
-    public Collaborator getByCorporateName(String corporateName) {
-
-        Optional<br.com.developcorporation.collaborator.jpa.entity.Collaborator> optionalCompany =  repository.findByCorporateName(corporateName);
-
-        if (optionalCompany.isEmpty())
-            return null;
-
-        //return CompanyMapper.INSTANCE.toDto(optionalCompany.get());
-       return null;
-    }
-
-     */
 }

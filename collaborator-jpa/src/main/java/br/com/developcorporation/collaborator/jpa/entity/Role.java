@@ -24,7 +24,7 @@ public class Role {
     @Column(name = "cod_tipoacesso")
     private Long id;
 
-    @NaturalId
+    //@NaturalId
     @Column(name = "descricao")
     private String name;
 

@@ -60,6 +60,7 @@ public final class FieldConstant {
     public static final String DATA_CADASTRO = "data_cadastro";
     public static final String DATA_CONTROL = "controle_de_dados";
 
+
     public static final String CAMPO = "campo";
     public static final String MENSAGEM = "mensagem";
     public static final String VALOR = "valor";

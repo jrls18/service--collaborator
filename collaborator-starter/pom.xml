@@ -12,6 +12,13 @@
 
     <artifactId>collaborator-starter</artifactId>
 
+    <properties>
+        <commons-lang3-version>3.0</commons-lang3-version>
+        <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>br.com.developcorporation</groupId>

@@ -3,7 +3,7 @@ package br.com.developcorporation.collaborator.rest.controller.impl;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.StatusController;
-import br.com.developcorporation.collaborator.rest.logger.LogRest;
+import br.com.developcorporation.collaborator.domain.logger.*;
 import br.com.developcorporation.collaborator.rest.mapper.StatusMapper;
 import br.com.developcorporation.collaborator.core.service.StatusService;
 import br.com.developcorporation.collaborator.rest.message.response.StatusResponse;
@@ -28,7 +28,7 @@ public class StatusControllerImpl implements StatusController {
 
     private final StatusService service;
 
-    private final LogRest logRest;
+    private final LogDomain logRest;
 
     @Override
     public ResponseEntity<List<StatusResponse>> getAll() {

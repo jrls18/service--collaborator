@@ -1,7 +1,9 @@
 package br.com.developcorporation.collaborator.jpa.service.impl;
 
 import br.com.developcorporation.collaborator.jpa.entity.Collaborator;
+import br.com.developcorporation.collaborator.jpa.entity.Role;
 import br.com.developcorporation.collaborator.jpa.repository.CollaboratorRepository;
+import br.com.developcorporation.collaborator.jpa.repository.RoleRepository;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class CollaboratorRepositoryServiceImpl implements CollaboratorRepositoryService {
 
     private final CollaboratorRepository repository;
+
 
     @Override
     public Optional<Collaborator> findByUserName(String username) {
@@ -35,7 +38,9 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
 
     @Override
     public Boolean existeEmpresa(Long id) {
-        return repository.existsByIdCompany(id);
+        if(repository.existsByIdCompany(id).intValue() > 0)
+            return true;
+        return false;
     }
 
     @Override

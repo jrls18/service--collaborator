@@ -2,7 +2,6 @@ package br.com.developcorporation.collaborator.rest.security;
 
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

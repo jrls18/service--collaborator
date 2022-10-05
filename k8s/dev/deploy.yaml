@@ -5,6 +5,11 @@ metadata:
   namespace: services-develop-corporation
   labels:
     app: service--collaborator
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/scheme: "http"
 spec:
   selector:
     matchLabels:
@@ -31,7 +36,7 @@ spec:
             httpGet:
               path: /actuator/health
               port: 9090
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 60
             timeoutSeconds: 10
             successThreshold: 1
@@ -41,11 +46,11 @@ spec:
               value: "dev"
           resources:
             requests:
-              memory: "400Mi"
-              cpu: "400m"
-            limits:
               memory: "800Mi"
-              cpu: "800m"
+              cpu: "0.4"
+            limits:
+              memory: "1000Mi"
+              cpu: "1.5"
           ports:
             - containerPort: 9090
             - containerPort: 5000
