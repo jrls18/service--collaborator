@@ -8,12 +8,11 @@ import br.com.developcorporation.collaborator.core.validation.CollaboratorValida
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
+import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
-import br.com.developcorporation.collaborator.domain.port.CompanyPort;
+import br.com.developcorporation.collaborator.domain.port.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,12 +37,17 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final CompanyPort companyPort;
 
-    private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
+    private final TypeCollaboratorPort typeCollaboratorPort;
+
+    private final CollaboratorRolePort collaboratorRolePort;
+
+    private final CollaboratorSendMessagePort collaboratorSendMessagePort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
 
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
+
 
 
     private void save(Collaborator dto) {
@@ -63,6 +67,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             Long id =  port.add(dto);
             dto.setId(id);
 
+            collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
+
             //messagePort.send(dto);
         }catch (Exception ex){
             throw new DomainException(
@@ -71,6 +77,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     null);
         }
     }
+
 
     @Transactional
     @Override
@@ -85,7 +92,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 MessageConstants.USUARIO_CADASTRODO_COM_SUCESSO);
     }
 
-    @Transactional
     @Override
     public void addAsync(Collaborator dto) {
         if(Objects.nonNull(dto)){
@@ -98,17 +104,21 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 
     private void updateAsync(final Collaborator domain){
-       try{
-           this.updateBase(domain);
-       }catch (DomainException exception){
-           collaboratorSendMessageErrorPort.send(exception);
-       }
+        this.updateBase(domain);
     }
 
     private void updateBase(Collaborator domain){
         validator.update(domain);
 
+        Collaborator dto = port.getById(domain.getId());
+        domain.setPassword(dto.getPassword());
+
         domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
+
+        domain.setDateRegister(dto.getDateRegister());
+
+        domain.setStatus(dto.getStatus());
+
         validUpdateExists(domain);
 
         try {
@@ -140,13 +150,14 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Collaborator getById(Long id) {
         validatorAuthorization.validCredentials();
-        return port.getById(id);
+
+        return  port.getById(id);
     }
 
     @Override
-    public void sendMessageError(DomainException domainException) {
-        if(Objects.nonNull(domainException)){
-            collaboratorSendMessageErrorPort.send(domainException);
+    public void sendMessage(CollaboratorMessage collaboratorMessage) {
+        if(Objects.nonNull(collaboratorMessage)){
+            collaboratorSendMessagePort.send(collaboratorMessage);
         }
     }
 
@@ -160,6 +171,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         if(size == 0)
             size = Integer.parseInt(qtdItems);
+
+        if(StringUtils.isEmpty(searchTerm))
+            searchTerm = null;
 
         return port.search(searchTerm, page, size);
     }
@@ -180,6 +194,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         details.addAll(validExistsIdCompany(dto.getIdCompany()));
 
+        details.addAll(validTypeCollaborator(dto.getTypeCollaborator()));
+
         if(!details.isEmpty())
             throw new DomainException(
                 CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
@@ -187,6 +203,20 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 details);
 
 
+    }
+
+    public List<Message.Details> validTypeCollaborator(final Collaborator.TypeCollaborator typeCollaborator){
+        List<Message.Details> detailsList = new ArrayList<>();
+
+        if(Boolean.FALSE.equals(typeCollaboratorPort.getById(typeCollaborator.getId()))){
+            detailsList.add(
+                    new Message.Details(
+                            FieldConstants.TIPO_COLABORATOR,
+                            MessageConstants.TIPO_DE_COLABORADOR_INVALIDO,
+                            typeCollaborator.getId().toString()));
+        }
+
+        return detailsList;
     }
 
     private List<Message.Details> validExistsIdCompany(final String idCompany){
@@ -211,15 +241,27 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         Collaborator collaboratorOriginal = port.getById(dto.getId());
 
-        Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
-
-        if(!collaboratorOriginal.getId().equals(collaborator.getId())){
+        if(Objects.isNull(collaboratorOriginal)){
             details.add(
                     new Message.Details(
-                            FieldConstants.EMAIL,
-                            MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
-                            collaborator.getContact().getEmail()));
+                            FieldConstants.CODIGO,
+                            MessageConstants.CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO,
+                            dto.getId().toString()));
+        }else{
+            Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
+
+            if(Objects.nonNull(collaborator)){
+                if(!collaboratorOriginal.getId().equals(collaborator.getId())){
+                    details.add(
+                            new Message.Details(
+                                    FieldConstants.EMAIL,
+                                    MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
+                                    collaborator.getContact().getEmail()));
+                }
+            }
         }
+
+        details.addAll(validTypeCollaborator(dto.getTypeCollaborator()));
 
         if(!details.isEmpty())
             throw new DomainException(

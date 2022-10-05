@@ -1,11 +1,13 @@
 package br.com.developcorporation.collaborator.rest.message.response;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
+import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -45,7 +47,7 @@ public class CollaboratorResponse implements Serializable {
     private String password;
 
     @JsonProperty(value = FieldConstant.TIPO_USUARIO, index = 8)
-    private String typeUser;
+    private CollaboratorResponse.TypeCollaborator typeCollaborator;
 
     @JsonProperty(value = FieldConstant.STATUS, index = 9)
     private CollaboratorResponse.Status status;
@@ -108,6 +110,17 @@ public class CollaboratorResponse implements Serializable {
     public static class Status implements Serializable {
 
         private static final long serialVersionUID = 249379087391903640L;
+
+        @JsonProperty(value = FieldConstant.CODIGO, index = 0)
+        private String id;
+    }
+
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TypeCollaborator implements Serializable {
+
+        private static final long serialVersionUID = -24215801746158605L;
 
         @JsonProperty(value = FieldConstant.CODIGO, index = 0)
         private String id;

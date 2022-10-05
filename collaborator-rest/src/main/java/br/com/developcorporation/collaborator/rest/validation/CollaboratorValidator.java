@@ -1,6 +1,8 @@
 package br.com.developcorporation.collaborator.rest.validation;
 
 
+import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
+import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.exception.error.BadRequestEntityException;
@@ -13,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -125,10 +128,14 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
 
         detailsResponses.addAll(validIdCompany(value));
 
+        detailsResponses.addAll(validIdTypeCollaborator(value.getTypeCollaborator()));
+
         throwBadRequestGeneric(
                 detailsResponses,
                 MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
     }
+
+
 
     public void pathVariableId(final String id){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
@@ -144,6 +151,27 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         throwBadRequestGeneric(
                 detailsResponses,
                 MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
+    }
+
+    private List<MessageResponse.DetailsResponse> validIdTypeCollaborator(CollaboratorRequest.TypeCollaborator request) {
+        List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
+
+
+        if(Objects.isNull(request)){
+            detailsResponses.add(new MessageResponse.DetailsResponse(FieldConstants.TIPO_COLABORATOR,MessageConstants.TIPO_USUARIO_DEVE_SER_INFORMADO,null));
+        }else {
+            detailsResponses.add(
+                    MessageMapper.INSTANCE.toDetailsResponse(
+                            Validation.mandatoryNumber8(
+                                    request.getId(),
+                                    FieldConstant.CODIGO,
+                                    MessageConstants.CODIGO_TIPO_USUARIO_DEVE_SER_UM_NUMERO_VALIDO
+                            )
+                    )
+            );
+        }
+
+        return detailsResponses;
     }
 
     public void pathVariableCnpj(final String cnpj){
@@ -185,6 +213,20 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                                 "O campo size é obrigatório.")
                 )
         );
+
+        if(Boolean.FALSE.equals(StringUtils.isEmpty(searchTerm))){
+            detailsResponses.add(
+                    MessageMapper.INSTANCE.toDetailsResponse(
+                            Validation.stringMinAndMax(
+                                    searchTerm,
+                                    "searchTerm",
+                                    0,
+                                    50,
+                                    "O campo searchTerm deve conter no máximo 50 caracteres.")
+                    )
+            );
+        }
+
 
         throwBadRequestGeneric(
                 detailsResponses,

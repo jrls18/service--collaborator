@@ -56,7 +56,14 @@ Adicionar no host o ip com o nome da host exemplo
 C:\Windows\System32\drivers\etc
 For example:
 102.54.94.97     rhino.acme.com          source server 
-38.25.63.10     x.acme.com               client host
+38.25.63.10      x.acme.com               client host
 192.168.15.94    cloud.local.develop.corporation.com
 
 
+## Install grafana no clustering
+
+kubectl create namespace monitoramento
+
+kubectl create configmap prometheus-configmap --from-file=.\Prometheus\server\config\prometheus.yml --namespace=monitoramento
+
+kubectl apply -f .\gateway\
