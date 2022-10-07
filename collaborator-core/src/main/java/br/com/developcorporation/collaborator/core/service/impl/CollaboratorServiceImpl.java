@@ -1,6 +1,5 @@
 package br.com.developcorporation.collaborator.core.service.impl;
 
-
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
@@ -8,7 +7,9 @@ import br.com.developcorporation.collaborator.core.validation.CollaboratorValida
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
+import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
+import br.com.developcorporation.collaborator.domain.message.ConfigureMenuUser;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
@@ -30,7 +31,9 @@ import java.util.Optional;
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
 
-    public static final long ACTIVE = 1L;
+    private static final long AGUARDANDO_CONFIGURACAO_DE_MENU = 6L;
+
+    private static final String ID_AGUARDANDO_CONFIGURACAO_DE_MENU = "6 - AGUARDANDO CONFIGURAÇÂO DE MENU";
 
     private final PasswordEncoder encoder;
     private final CollaboratorPort port;
@@ -44,6 +47,11 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final CollaboratorSendMessagePort collaboratorSendMessagePort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
+
+    private final ConfigureMenuUserSendMessagePort configureMenuUserSendMessagePort;
+
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
@@ -61,7 +69,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             dto.setDateRegister(LocalDateTime.now());
 
             Collaborator.Status status = new Collaborator.Status();
-            status.setId(ACTIVE);
+            status.setId(AGUARDANDO_CONFIGURACAO_DE_MENU);
             dto.setStatus(status);
 
             Long id =  port.add(dto);
@@ -69,13 +77,29 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
             collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
+            //Envia documento do cliente
             //messagePort.send(dto);
+
+            configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
+
         }catch (Exception ex){
             throw new DomainException(
                     CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
                     MessageConstants.OCORREU_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE,
                     null);
         }
+    }
+
+    private ConfigureMenuUser setConfigureMenuUser(Collaborator dto) {
+        ConfigureMenuUser configureMenuUser = new ConfigureMenuUser();
+        configureMenuUser.setUser(new ConfigureMenuUser.User(dto.getId(),true));
+        configureMenuUser.setMessageControl(new
+                ConfigureMenuUser.MessageControl(
+                        ContextHolder.get().getCorrelationId(),
+                        LocalDateTime.now().toString(),
+                        applicationName,
+                        ID_AGUARDANDO_CONFIGURACAO_DE_MENU));
+        return configureMenuUser;
     }
 
 
@@ -163,7 +187,19 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     @Override
     public Optional<Collaborator> findByUsername(String username) {
-        return port.findByUserName(username);
+
+        Optional<Collaborator> collaborator = port.findByUserName(username);
+
+        if(collaborator.isPresent()){
+            if(collaborator.get().getStatus().getId() == AGUARDANDO_CONFIGURACAO_DE_MENU){
+                throw new DomainException(
+                        CoreEnum.UNAUTHORIZED.getCode(),
+                        MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU,
+                        null);
+            }
+        }
+
+        return collaborator;
     }
 
     @Override

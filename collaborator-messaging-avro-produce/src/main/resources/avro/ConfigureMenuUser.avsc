@@ -1,0 +1,67 @@
+{
+  "type": "record",
+  "namespace": "br.com.developcorporation.menu.configure.user.message.avro",
+  "name": "ConfigureMenuUser",
+  "version": "1",
+  "fields":[
+    {
+      "name": "messageControl",
+      "type": {
+        "type" : "record",
+        "name" : "MessageControl",
+        "fields" : [
+          {
+            "name" : "uuid",
+            "type" : "string",
+            "doc": "Chave de controle de trace exemplo: 94f5b1f9-b96b-40ee-a0e2-bdde1518c5fc"
+          },
+          {
+            "name" : "dataPostagem",
+            "type" : "string",
+            "doc": "Data de postagem na fila Exemplo: yyyy-MM-dd h:mm:ss"
+          },
+          {
+            "name" : "dataInicioProcessamento",
+            "type" : ["null","string"],
+            "default": null,
+            "doc": "Data de quanto iniciou o processamento. Exemplo: yyyy-MM-dd h:mm:ss"
+          },
+          {
+            "name" : "dataFimProcessamento",
+            "type" : ["null","string"],
+            "default": null,
+            "doc": "Data de quanto concluiu o processamento na fila. Exemplo: yyyy-MM-dd h:mm:ss"
+          },
+          {
+            "name" : "siglaSistemaOrigem",
+            "type" : "string",
+            "doc": "Sigla do Sistema Origem da requisição: exemplo: service--company"
+          },
+          {
+            "name" : "situacaoDoProcessamento",
+            "type" : ["null","string"],
+            "default": null,
+            "doc": "Situação do processamento. Exemplo: PROCESSADO ou PROCESSADO-COM-ERRO-DE-NEGOCIO"
+          }
+        ]
+      }
+    },
+    {
+      "name": "user",
+      "type": {
+        "type" : "record",
+        "name" : "User",
+        "fields" : [
+          {
+            "name": "id",
+            "type": "long"
+          },
+          {
+            "name": "collaborator",
+            "type": "boolean"
+          }
+        ]
+      }
+    }
+  ]
+}
