@@ -10,6 +10,8 @@ public interface CollaboratorPort {
 
     void update(Collaborator dto);
 
+    void updateStatus(final Long idCollaborator, final Long idStatus);
+
     Boolean existeEmpresa(final String id);
 
     Collaborator getById(Long id);

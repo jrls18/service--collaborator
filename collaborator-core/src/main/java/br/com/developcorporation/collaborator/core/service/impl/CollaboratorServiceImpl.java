@@ -13,6 +13,7 @@ import br.com.developcorporation.collaborator.domain.message.ConfigureMenuUser;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
+import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +35,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private static final long AGUARDANDO_CONFIGURACAO_DE_MENU = 6L;
 
     private static final String ID_AGUARDANDO_CONFIGURACAO_DE_MENU = "6 - AGUARDANDO CONFIGURAÇÂO DE MENU";
+    public static final long ID_TIPO_STATUS_ATIVO = 1L;
 
     private final PasswordEncoder encoder;
     private final CollaboratorPort port;
@@ -50,6 +52,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final ConfigureMenuUserSendMessagePort configureMenuUserSendMessagePort;
 
+    private final StatusPort statusPort;
+
     @Value("${spring.application.name}")
     private String applicationName;
 
@@ -59,6 +63,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 
     private void save(Collaborator dto) {
+
+        validExistsStatus(AGUARDANDO_CONFIGURACAO_DE_MENU);
 
         validator.add(dto);
 
@@ -124,6 +130,31 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             else
                 updateAsync(dto);
         }
+    }
+
+    @Override
+    public void unlockCollaboratorAsync(Collaborator collaborator) {
+        if(Objects.nonNull(collaborator)){
+            updateUnlock(collaborator);
+        }
+    }
+
+    public void updateUnlock(Collaborator collaborator) {
+
+        validExistsStatus(ID_TIPO_STATUS_ATIVO);
+
+        Collaborator collaboratorExists = port.getById(collaborator.getId());
+
+        if(Objects.isNull(collaboratorExists))
+            return;
+
+        //collaboratorExists.getStatus().setId(ID_TIPO_STATUS_ATIVO);
+
+        port.updateStatus(collaborator.getId(), ID_TIPO_STATUS_ATIVO);
+
+        //port.add(collaborator);
+
+        //Envio de notificação para o cliente informando que está liberado seu usuario.
     }
 
 
@@ -237,6 +268,28 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
                 MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
                 details);
+
+
+    }
+
+    private void validExistsStatus(Long idStatus){
+        List<Message.Details> details = new ArrayList<>();
+
+        Status status = statusPort.getById(idStatus);
+
+        if(Objects.isNull(status)){
+            details.add(
+                    new Message.Details(
+                            FieldConstants.CODIGO,
+                            MessageConstants.CODIGO_DA_SITUACAO_NAO_EXISTE_CADASTRADO,
+                            idStatus.toString()));
+        }
+
+        if(!details.isEmpty())
+            throw new DomainException(
+                    CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
+                    details);
 
 
     }
