@@ -16,6 +16,8 @@ import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.*;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
@@ -139,23 +142,30 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
+    @SneakyThrows
     public void updateUnlock(Collaborator collaborator) {
 
         validExistsStatus(ID_TIPO_STATUS_ATIVO);
 
-        Collaborator collaboratorExists = port.getById(collaborator.getId());
+        try{
+            Collaborator collaboratorExists = port.getById(collaborator.getId());
 
-        if(Objects.isNull(collaboratorExists))
-            return;
+            if(Objects.isNull(collaboratorExists))
+                throw new DomainException(
+                        CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                        MessageConstants.CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO,
+                        null);
 
-        //collaboratorExists.getStatus().setId(ID_TIPO_STATUS_ATIVO);
+            port.updateStatus(collaborator.getId(), ID_TIPO_STATUS_ATIVO);
 
-        port.updateStatus(collaborator.getId(), ID_TIPO_STATUS_ATIVO);
-
-        //port.add(collaborator);
-
-        //Envio de notificação para o cliente informando que está liberado seu usuario.
+            //Envio de notificação para o cliente informando que está liberado seu usuario.
+        }catch (Exception ex){
+            log.error("Ops houve um erro inesperado no processo de desbloqueio do colaborador. Detalhes: " + ex.getMessage());
+            throw new Exception(ex);
+        }
     }
+
+
 
 
     private void updateAsync(final Collaborator domain){

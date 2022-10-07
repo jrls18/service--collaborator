@@ -133,7 +133,9 @@ public class CollaboratorControllerImpl implements CollaboratorController {
         CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
                 service.getById(userDetails.getId()));
 
-        log.info(MessageConstant.RESPOSTA, collaboratorResponse);
+        final String jsonResponse = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.RESPOSTA);
+
+        log.info(MessageConstant.RESPOSTA, jsonResponse);
 
         return new ResponseEntity<>(
                 collaboratorResponse,
@@ -149,7 +151,9 @@ public class CollaboratorControllerImpl implements CollaboratorController {
         CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
                 service.getById(Long.parseLong(id)));
 
-        log.info(MessageConstant.RESPOSTA, collaboratorResponse);
+        final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.RESPOSTA);
+
+        log.info(MessageConstant.RESPOSTA, response);
 
         return new ResponseEntity<>(
                 collaboratorResponse,

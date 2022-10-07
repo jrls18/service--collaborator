@@ -28,10 +28,10 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
     private static final Logger LOG = LoggerFactory.getLogger(CollaboratorMessageServiceImpl.class);
 
-    private static final String INICIO_PROCESSAMENTO = "INICIO-PROCESSAMENTO";
+    private static final String INICIO_PROCESSAMENTO_DE_CADASTRO = "INICIO-PROCESSAMENTO-DO-CADASTRO-COLABORADOR";
 
-    private static final String FIM_PROCESSAMENTO = "FIM-PROCESSAMENTO";
-    private static final String FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO = "FIM-PROCESSAMENTO-COM-ERRO-DE-NEGOCIO";
+    private static final String FIM_PROCESSAMENTO = "FIM-PROCESSAMENTO-DO-CADASTRO-COLABORADOR-AGUARDANDO-CONFIGURACAO-DE-MENU";
+    private static final String FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO = "FIM-PROCESSAMENTO-DO-CADASTRO-COLABORADOR-COM-ERRO-DE-NEGOCIO";
 
     private final LogDomain logDomain;
     private final CollaboratorService collaboratorService;
@@ -52,7 +52,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
         try {
 
             message.getMessageControl().setDataInicioProcessamento(LocalDateTime.now().toString());
-            message.getMessageControl().setSituacaoDoProcessamento(INICIO_PROCESSAMENTO);
+            message.getMessageControl().setSituacaoDoProcessamento(INICIO_PROCESSAMENTO_DE_CADASTRO);
 
             final String json = logDomain.jsonLogInfo(message, MessageConstants.INICIALIZADO);
 
@@ -61,8 +61,6 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
             collaboratorService.addAsync(CollaboratorMessageMapper.INSTANCE.toDomain(message.getCollaborator()));
 
             setDadosController(message, FIM_PROCESSAMENTO);
-
-            collaboratorService.sendMessage(message);
 
             LOG.info(MessageConstants.ASYNC_RESPONSE, message);
 
