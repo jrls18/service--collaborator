@@ -59,6 +59,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable().authorizeRequests().antMatchers(
                         "/colaborador/auth/v1/**",
+                        "/colaborador/internal/**",
                         "/h2-console/**",
                         "/actuator/**"
                 ).permitAll().anyRequest()

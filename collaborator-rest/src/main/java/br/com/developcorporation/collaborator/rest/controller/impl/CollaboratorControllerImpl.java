@@ -140,4 +140,20 @@ public class CollaboratorControllerImpl implements CollaboratorController {
                 HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<CollaboratorResponse> getProfileId(String id) {
+        final String jsonRequest = logRest.jsonLogInfo(id, MessageConstant.INICIALIZADO);
+
+        log.info(MessageConstant.REQUISICAO, jsonRequest);
+
+        CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
+                service.getById(Long.parseLong(id)));
+
+        log.info(MessageConstant.RESPOSTA, collaboratorResponse);
+
+        return new ResponseEntity<>(
+                collaboratorResponse,
+                HttpStatus.OK);
+    }
+
 }

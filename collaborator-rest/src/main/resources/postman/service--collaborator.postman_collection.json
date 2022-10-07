@@ -135,6 +135,49 @@
 			"response": []
 		},
 		{
+			"name": "Get Profile By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/internal/v1/profile/id=1",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{url_base_domain}}",
+						"colaborador",
+						"internal",
+						"v1",
+						"profile",
+						"id=1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Colaborator Pagination",
 			"request": {
 				"method": "GET",
