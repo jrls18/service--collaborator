@@ -91,6 +91,7 @@ public class Collaborator implements Serializable {
 
         private Long id;
 
+        private String description;
 
     }
 
