@@ -3,7 +3,8 @@ VALUES('ATIVO', now())
      ,('BLOQUEADO', now())
      ,('CANCELADO', now())
      ,('FINALIZADO', now())
-     ,('EM PROCESSAMENTO', now());
+     ,('EM PROCESSAMENTO', now())
+     ,('AGUARDANDO CONFIGURAÇÂO DE MENU',now());
 
 INSERT INTO tipoacesso(descricao)
 VALUES('ROLE_COLABORADOR')

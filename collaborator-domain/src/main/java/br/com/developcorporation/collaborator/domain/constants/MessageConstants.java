@@ -71,6 +71,7 @@ public final class MessageConstants {
     public static final String USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA =
             "Usuário cadastrada com sucesso. No máximo 24 horas será liberado seu acesso no sistema.";
 
+    public static final String USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU = "Usuario não autorizado. Aguardando configuração de menu.";
 
     public static final String COLABORADOR_ATUALIZADA_COM_SUCESSO = "Colaborador atualizada com sucesso.";
 
