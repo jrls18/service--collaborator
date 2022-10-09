@@ -41,9 +41,6 @@ public class Collaborator implements Serializable {
     @Column(name = "senha", nullable = false)
     private String password;
 
-    @Column(name = "tipo_usuario", nullable = false)
-    private String typeUser;
-
     @Column(name = "cod_empresa", nullable = false)
     private int idCompany;
 

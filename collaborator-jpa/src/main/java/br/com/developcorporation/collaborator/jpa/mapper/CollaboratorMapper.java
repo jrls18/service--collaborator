@@ -2,6 +2,7 @@ package br.com.developcorporation.collaborator.jpa.mapper;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
+import br.com.developcorporation.collaborator.jpa.entity.Role;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -29,6 +30,9 @@ public interface CollaboratorMapper {
     @Mapping(target = "address.state", source = "state")
     @Mapping(target = "address.number", source = "number")
     Collaborator toDomain(final br.com.developcorporation.collaborator.jpa.entity.Collaborator entity);
+
+    Collaborator.TypeCollaborator toDomain(final Role role);
+
 
     @Mapping(source = "contact.telephone", target = "telephone")
     @Mapping(source = "contact.mainPhone", target = "mainPhone")

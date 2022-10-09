@@ -4,9 +4,11 @@ import br.com.developcorporation.collaborator.jpa.entity.Collaborator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,9 +22,14 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     Optional<Collaborator> findByEmail(@Param("email") final String email);
 
 
-    @Query(value = "SELECT CASE WHEN count(*) > 0 THEN true ELSE false END FROM colaborador WHERE cod_empresa = :id", nativeQuery = true)
-    Boolean existsByIdCompany(Long id);
+    @Query(value = "SELECT COUNT(*) FROM colaborador WHERE cod_empresa = :id", nativeQuery = true)
+    Integer existsByIdCompany(Long id);
 
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE colaborador SET cod_situacao = :idstatus WHERE cod_colaborador = :idcollaborator ", nativeQuery = true)
+    void updateStatus(@Param("idcollaborator") final Long idCollaborator, @Param("idstatus") final Long idStatus );
 
     @Query(value = "SELECT * FROM colaborador WHERE (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
             countQuery = "SELECT * FROM colaborador WHERE (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",

@@ -25,4 +25,7 @@ public interface CollaboratorRepositoryService {
 
     Page<Collaborator> findAll();
 
+
+    void updateStatus(final Long idCollaborator, final Long idStatus);
+
 }

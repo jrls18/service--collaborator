@@ -28,14 +28,12 @@ CREATE TABLE IF NOT EXISTS colaborador(
   ,nome VARCHAR(150) NOT NULL
   ,data_nascimento DATE NOT NULL
   ,senha VARCHAR(350)  NOT NULL
-  ,tipo_usuario VARCHAR(150) NOT NULL
   ,cod_empresa BIGINT NOT NULL
   ,cpf_cnpj VARCHAR(14) NULL
   ,email VARCHAR(150) UNIQUE NOT NULL
 	,telefone_principal  VARCHAR(11) NOT NULL
 	,telefone VARCHAR(11) NULL
 	,cep  VARCHAR(8)  NOT NULL
-
 	,logradouro VARCHAR(255) NOT NULL
 	,complemento VARCHAR(150) NULL
 	,bairro VARCHAR(150) NOT NULL

@@ -2,10 +2,22 @@ package br.com.developcorporation.collaborator.domain.constants;
 
 
 public final class MessageConstants {
+
+    public static final String ASYNC_REQUEST = "Async Request {}";
+
+    public static final String ASYNC_RESPONSE = "Async Response {}";
+
+    public static final String INICIALIZADO = "INICIALIZADO";
+
+    public static final String FINALIZADO = "FINALIZADO";
+
     public static final String PREENCHA_OS_DADOS_DE_CONTATO = "Por favor preencha os dados de contato.";
     public static final String USUARIO_CADASTRODO_COM_SUCESSO = "Colaborador cadastrado com sucesso.";
 
     public static final String TIPO_DE_COLABORADOR_INVALIDO = "Tipo de colaborador inválido.";
+    public static final String CODIGO_TIPO_USUARIO_DEVE_SER_UM_NUMERO_VALIDO = "Código tipo usuario deve ser informado um número válido.";
+    public static final String TIPO_USUARIO_DEVE_SER_INFORMADO = "Tipo usuário é obrigatório.";
+
 
     private MessageConstants(){
     }
@@ -59,6 +71,7 @@ public final class MessageConstants {
     public static final String USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA =
             "Usuário cadastrada com sucesso. No máximo 24 horas será liberado seu acesso no sistema.";
 
+    public static final String USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU = "Usuario não autorizado. Aguardando configuração de menu.";
 
     public static final String COLABORADOR_ATUALIZADA_COM_SUCESSO = "Colaborador atualizada com sucesso.";
 
@@ -80,6 +93,7 @@ public final class MessageConstants {
 
 
     public static final String CODIGO_EMPRESA_INFORMADO_NAO_EXISTE_CADASTRADO = "O código empresa informado não existe.";
+    public static final String CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO = "O código colaborador informado não existe.";
 
 
 

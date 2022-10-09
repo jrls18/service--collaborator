@@ -37,7 +37,7 @@ public class UserPrinciple implements UserDetails {
     }
 
     public static UserPrinciple build(Collaborator collaborator) {
-        GrantedAuthority authorities = new SimpleGrantedAuthority(collaborator.getTypeUser());
+        GrantedAuthority authorities = new SimpleGrantedAuthority(collaborator.getTypeCollaborator().getName());
 
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
         authoritiesList.add(authorities);

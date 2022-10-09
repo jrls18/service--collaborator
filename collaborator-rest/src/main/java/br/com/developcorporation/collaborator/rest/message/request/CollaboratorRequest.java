@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
 import java.io.Serializable;
 
 @Getter
@@ -30,19 +31,19 @@ public class CollaboratorRequest implements Serializable {
     private String birthDate;
 
     @JsonProperty(value = FieldConstant.CONTATO, index = 5)
-    private Contact contact;
+    private CollaboratorRequest.Contact contact;
 
     @JsonProperty(value = FieldConstant.ENDERECO, index = 6)
-    private Address address;
+    private CollaboratorRequest.Address address;
 
     @JsonProperty(value = FieldConstant.PASSWORD, index = 7)
     private String password;
 
     @JsonProperty(value = FieldConstant.TIPO_USUARIO, index = 8)
-    private String typeUser;
+    private CollaboratorRequest.TypeCollaborator typeCollaborator;
 
     @JsonProperty(value = FieldConstant.STATUS, index = 9)
-    private Status status;
+    private CollaboratorRequest.Status status;
 
     @JsonProperty(value = FieldConstant.IMAGE, index = 11)
     private String image;
@@ -102,6 +103,17 @@ public class CollaboratorRequest implements Serializable {
     public static class Status implements Serializable {
 
         private static final long serialVersionUID = -2406858146490241701L;
+
+        @JsonProperty(value = FieldConstant.CODIGO, index = 0)
+        private String id;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TypeCollaborator implements Serializable {
+
+        private static final long serialVersionUID = -24215801746158605L;
 
         @JsonProperty(value = FieldConstant.CODIGO, index = 0)
         private String id;

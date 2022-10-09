@@ -1,6 +1,5 @@
 package br.com.developcorporation.collaborator.core.service.impl;
 
-
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
@@ -8,13 +7,17 @@ import br.com.developcorporation.collaborator.core.validation.CollaboratorValida
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
+import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
+import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
+import br.com.developcorporation.collaborator.domain.message.ConfigureMenuUser;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
-import br.com.developcorporation.collaborator.domain.port.CollaboratorSendMessageErrorPort;
-import br.com.developcorporation.collaborator.domain.port.CompanyPort;
+import br.com.developcorporation.collaborator.domain.model.Status;
+import br.com.developcorporation.collaborator.domain.port.*;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,26 +30,44 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
 
-    public static final long ACTIVE = 1L;
+    private static final long AGUARDANDO_CONFIGURACAO_DE_MENU = 6L;
+
+    private static final String ID_AGUARDANDO_CONFIGURACAO_DE_MENU = "6 - AGUARDANDO CONFIGURAÇÂO DE MENU";
+    public static final long ID_TIPO_STATUS_ATIVO = 1L;
 
     private final PasswordEncoder encoder;
     private final CollaboratorPort port;
 
     private final CompanyPort companyPort;
 
-    private final CollaboratorSendMessageErrorPort collaboratorSendMessageErrorPort;
+    private final TypeCollaboratorPort typeCollaboratorPort;
+
+    private final CollaboratorRolePort collaboratorRolePort;
+
+    private final CollaboratorSendMessagePort collaboratorSendMessagePort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
+
+    private final ConfigureMenuUserSendMessagePort configureMenuUserSendMessagePort;
+
+    private final StatusPort statusPort;
+
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
 
 
+
     private void save(Collaborator dto) {
+
+        validExistsStatus(AGUARDANDO_CONFIGURACAO_DE_MENU);
 
         validator.add(dto);
 
@@ -57,13 +78,19 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             dto.setDateRegister(LocalDateTime.now());
 
             Collaborator.Status status = new Collaborator.Status();
-            status.setId(ACTIVE);
+            status.setId(AGUARDANDO_CONFIGURACAO_DE_MENU);
             dto.setStatus(status);
 
             Long id =  port.add(dto);
             dto.setId(id);
 
+            collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
+
+            //Envia documento do cliente
             //messagePort.send(dto);
+
+            configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
+
         }catch (Exception ex){
             throw new DomainException(
                     CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
@@ -71,6 +98,19 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     null);
         }
     }
+
+    private ConfigureMenuUser setConfigureMenuUser(Collaborator dto) {
+        ConfigureMenuUser configureMenuUser = new ConfigureMenuUser();
+        configureMenuUser.setUser(new ConfigureMenuUser.User(dto.getId(),true));
+        configureMenuUser.setMessageControl(new
+                ConfigureMenuUser.MessageControl(
+                        ContextHolder.get().getCorrelationId(),
+                        LocalDateTime.now().toString(),
+                        applicationName,
+                        ID_AGUARDANDO_CONFIGURACAO_DE_MENU));
+        return configureMenuUser;
+    }
+
 
     @Transactional
     @Override
@@ -85,7 +125,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 MessageConstants.USUARIO_CADASTRODO_COM_SUCESSO);
     }
 
-    @Transactional
     @Override
     public void addAsync(Collaborator dto) {
         if(Objects.nonNull(dto)){
@@ -96,19 +135,55 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
+    @Override
+    public void unlockCollaboratorAsync(Collaborator collaborator) {
+        if(Objects.nonNull(collaborator)){
+            updateUnlock(collaborator);
+        }
+    }
+
+    @SneakyThrows
+    public void updateUnlock(Collaborator collaborator) {
+
+        validExistsStatus(ID_TIPO_STATUS_ATIVO);
+
+        try{
+            Collaborator collaboratorExists = port.getById(collaborator.getId());
+
+            if(Objects.isNull(collaboratorExists))
+                throw new DomainException(
+                        CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                        MessageConstants.CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO,
+                        null);
+
+            port.updateStatus(collaborator.getId(), ID_TIPO_STATUS_ATIVO);
+
+            //Envio de notificação para o cliente informando que está liberado seu usuario.
+        }catch (Exception ex){
+            log.error("Ops houve um erro inesperado no processo de desbloqueio do colaborador. Detalhes: " + ex.getMessage());
+            throw new Exception(ex);
+        }
+    }
+
+
+
 
     private void updateAsync(final Collaborator domain){
-       try{
-           this.updateBase(domain);
-       }catch (DomainException exception){
-           collaboratorSendMessageErrorPort.send(exception);
-       }
+        this.updateBase(domain);
     }
 
     private void updateBase(Collaborator domain){
         validator.update(domain);
 
+        Collaborator dto = port.getById(domain.getId());
+        domain.setPassword(dto.getPassword());
+
         domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
+
+        domain.setDateRegister(dto.getDateRegister());
+
+        domain.setStatus(dto.getStatus());
+
         validUpdateExists(domain);
 
         try {
@@ -140,19 +215,32 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Collaborator getById(Long id) {
         validatorAuthorization.validCredentials();
-        return port.getById(id);
+
+        return  port.getById(id);
     }
 
     @Override
-    public void sendMessageError(DomainException domainException) {
-        if(Objects.nonNull(domainException)){
-            collaboratorSendMessageErrorPort.send(domainException);
+    public void sendMessage(CollaboratorMessage collaboratorMessage) {
+        if(Objects.nonNull(collaboratorMessage)){
+            collaboratorSendMessagePort.send(collaboratorMessage);
         }
     }
 
     @Override
     public Optional<Collaborator> findByUsername(String username) {
-        return port.findByUserName(username);
+
+        Optional<Collaborator> collaborator = port.findByUserName(username);
+
+        if(collaborator.isPresent()){
+            if(collaborator.get().getStatus().getId() == AGUARDANDO_CONFIGURACAO_DE_MENU){
+                throw new DomainException(
+                        CoreEnum.UNAUTHORIZED.getCode(),
+                        MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU,
+                        null);
+            }
+        }
+
+        return collaborator;
     }
 
     @Override
@@ -160,6 +248,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         if(size == 0)
             size = Integer.parseInt(qtdItems);
+
+        if(StringUtils.isEmpty(searchTerm))
+            searchTerm = null;
 
         return port.search(searchTerm, page, size);
     }
@@ -180,6 +271,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         details.addAll(validExistsIdCompany(dto.getIdCompany()));
 
+        details.addAll(validTypeCollaborator(dto.getTypeCollaborator()));
+
         if(!details.isEmpty())
             throw new DomainException(
                 CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
@@ -187,6 +280,42 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 details);
 
 
+    }
+
+    private void validExistsStatus(Long idStatus){
+        List<Message.Details> details = new ArrayList<>();
+
+        Status status = statusPort.getById(idStatus);
+
+        if(Objects.isNull(status)){
+            details.add(
+                    new Message.Details(
+                            FieldConstants.CODIGO,
+                            MessageConstants.CODIGO_DA_SITUACAO_NAO_EXISTE_CADASTRADO,
+                            idStatus.toString()));
+        }
+
+        if(!details.isEmpty())
+            throw new DomainException(
+                    CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
+                    details);
+
+
+    }
+
+    public List<Message.Details> validTypeCollaborator(final Collaborator.TypeCollaborator typeCollaborator){
+        List<Message.Details> detailsList = new ArrayList<>();
+
+        if(Boolean.FALSE.equals(typeCollaboratorPort.getById(typeCollaborator.getId()))){
+            detailsList.add(
+                    new Message.Details(
+                            FieldConstants.TIPO_COLABORATOR,
+                            MessageConstants.TIPO_DE_COLABORADOR_INVALIDO,
+                            typeCollaborator.getId().toString()));
+        }
+
+        return detailsList;
     }
 
     private List<Message.Details> validExistsIdCompany(final String idCompany){
@@ -211,15 +340,27 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         Collaborator collaboratorOriginal = port.getById(dto.getId());
 
-        Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
-
-        if(!collaboratorOriginal.getId().equals(collaborator.getId())){
+        if(Objects.isNull(collaboratorOriginal)){
             details.add(
                     new Message.Details(
-                            FieldConstants.EMAIL,
-                            MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
-                            collaborator.getContact().getEmail()));
+                            FieldConstants.CODIGO,
+                            MessageConstants.CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO,
+                            dto.getId().toString()));
+        }else{
+            Collaborator collaborator =  port.getEmail(dto.getContact().getEmail());
+
+            if(Objects.nonNull(collaborator)){
+                if(!collaboratorOriginal.getId().equals(collaborator.getId())){
+                    details.add(
+                            new Message.Details(
+                                    FieldConstants.EMAIL,
+                                    MessageConstants.EMAIL_INFORMADO_JA_EXISTE_CADASTRADO,
+                                    collaborator.getContact().getEmail()));
+                }
+            }
         }
+
+        details.addAll(validTypeCollaborator(dto.getTypeCollaborator()));
 
         if(!details.isEmpty())
             throw new DomainException(

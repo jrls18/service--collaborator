@@ -4,9 +4,11 @@ import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Setter
 @Getter
 @JsonRootName(FieldConstant.LOGIN)
 public class LoginRequest implements Serializable {

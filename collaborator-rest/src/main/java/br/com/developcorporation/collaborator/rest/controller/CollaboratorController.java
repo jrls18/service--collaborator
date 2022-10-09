@@ -37,13 +37,6 @@ public interface CollaboratorController {
     @GetMapping(path = "/v1/profile", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CollaboratorResponse> getUserProfile(@AuthenticationPrincipal UserPrinciple userDetails);
 
-
-    /*
-    @GetMapping(value = "/v1/get/id={id}", produces = FieldConstant.APPLICATION_JSON)
-    ResponseEntity<CompanyResponse> getById(@PathVariable("id") final String id);
-
-    @GetMapping(value = "/v1/get/cnpj_cpf={cnpj_cpf}", produces = FieldConstant.APPLICATION_JSON)
-    ResponseEntity<CompanyResponse> getByCnpj(@PathVariable("cnpj_cpf") final String cnpj);
-
-     */
+    @GetMapping(path = "/internal/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
+    ResponseEntity<CollaboratorResponse> getProfileId(@PathVariable("codigo") final String id);
 }
