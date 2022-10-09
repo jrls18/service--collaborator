@@ -30,6 +30,12 @@ public class CollaboratorAdapter implements CollaboratorPort {
     }
 
     @Override
+    public void updateStatus(Long idCollaborator, Long idStatus) {
+        if(Objects.nonNull(idCollaborator) && Objects.nonNull(idCollaborator))
+            service.updateStatus(idCollaborator, idStatus);
+    }
+
+    @Override
     public Boolean existeEmpresa(String id) {
         return service.existeEmpresa(Long.parseLong(id));
     }

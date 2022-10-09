@@ -113,6 +113,9 @@ public class CollaboratorResponse implements Serializable {
 
         @JsonProperty(value = FieldConstant.CODIGO, index = 0)
         private String id;
+
+        @JsonProperty(value = FieldConstant.DESCRICAO, index = 1)
+        private String description;
     }
 
     @Setter
@@ -124,5 +127,8 @@ public class CollaboratorResponse implements Serializable {
 
         @JsonProperty(value = FieldConstant.CODIGO, index = 0)
         private String id;
+
+        @JsonProperty(value = FieldConstant.DESCRICAO, index = 1)
+        private String name;
     }
 }

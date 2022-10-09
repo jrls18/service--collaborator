@@ -1,6 +1,5 @@
 package br.com.developcorporation.collaborator.core.service;
 
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
@@ -13,6 +12,8 @@ public interface CollaboratorService {
     Message add(final Collaborator dto);
 
     void addAsync(final Collaborator dto);
+
+    void unlockCollaboratorAsync(final Collaborator collaborator);
 
     Message update(final Collaborator dto);
 

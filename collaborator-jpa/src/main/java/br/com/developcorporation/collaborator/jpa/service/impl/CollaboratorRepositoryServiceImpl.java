@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -74,6 +75,12 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
         return new PageImpl<>(
                 repository.findAll(),
                 pageRequest, size);
+    }
+
+    @Override
+    public void updateStatus(Long idCollaborator, Long idStatus) {
+        if(Objects.nonNull(idCollaborator) && Objects.nonNull(idStatus))
+            repository.updateStatus(idCollaborator, idStatus);
     }
 
 
