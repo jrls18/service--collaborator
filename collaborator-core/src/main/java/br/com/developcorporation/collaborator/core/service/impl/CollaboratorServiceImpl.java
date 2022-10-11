@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.ObjectError;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -173,10 +174,15 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     private void updateBase(Collaborator domain){
+
         validator.update(domain);
 
-        Collaborator dto = port.getById(domain.getId());
+        validUpdateExists(domain);
+
+        Collaborator dto = (Collaborator) ContextHolder.get().getMap().get("collaborator");
+
         domain.setPassword(dto.getPassword());
+        domain.setIdCompany(dto.getIdCompany());
 
         domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
 
@@ -184,10 +190,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         domain.setStatus(dto.getStatus());
 
-        validUpdateExists(domain);
-
         try {
             port.update(domain);
+
+            if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId()))
+                configureMenuUserSendMessagePort.send(setConfigureMenuUser(domain));
+
         }catch (Exception ex){
             throw new DomainException(
                     CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
@@ -275,12 +283,13 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         if(!details.isEmpty())
             throw new DomainException(
-                CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
-                MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
-                details);
+                    CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
+                    details);
 
 
     }
+
 
     private void validExistsStatus(Long idStatus){
         List<Message.Details> details = new ArrayList<>();
@@ -367,6 +376,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
                     MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
                     details);
+
+        ContextHolder.get().setMap("collaborator", collaboratorOriginal);
     }
 
 }
