@@ -161,7 +161,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/internal/v1/profile/id=1",
+					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/internal/v1/profile/id=5",
 					"host": [
 						"{{url_base}}"
 					],
@@ -171,7 +171,7 @@
 						"internal",
 						"v1",
 						"profile",
-						"id=1"
+						"id=5"
 					]
 				}
 			},
@@ -204,7 +204,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador?searchTerm&page&size",
+					"raw": "{{url_base}}/{{url_base_domain}}/colaborador?searchTerm&page=0&size=20",
 					"host": [
 						"{{url_base}}"
 					],
@@ -219,11 +219,11 @@
 						},
 						{
 							"key": "page",
-							"value": null
+							"value": "0"
 						},
 						{
 							"key": "size",
-							"value": null
+							"value": "20"
 						}
 					]
 				}
@@ -253,7 +253,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nome\": \"Paulo coelho filho\",\r\n    \"cpf_cnpj\": \"33492381000122\",\r\n    \"rg\": null,\r\n    \"data_nascimento\": \"2020-08-10\",\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11971210125\",\r\n        \"telefone\": null,\r\n        \"email\": \"11971210125@hotmail.com\"\r\n    },\r\n    \"endereco\": {\r\n        \"cep\": \"02542000\",\r\n        \"logradouro\": \"Rua Epaminondas Melo do Amaral\",\r\n        \"complemento\": null,\r\n        \"bairro\": \"Sítio do Mandaqui\",\r\n        \"localidade\": \"São Paulo\",\r\n        \"uf\": \"SP\",\r\n        \"numero\": \"315\"\r\n    },\r\n    \"password\":\"171513\",\r\n    \"tipo_usuario\": {\r\n        \"codigo\": 1\r\n    },\r\n    \"codigo_empresa\": \"1\"\r\n}",
+					"raw": "{\r\n    \"nome\": \"Paulo coelho filho\",\r\n    \"cpf_cnpj\": \"75285762000180\",\r\n    \"rg\": null,\r\n    \"data_nascimento\": \"2020-08-10\",\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11671312513\",\r\n        \"telefone\": null,\r\n        \"email\": \"75285762000180@hotmail.com\"\r\n    },\r\n    \"endereco\": {\r\n        \"cep\": \"02542000\",\r\n        \"logradouro\": \"Rua Epaminondas Melo do Amaral\",\r\n        \"complemento\": null,\r\n        \"bairro\": \"Sítio do Mandaqui\",\r\n        \"localidade\": \"São Paulo\",\r\n        \"uf\": \"SP\",\r\n        \"numero\": \"315\"\r\n    },\r\n    \"password\":\"@@HMNXpT00\",\r\n    \"tipo_usuario\": {\r\n        \"codigo\": 3\r\n    },\r\n    \"codigo_empresa\": \"1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -304,7 +304,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"codigo\": 1,\r\n    \"nome\": \"Paulo coelho filho\",\r\n    \"cpf_cnpj\": \"33492381000122\",\r\n    \"rg\": null,\r\n    \"data_nascimento\": \"2020-08-10\",\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11971210125\",\r\n        \"telefone\": null,\r\n        \"email\": \"11971210125@hotmail.com\"\r\n    },\r\n    \"endereco\": {\r\n        \"cep\": \"02542000\",\r\n        \"logradouro\": \"Rua Epaminondas Melo do Amaral\",\r\n        \"complemento\": null,\r\n        \"bairro\": \"Sítio do Mandaqui\",\r\n        \"localidade\": \"São Paulo\",\r\n        \"uf\": \"SP\",\r\n        \"numero\": \"315\"\r\n    },\r\n    \"password\":\"171513\",\r\n    \"tipo_usuario\": {\r\n        \"codigo\": 1\r\n    },\r\n    \"codigo_empresa\": \"1\"\r\n}",
+					"raw": "{\r\n    \"codigo\": \"6\",\r\n    \"nome\": \"Bryan de Oliveira\",\r\n    \"cpf_cnpj\": \"38729628000103\",\r\n    \"data_nascimento\": \"2017-04-25\",\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11995348796\",\r\n        \"telefone\": \"1125384644\",\r\n        \"email\": \"tesouraria@bryanemilenadocessalgadosme.com.br\"\r\n    },\r\n    \"endereco\": {\r\n        \"cep\": \" 04242000\",\r\n        \"logradouro\": \"Rua Pelegrino Varani\",\r\n        \"numero\": \"918\",\r\n        \"localidade\": \"São Paulo\",\r\n        \"bairro\": \"Jardim Seckler\",\r\n        \"uf\": \"SP\"\r\n    },\r\n    \"data_cadastro\": \"2022-10-11 16:10:34\",\r\n    \"situacao\": {\r\n        \"codigo\": \"1\"\r\n    },\r\n    \"tipo_usuario\": {\r\n        \"codigo\": \"3\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
