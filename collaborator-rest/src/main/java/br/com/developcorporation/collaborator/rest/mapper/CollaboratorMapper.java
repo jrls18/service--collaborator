@@ -6,6 +6,7 @@ import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.response.CollaboratorResponse;
 import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -24,6 +25,7 @@ public interface CollaboratorMapper {
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
     @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_HORA_FORMAT)
+    @Mapping(source = "document.nameDocument", target = "image")
     CollaboratorResponse toResponse(final Collaborator domain);
 
     PaginationResponse<CollaboratorResponse> toResponse(final Pagination<Collaborator> collaboratorPagination);
@@ -31,6 +33,9 @@ public interface CollaboratorMapper {
 
     @Named("convertToByte")
     default byte[] convertToByte(final String value){
+        if(StringUtils.isEmpty(value))
+            return null;
+
         return Base64.getDecoder().decode(value);
     }
 
