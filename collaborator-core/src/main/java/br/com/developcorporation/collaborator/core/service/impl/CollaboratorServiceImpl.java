@@ -76,7 +76,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             dto.setDateRegister(LocalDateTime.now());
 
             if(Objects.nonNull(dto.getDocument()))
-                if(Objects.nonNull(dto.getDocument().getDocument()))
+                if(StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                     dto.getDocument().setNameDocument(UUID.randomUUID().toString());
 
             Collaborator.Status status = new Collaborator.Status();
@@ -88,7 +88,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
             collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
-            enviaDocuments(dto, dto.getDocument().getNameDocument());
+            enviaDocuments(dto);
 
             configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
 
@@ -100,10 +100,10 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
-    private void enviaDocuments(Collaborator dto, final String uuid) {
+    private void enviaDocuments(Collaborator dto) {
         if(Objects.nonNull(dto.getDocument())){
             if(Objects.nonNull(dto.getDocument().getDocument())){
-                dto.getDocument().setNameDocument(uuid);
+                dto.getDocument().setNameDocument(dto.getDocument().getNameDocument());
                 dto.getDocument().setLogo(false);
                 dto.getDocument().setIdCatalago(IMAGE_PROFILE);
                 documentSendMessagePort.send(dto);
@@ -191,6 +191,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         validUpdateExists(domain);
 
+        ContextHolder.get().setApplicationName(this.applicationName);
+
+
         Collaborator dto = (Collaborator) ContextHolder.get().getMap().get("collaborator");
 
         domain.setPassword(dto.getPassword());
@@ -203,6 +206,16 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         domain.setStatus(dto.getStatus());
 
         try {
+
+            if(Objects.nonNull(dto.getDocument())) {
+                if (!StringUtils.isEmpty(dto.getDocument().getNameDocument())) {
+                    domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
+                }else
+                    domain.getDocument().setNameDocument(UUID.randomUUID().toString());
+            }
+            else
+                domain.getDocument().setNameDocument(UUID.randomUUID().toString());
+
             port.update(domain);
 
             if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId()))
@@ -211,7 +224,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             if(Objects.nonNull(domain.getDocument())){
                 if(Objects.nonNull(domain.getDocument().getDocument())){
                     if(!domain.getDocument().getDocument().equals(dto.getDocument().getDocument()))
-                        enviaDocuments(domain, dto.getDocument().getNameDocument());
+
+                        enviaDocuments(domain);
                 }
             }
 
