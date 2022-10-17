@@ -8,7 +8,10 @@ import br.com.developcorporation.collaborator.rest.message.response.Collaborator
 import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Base64;
 
 @Mapper(uses =  BaseMapper.class)
 public interface CollaboratorMapper {
@@ -16,6 +19,7 @@ public interface CollaboratorMapper {
     CollaboratorMapper INSTANCE = Mappers.getMapper(CollaboratorMapper.class);
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
+    @Mapping(source = "image", target = "document.document", qualifiedByName = "convertToByte")
     Collaborator toDomain(final CollaboratorRequest collaborator);
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
@@ -23,4 +27,11 @@ public interface CollaboratorMapper {
     CollaboratorResponse toResponse(final Collaborator domain);
 
     PaginationResponse<CollaboratorResponse> toResponse(final Pagination<Collaborator> collaboratorPagination);
+
+
+    @Named("convertToByte")
+    default byte[] convertToByte(final String value){
+        return Base64.getDecoder().decode(value);
+    }
+
 }

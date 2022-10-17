@@ -23,13 +23,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.ObjectError;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -40,6 +36,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private static final String ID_AGUARDANDO_CONFIGURACAO_DE_MENU = "6 - AGUARDANDO CONFIGURAÇÂO DE MENU";
     public static final long ID_TIPO_STATUS_ATIVO = 1L;
+    public static final long IMAGE_PROFILE = 1L;
 
     private final PasswordEncoder encoder;
     private final CollaboratorPort port;
@@ -58,13 +55,13 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final StatusPort statusPort;
 
-    @Value("${spring.application.name}")
-    private String applicationName;
+    private final DocumentSendMessagePort documentSendMessagePort;
 
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
 
-
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     private void save(Collaborator dto) {
 
@@ -78,6 +75,10 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         try {
             dto.setDateRegister(LocalDateTime.now());
 
+            if(Objects.nonNull(dto.getDocument()))
+                if(Objects.nonNull(dto.getDocument().getDocument()))
+                    dto.getDocument().setNameDocument(UUID.randomUUID().toString());
+
             Collaborator.Status status = new Collaborator.Status();
             status.setId(AGUARDANDO_CONFIGURACAO_DE_MENU);
             dto.setStatus(status);
@@ -87,8 +88,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
             collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
-            //Envia documento do cliente
-            //messagePort.send(dto);
+            enviaDocuments(dto, dto.getDocument().getNameDocument());
 
             configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
 
@@ -100,6 +100,17 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
+    private void enviaDocuments(Collaborator dto, final String uuid) {
+        if(Objects.nonNull(dto.getDocument())){
+            if(Objects.nonNull(dto.getDocument().getDocument())){
+                dto.getDocument().setNameDocument(uuid);
+                dto.getDocument().setLogo(false);
+                dto.getDocument().setIdCatalago(IMAGE_PROFILE);
+                documentSendMessagePort.send(dto);
+            }
+        }
+    }
+
     private ConfigureMenuUser setConfigureMenuUser(Collaborator dto) {
         ConfigureMenuUser configureMenuUser = new ConfigureMenuUser();
         configureMenuUser.setUser(new ConfigureMenuUser.User(dto.getId(),true));
@@ -107,7 +118,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 ConfigureMenuUser.MessageControl(
                         ContextHolder.get().getCorrelationId(),
                         LocalDateTime.now().toString(),
-                        applicationName,
+                        ContextHolder.get().getApplicationName(),
                         ID_AGUARDANDO_CONFIGURACAO_DE_MENU));
         return configureMenuUser;
     }
@@ -117,6 +128,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Message add(Collaborator dto) {
         validatorAuthorization.validCredentials();
+        ContextHolder.get().setApplicationName(this.applicationName);
 
         dto.setPassword(encoder.encode(dto.getPassword()));
 
@@ -195,6 +207,13 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
             if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId()))
                 configureMenuUserSendMessagePort.send(setConfigureMenuUser(domain));
+
+            if(Objects.nonNull(domain.getDocument())){
+                if(Objects.nonNull(domain.getDocument().getDocument())){
+                    if(!domain.getDocument().getDocument().equals(dto.getDocument().getDocument()))
+                        enviaDocuments(domain, dto.getDocument().getNameDocument());
+                }
+            }
 
         }catch (Exception ex){
             throw new DomainException(

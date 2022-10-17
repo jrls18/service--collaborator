@@ -29,6 +29,7 @@ public interface CollaboratorMapper {
     @Mapping(target = "address.location", source = "location")
     @Mapping(target = "address.state", source = "state")
     @Mapping(target = "address.number", source = "number")
+    @Mapping(target = "document.nameDocument", source = "nameImage")
     Collaborator toDomain(final br.com.developcorporation.collaborator.jpa.entity.Collaborator entity);
 
     Collaborator.TypeCollaborator toDomain(final Role role);
@@ -45,6 +46,7 @@ public interface CollaboratorMapper {
     @Mapping(source = "address.location", target = "location")
     @Mapping(source = "address.state", target = "state")
     @Mapping(source = "address.number", target = "number")
+    @Mapping(target = "nameImage", source = "document.nameDocument")
     br.com.developcorporation.collaborator.jpa.entity.Collaborator toEntity(final Collaborator domain);
 
     List<Collaborator> toDomainList(final List<br.com.developcorporation.collaborator.jpa.entity.Collaborator> entityList);

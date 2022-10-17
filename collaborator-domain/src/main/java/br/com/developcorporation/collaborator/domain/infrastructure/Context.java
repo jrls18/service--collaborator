@@ -6,6 +6,10 @@ public interface Context extends Map<String, Object> {
 
     String getClientId();
 
+    String getApplicationName();
+
+    void setApplicationName(final String applicationName);
+
     String getCorrelationId();
 
     void setCorrelationId(String correlationId);
