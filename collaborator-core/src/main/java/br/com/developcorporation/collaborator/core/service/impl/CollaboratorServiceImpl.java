@@ -38,6 +38,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     public static final long ID_TIPO_STATUS_ATIVO = 1L;
     public static final long IMAGE_PROFILE = 1L;
 
+    private final DocumentPort documentPort;
+
     private final PasswordEncoder encoder;
     private final CollaboratorPort port;
 
@@ -62,6 +64,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     @Value("${spring.application.name}")
     private String applicationName;
+
+    @Value("${toggle.call.api.documents}")
+    private boolean toggleCallApiDocuments;
 
     private void save(Collaborator dto) {
 
@@ -257,7 +262,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     public Collaborator getById(Long id) {
         validatorAuthorization.validCredentials();
 
-        return  port.getById(id);
+        Collaborator collaborator = port.getById(id);
+        if(toggleCallApiDocuments){
+            collaborator.getDocument().setDocument(documentPort.getImage(collaborator.getIdCompany(), collaborator.getDocument().getNameDocument()));
+        }
+
+        return  collaborator;
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Base64;
+import java.util.Objects;
 
 @Mapper(uses =  BaseMapper.class)
 public interface CollaboratorMapper {
@@ -25,7 +26,7 @@ public interface CollaboratorMapper {
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = MessageConstant.DATA_FORMAT)
     @Mapping(source = "dateRegister", target = "dateRegister", dateFormat = MessageConstant.DATA_HORA_FORMAT)
-    @Mapping(source = "document.nameDocument", target = "image")
+    @Mapping(source = "document.document", target = "image", qualifiedByName = "convertToString")
     CollaboratorResponse toResponse(final Collaborator domain);
 
     PaginationResponse<CollaboratorResponse> toResponse(final Pagination<Collaborator> collaboratorPagination);
@@ -37,6 +38,14 @@ public interface CollaboratorMapper {
             return null;
 
         return Base64.getDecoder().decode(value);
+    }
+
+    @Named("convertToString")
+    default String convertToString(final byte[]  value){
+        if(Objects.isNull(value))
+            return null;
+
+        return Base64.getEncoder().encodeToString(value);
     }
 
 }

@@ -51,11 +51,11 @@ public class CollaboratorResponse implements Serializable {
     @JsonProperty(value = FieldConstant.STATUS, index = 9)
     private CollaboratorResponse.Status status;
 
-    @JsonProperty(value = FieldConstant.NOME_IMAGEM, index = 11)
-    private String image;
-
-    @JsonProperty(value = FieldConstant.ID_COMPANY, index = 12)
+    @JsonProperty(value = FieldConstant.ID_COMPANY, index = 11)
     private String idCompany;
+
+    @JsonProperty(value = FieldConstant.IMAGE, index = 12)
+    private String image;
 
     @Setter
     @AllArgsConstructor
