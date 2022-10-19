@@ -23,6 +23,7 @@ public interface DocumentSendMessageMapper {
     @Mapping(source = "document.nameDocument", target = "nameFile")
     @Mapping(source = "document.logo", target = "logo")
     @Mapping(source = "document.document", target = "file", qualifiedByName = "convertToString")
+    @Mapping(source = "document.command", target = "command")
     br.com.developcorporation.documents.message.avro.Documents toAvro(Collaborator domain);
 
 
@@ -35,6 +36,9 @@ public interface DocumentSendMessageMapper {
 
     @Named("convertToString")
     default String convertToString(byte[] document){
+        if(Objects.isNull(document))
+            return null;
+
       return Base64.getEncoder().encodeToString(document);
     }
 

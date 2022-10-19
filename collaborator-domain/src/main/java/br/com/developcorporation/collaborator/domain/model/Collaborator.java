@@ -125,5 +125,7 @@ public class Collaborator implements Serializable {
 
         private byte[] document;
 
+        private String command;
+
     }
 }

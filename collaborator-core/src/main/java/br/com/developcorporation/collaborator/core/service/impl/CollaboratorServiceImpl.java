@@ -37,6 +37,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private static final String ID_AGUARDANDO_CONFIGURACAO_DE_MENU = "6 - AGUARDANDO CONFIGURAÇÂO DE MENU";
     public static final long ID_TIPO_STATUS_ATIVO = 1L;
     public static final long IMAGE_PROFILE = 1L;
+    public static final String INCLUSAO_ALTERACAO = "I";
+    public static final String DELETE_FILE = "D";
 
     private final DocumentPort documentPort;
 
@@ -80,20 +82,27 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         try {
             dto.setDateRegister(LocalDateTime.now());
 
-            if(Objects.nonNull(dto.getDocument()))
-                if(StringUtils.isEmpty(dto.getDocument().getNameDocument()))
-                    dto.getDocument().setNameDocument(UUID.randomUUID().toString());
-
             Collaborator.Status status = new Collaborator.Status();
             status.setId(AGUARDANDO_CONFIGURACAO_DE_MENU);
             dto.setStatus(status);
+
+            if(Objects.nonNull(dto.getDocument())){
+                if(Objects.nonNull(dto.getDocument().getDocument())){
+                    if(StringUtils.isEmpty(dto.getDocument().getNameDocument())){
+                        dto.getDocument().setNameDocument(UUID.randomUUID().toString());
+                    }
+                    dto.getDocument().setCommand(INCLUSAO_ALTERACAO);
+                }
+            }
 
             Long id =  port.add(dto);
             dto.setId(id);
 
             collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
-            enviaDocuments(dto);
+            if(Objects.nonNull(dto.getDocument()))
+                if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO))
+                    enviaDocuments(dto);
 
             configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
 
@@ -107,12 +116,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private void enviaDocuments(Collaborator dto) {
         if(Objects.nonNull(dto.getDocument())){
-            if(Objects.nonNull(dto.getDocument().getDocument())){
-                dto.getDocument().setNameDocument(dto.getDocument().getNameDocument());
-                dto.getDocument().setLogo(false);
-                dto.getDocument().setIdCatalago(IMAGE_PROFILE);
-                documentSendMessagePort.send(dto);
-            }
+            dto.getDocument().setLogo(false);
+            dto.getDocument().setIdCatalago(IMAGE_PROFILE);
+            documentSendMessagePort.send(dto);
         }
     }
 
@@ -198,7 +204,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         ContextHolder.get().setApplicationName(this.applicationName);
 
-
         Collaborator dto = (Collaborator) ContextHolder.get().getMap().get("collaborator");
 
         domain.setPassword(dto.getPassword());
@@ -215,24 +220,29 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             if(Objects.nonNull(dto.getDocument())) {
                 if (!StringUtils.isEmpty(dto.getDocument().getNameDocument())) {
                     domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
-                }else
+                }else {
                     domain.getDocument().setNameDocument(UUID.randomUUID().toString());
+                }
+                domain.getDocument().setCommand(INCLUSAO_ALTERACAO);
             }
-            else
-                domain.getDocument().setNameDocument(UUID.randomUUID().toString());
+
+            if(Objects.nonNull(dto.getDocument()) && Objects.nonNull(domain.getDocument())){
+                if(!StringUtils.isEmpty(dto.getDocument().getNameDocument()) && Objects.isNull(domain.getDocument().getDocument())){
+                    domain.getDocument().setNameDocument(null);
+                    domain.getDocument().setCommand(DELETE_FILE);
+                }
+            }
 
             port.update(domain);
+
+            if(StringUtils.isEmpty(domain.getDocument().getNameDocument()) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
+               domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
 
             if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId()))
                 configureMenuUserSendMessagePort.send(setConfigureMenuUser(domain));
 
-            if(Objects.nonNull(domain.getDocument())){
-                if(Objects.nonNull(domain.getDocument().getDocument())){
-                    if(!domain.getDocument().getDocument().equals(dto.getDocument().getDocument()))
+            enviaDocuments(domain);
 
-                        enviaDocuments(domain);
-                }
-            }
 
         }catch (Exception ex){
             throw new DomainException(
