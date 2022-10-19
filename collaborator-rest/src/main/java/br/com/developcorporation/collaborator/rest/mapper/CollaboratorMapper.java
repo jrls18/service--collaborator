@@ -1,5 +1,6 @@
 package br.com.developcorporation.collaborator.rest.mapper;
 
+import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
@@ -37,7 +38,7 @@ public interface CollaboratorMapper {
         if(StringUtils.isEmpty(value))
             return null;
 
-        return Base64.getDecoder().decode(value);
+        return Base64.getDecoder().decode(value.replace(FieldConstants.PNG_BASE_64,""));
     }
 
     @Named("convertToString")

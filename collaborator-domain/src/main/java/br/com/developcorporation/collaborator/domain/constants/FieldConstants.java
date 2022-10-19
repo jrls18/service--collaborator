@@ -3,6 +3,8 @@ package br.com.developcorporation.collaborator.domain.constants;
 public final class FieldConstants {
     public static final String ID_COMPANY = "codigo_empresa";
 
+    public static final String PNG_BASE_64 ="data:image/png;base64,";
+
     private FieldConstants(){
     }
     public static final String CODIGO = "codigo";
