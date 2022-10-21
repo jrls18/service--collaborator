@@ -85,9 +85,11 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
 
         detailsList.addAll(validPhone(value.getContact()));
 
-        detailsList.addAll(validPassword(value));
+        detailsList.addAll(validPasswordIsNull(value));
 
         detailsList.addAll(validAddress(value.getAddress()));
+
+        detailsList.addAll(validIdCompanyIsNULL(value));
 
         throwDomainExceptionGeneric(
                 CoreEnum.UNPROCESSABLE_ENTITY,
@@ -149,6 +151,38 @@ public class CollaboratorValidation implements BaseValidator<Collaborator>{
         detailsList.add(validEmail(contact.getEmail()));
 
         return detailsList;
+    }
+
+    private List<Message.Details> validPasswordIsNull(final Collaborator collaborator){
+        List<Message.Details> detailsList = new ArrayList<>();
+
+        detailsList.add(
+          MessageMapper.INSTANCE.toDetailsDto(
+                  Validation.mandatoryNull(
+                          collaborator.getPassword(),
+                          FieldConstants.PASSWORD,
+                          MessageConstants.PASSWORD_DEVE_SER_NULLO
+                  )
+          )
+        );
+
+        return  detailsList;
+    }
+
+    private List<Message.Details> validIdCompanyIsNULL(final Collaborator collaborator){
+        List<Message.Details> detailsList = new ArrayList<>();
+
+        detailsList.add(
+                MessageMapper.INSTANCE.toDetailsDto(
+                        Validation.mandatoryNull(
+                                collaborator.getIdCompany(),
+                                FieldConstants.ID_COMPANY,
+                                MessageConstants.ID_COMPANY_NAO_DEVE_SER_PREENCHIDO
+                        )
+                )
+        );
+
+        return  detailsList;
     }
 
     private List<Message.Details> validPassword(final Collaborator collaborator){

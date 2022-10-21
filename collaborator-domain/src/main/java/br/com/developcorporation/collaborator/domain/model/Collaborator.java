@@ -37,7 +37,7 @@ public class Collaborator implements Serializable {
 
     private Collaborator.Status status;
 
-    private String nameImage;
+    private Collaborator.Document document;
 
     private String idCompany;
 
@@ -107,5 +107,25 @@ public class Collaborator implements Serializable {
         private Long id;
 
         private String name;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Document implements Serializable {
+
+        private static final long serialVersionUID = 6148560197178848612L;
+
+        private String nameDocument;
+
+        private Long idCatalago;
+
+        private boolean logo;
+
+        private byte[] document;
+
+        private String command;
+
     }
 }

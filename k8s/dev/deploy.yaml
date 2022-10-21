@@ -46,11 +46,11 @@ spec:
               value: "dev"
           resources:
             requests:
-              memory: "800Mi"
+              memory: "600Mi"
               cpu: "0.4"
             limits:
-              memory: "1000Mi"
-              cpu: "1.5"
+              memory: "800Mi"
+              cpu: "0.8"
           ports:
             - containerPort: 9090
             - containerPort: 5000

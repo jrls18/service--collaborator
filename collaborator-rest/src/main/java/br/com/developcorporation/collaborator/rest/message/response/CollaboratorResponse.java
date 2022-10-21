@@ -17,7 +17,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonRootName(FieldConstant.EMPRESA)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CollaboratorResponse implements Serializable {
 
     private static final long serialVersionUID = 2763823017618602227L;
@@ -52,11 +51,11 @@ public class CollaboratorResponse implements Serializable {
     @JsonProperty(value = FieldConstant.STATUS, index = 9)
     private CollaboratorResponse.Status status;
 
-    @JsonProperty(value = FieldConstant.IMAGE, index = 11)
-    private String image;
-
-    @JsonProperty(value = FieldConstant.ID_COMPANY, index = 12)
+    @JsonProperty(value = FieldConstant.ID_COMPANY, index = 11)
     private String idCompany;
+
+    @JsonProperty(value = FieldConstant.IMAGE, index = 12)
+    private String image;
 
     @Setter
     @AllArgsConstructor
