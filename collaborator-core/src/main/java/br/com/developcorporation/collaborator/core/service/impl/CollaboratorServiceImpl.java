@@ -25,10 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -39,6 +36,11 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private static final String ID_AGUARDANDO_CONFIGURACAO_DE_MENU = "6 - AGUARDANDO CONFIGURAÇÂO DE MENU";
     public static final long ID_TIPO_STATUS_ATIVO = 1L;
+    public static final long IMAGE_PROFILE = 1L;
+    public static final String INCLUSAO_ALTERACAO = "I";
+    public static final String DELETE_FILE = "D";
+
+    private final DocumentPort documentPort;
 
     private final PasswordEncoder encoder;
     private final CollaboratorPort port;
@@ -57,13 +59,16 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final StatusPort statusPort;
 
-    @Value("${spring.application.name}")
-    private String applicationName;
+    private final DocumentSendMessagePort documentSendMessagePort;
 
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
 
+    @Value("${spring.application.name}")
+    private String applicationName;
 
+    @Value("${toggle.call.api.documents}")
+    private boolean toggleCallApiDocuments;
 
     private void save(Collaborator dto) {
 
@@ -81,13 +86,23 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             status.setId(AGUARDANDO_CONFIGURACAO_DE_MENU);
             dto.setStatus(status);
 
+            if(Objects.nonNull(dto.getDocument())){
+                if(Objects.nonNull(dto.getDocument().getDocument())){
+                    if(StringUtils.isEmpty(dto.getDocument().getNameDocument())){
+                        dto.getDocument().setNameDocument(UUID.randomUUID().toString());
+                    }
+                    dto.getDocument().setCommand(INCLUSAO_ALTERACAO);
+                }
+            }
+
             Long id =  port.add(dto);
             dto.setId(id);
 
             collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
-            //Envia documento do cliente
-            //messagePort.send(dto);
+            if(Objects.nonNull(dto.getDocument()))
+                if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO))
+                    enviaDocuments(dto);
 
             configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
 
@@ -99,6 +114,14 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
+    private void enviaDocuments(Collaborator dto) {
+        if(Objects.nonNull(dto.getDocument())){
+            dto.getDocument().setLogo(false);
+            dto.getDocument().setIdCatalago(IMAGE_PROFILE);
+            documentSendMessagePort.send(dto);
+        }
+    }
+
     private ConfigureMenuUser setConfigureMenuUser(Collaborator dto) {
         ConfigureMenuUser configureMenuUser = new ConfigureMenuUser();
         configureMenuUser.setUser(new ConfigureMenuUser.User(dto.getId(),true));
@@ -106,7 +129,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 ConfigureMenuUser.MessageControl(
                         ContextHolder.get().getCorrelationId(),
                         LocalDateTime.now().toString(),
-                        applicationName,
+                        ContextHolder.get().getApplicationName(),
                         ID_AGUARDANDO_CONFIGURACAO_DE_MENU));
         return configureMenuUser;
     }
@@ -116,6 +139,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Message add(Collaborator dto) {
         validatorAuthorization.validCredentials();
+        ContextHolder.get().setApplicationName(this.applicationName);
 
         dto.setPassword(encoder.encode(dto.getPassword()));
 
@@ -173,10 +197,17 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     private void updateBase(Collaborator domain){
+
         validator.update(domain);
 
-        Collaborator dto = port.getById(domain.getId());
+        validUpdateExists(domain);
+
+        ContextHolder.get().setApplicationName(this.applicationName);
+
+        Collaborator dto = (Collaborator) ContextHolder.get().getMap().get("collaborator");
+
         domain.setPassword(dto.getPassword());
+        domain.setIdCompany(dto.getIdCompany());
 
         domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
 
@@ -184,10 +215,35 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         domain.setStatus(dto.getStatus());
 
-        validUpdateExists(domain);
-
         try {
+
+            if(Objects.nonNull(dto.getDocument())) {
+                if (!StringUtils.isEmpty(dto.getDocument().getNameDocument())) {
+                    domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
+                }else {
+                    domain.getDocument().setNameDocument(UUID.randomUUID().toString());
+                }
+                domain.getDocument().setCommand(INCLUSAO_ALTERACAO);
+            }
+
+            if(Objects.nonNull(dto.getDocument()) && Objects.nonNull(domain.getDocument())){
+                if(!StringUtils.isEmpty(dto.getDocument().getNameDocument()) && Objects.isNull(domain.getDocument().getDocument())){
+                    domain.getDocument().setNameDocument(null);
+                    domain.getDocument().setCommand(DELETE_FILE);
+                }
+            }
+
             port.update(domain);
+
+            if(StringUtils.isEmpty(domain.getDocument().getNameDocument()) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
+               domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
+
+            if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId()))
+                configureMenuUserSendMessagePort.send(setConfigureMenuUser(domain));
+
+            enviaDocuments(domain);
+
+
         }catch (Exception ex){
             throw new DomainException(
                     CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
@@ -216,7 +272,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     public Collaborator getById(Long id) {
         validatorAuthorization.validCredentials();
 
-        return  port.getById(id);
+        Collaborator collaborator = port.getById(id);
+        if(toggleCallApiDocuments){
+            collaborator.getDocument().setDocument(documentPort.getImage(collaborator.getIdCompany(), collaborator.getDocument().getNameDocument()));
+        }
+
+        return  collaborator;
     }
 
     @Override
@@ -275,12 +336,13 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         if(!details.isEmpty())
             throw new DomainException(
-                CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
-                MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
-                details);
+                    CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
+                    details);
 
 
     }
+
 
     private void validExistsStatus(Long idStatus){
         List<Message.Details> details = new ArrayList<>();
@@ -367,6 +429,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
                     MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
                     details);
+
+        ContextHolder.get().setMap("collaborator", collaboratorOriginal);
     }
 
 }

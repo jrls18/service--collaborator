@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.kafka.retrytopic.DltStrategy;
@@ -37,6 +38,9 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
 
     private final LogDomain logDomain;
     private final CollaboratorService collaboratorService;
+
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     @RetryableTopic(
             attempts = "${kafka.topic.consumer.qtd.retry}",
@@ -90,6 +94,7 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
     private CollaboratorMessage setDadosDeControleDeProcessamento(final ConsumerRecord<String, UnlockMenuUser> record)  {
             CollaboratorMessage message = CollaboratorMessageMapper.INSTANCE.toDomainAvro(record.value());
             ContextHolder.get().setCorrelationId(message.getMessageControl().getUuid());
-            return message;
+            ContextHolder.get().setApplicationName(this.applicationName);
+        return message;
     }
 }

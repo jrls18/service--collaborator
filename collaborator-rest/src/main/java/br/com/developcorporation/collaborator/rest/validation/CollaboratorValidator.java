@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -120,13 +119,13 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
 
         detailsResponses.addAll(validFoundationDate(value));
 
-        detailsResponses.addAll(validPassword(value));
+        detailsResponses.addAll(validPasswordIsNull(value));
 
         detailsResponses.addAll(validContact(value));
 
         detailsResponses.addAll(validAddress(value));
 
-        detailsResponses.addAll(validIdCompany(value));
+        //detailsResponses.addAll(validIdCompany(value));
 
         detailsResponses.addAll(validIdTypeCollaborator(value.getTypeCollaborator()));
 
@@ -407,6 +406,23 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
             );
 
         }
+
+        return detailsResponses;
+    }
+
+
+    private List<MessageResponse.DetailsResponse> validPasswordIsNull(final CollaboratorRequest request){
+        List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
+
+        detailsResponses.add(
+                MessageMapper.INSTANCE.toDetailsResponse(
+                        Validation.mandatoryNull(
+                                request.getPassword(),
+                                FieldConstant.PASSWORD,
+                                MessageConstants.PASSWORD_DEVE_SER_NULLO
+                        )
+                )
+        );
 
         return detailsResponses;
     }

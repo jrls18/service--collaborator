@@ -16,6 +16,7 @@ public class RequestContext extends HashMap<String, Object> implements Context {
 
     public static final Pattern PATTERN = Pattern.compile(UUID_REGEX);
 
+
     private  String clientId;
 
     public void setClientId(String clientId) {
@@ -80,6 +81,7 @@ public class RequestContext extends HashMap<String, Object> implements Context {
     }
 
     private String requestUri;
+    private String applicationName;
 
     public RequestContext(boolean verifyCorrelationFormat){
         this.verifyCorrelationFormat = verifyCorrelationFormat;
@@ -95,6 +97,16 @@ public class RequestContext extends HashMap<String, Object> implements Context {
     }
 
     @Override
+    public String getApplicationName() {
+        return this.applicationName;
+    }
+
+    @Override
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    @Override
     public String getCorrelationId() {
         return  isPresent() && isVerify() ? correlationId.get() : currentCorrelationId;
     }
@@ -103,6 +115,8 @@ public class RequestContext extends HashMap<String, Object> implements Context {
     public void setCorrelationId(final String correlationId) {
         this.correlationId = Optional.ofNullable(correlationId);
     }
+
+
 
     @Override
     public String getClientSecret() {

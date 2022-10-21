@@ -18,6 +18,9 @@ public final class MessageConstants {
     public static final String CODIGO_TIPO_USUARIO_DEVE_SER_UM_NUMERO_VALIDO = "Código tipo usuario deve ser informado um número válido.";
     public static final String TIPO_USUARIO_DEVE_SER_INFORMADO = "Tipo usuário é obrigatório.";
 
+    public static final String PASSWORD_DEVE_SER_NULLO = "Password deve ser nulo.";
+    public static final String ID_COMPANY_NAO_DEVE_SER_PREENCHIDO = "O codigo_empresa não deve ser preenchido.";
+
 
     private MessageConstants(){
     }
