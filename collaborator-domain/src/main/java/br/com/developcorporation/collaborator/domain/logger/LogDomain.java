@@ -2,6 +2,7 @@ package br.com.developcorporation.collaborator.domain.logger;
 
 import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.lib.commons.monitorable.SpringLogger;
+import br.com.developcorporation.lib.commons.service.CryptographyService;
 import br.com.developcorporation.lib.commons.util.Convert;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -23,7 +24,7 @@ public class LogDomain {
                applicationName,
                ContextHolder.get().getMethod(),
                ContextHolder.get().getRequestUri(),
-               payload,
+               CryptographyService.mapCryptography(payload),
                StringUtils.EMPTY,
                ContextHolder.get().getInstanceId(),
                 "INFO",
@@ -32,6 +33,21 @@ public class LogDomain {
     }
 
     public String jsonLogInfo(final Object payload, final String message){
+
+        return Convert.toJson( new  SpringLogger(
+                ContextHolder.get().getCorrelationId(),
+                applicationName,
+                ContextHolder.get().getMethod(),
+                ContextHolder.get().getRequestUri(),
+                CryptographyService.mapCryptography(payload),
+                StringUtils.EMPTY,
+                ContextHolder.get().getInstanceId(),
+                "INFO",
+                StringUtils.EMPTY,
+                message));
+    }
+
+    public String jsonLogInfoParams(final Object payload, final String message){
 
         return Convert.toJson( new  SpringLogger(
                 ContextHolder.get().getCorrelationId(),
@@ -53,7 +69,7 @@ public class LogDomain {
                 applicationName,
                 ContextHolder.get().getMethod(),
                 ContextHolder.get().getRequestUri(),
-                value,
+                CryptographyService.mapCryptography(value),
                 ex,
                 ContextHolder.get().getInstanceId(),
                 info,

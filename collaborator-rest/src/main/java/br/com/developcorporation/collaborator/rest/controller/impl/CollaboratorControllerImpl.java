@@ -95,7 +95,7 @@ public class CollaboratorControllerImpl implements CollaboratorController {
 
         JwtResponse response =  JwtMapper.INSTANCE.toResponse(authenticateService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        final String reponseLog = logRest.jsonLogInfo(response, MessageConstant.INICIALIZADO);
+        final String reponseLog = logRest.jsonLogInfo(response, MessageConstant.FINALIZADO);
 
         log.info(MessageConstant.RESPOSTA, reponseLog);
 
@@ -144,14 +144,14 @@ public class CollaboratorControllerImpl implements CollaboratorController {
 
     @Override
     public ResponseEntity<CollaboratorResponse> getProfileId(String id) {
-        final String jsonRequest = logRest.jsonLogInfo(id, MessageConstant.INICIALIZADO);
+        final String jsonRequest = logRest.jsonLogInfoParams(id, MessageConstant.INICIALIZADO);
 
         log.info(MessageConstant.REQUISICAO, jsonRequest);
 
         CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
                 service.getById(Long.parseLong(id)));
 
-        final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.RESPOSTA);
+        final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.FINALIZADO);
 
         log.info(MessageConstant.RESPOSTA, response);
 

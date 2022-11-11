@@ -1,6 +1,7 @@
 package br.com.developcorporation.lib.commons.monitorable;
 
 import br.com.developcorporation.lib.commons.constants.OtherConstants;
+import br.com.developcorporation.lib.commons.service.CryptographyService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -72,7 +73,7 @@ public class SpringLogger implements Serializable {
         this.applicationName = applicationName;
         this.method = method;
         this.requestUri = requestUri;
-        this.payload = payload;
+        this.payload = CryptographyService.mapCryptography(payload);
         this.exception = ex.toString();
         this.exceptionDetails = ex;
         this.instance = instance;
