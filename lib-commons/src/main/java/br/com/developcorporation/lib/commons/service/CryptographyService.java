@@ -30,6 +30,22 @@ public final class CryptographyService {
             "zipCode",
             "mainPhone",
             "telephone",
+            "mainPhoneCommercial",
+            "telephoneCommercial",
+            "emailRepresentative",
+            "nameRepresentative",
+            "telephoneCellRepresentative",
+            "telefoneComercialPrincipal",
+            "telefoneComercial",
+            "telefoneCelularRepresentante",
+            "emailRepresentante",
+            "nomeRepresentante",
+            "nomeFantasia",
+            "razaoSocial",
+            "stateRegistration",
+            "fantasyName",
+            "corporateName",
+            "inscricaoEstadual",
             "number",
             "numero",
             "image",
@@ -41,8 +57,13 @@ public final class CryptographyService {
             "type",
             "endereco",
             "logradouro",
+            "publicPlace",
             "address",
-            "email"
+            "email",
+            "clientId",
+            "clientSecret",
+            "client_id",
+            "client_secret"
     };
 
     private static final String[] noCrypt = {
