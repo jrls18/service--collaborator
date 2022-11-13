@@ -83,7 +83,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
     @Override
     public ResponseEntity<List<AuthorizationResponse>> getAll() {
 
-        final String jsonRequest = logRest.jsonLogInfo(null, MessageConstant.INICIALIZADO);
+        final String jsonRequest = logRest.jsonLogInfoParams(null, MessageConstant.INICIALIZADO);
 
         LOG.info(MessageConstant.REQUISICAO, jsonRequest);
 

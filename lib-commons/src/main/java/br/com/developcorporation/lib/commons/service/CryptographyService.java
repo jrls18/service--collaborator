@@ -73,42 +73,64 @@ public final class CryptographyService {
             "expires_in"
     };
 
+
     @SneakyThrows
     public static Object mapCryptography(final Object value) {
         if(Objects.isNull(value))
             return null;
 
-        Map<String, Object> map = convertToMap(value);
+        List<Map<String, Object>> mapListPrincipal = convertToMapList(value);
+        List<Map<String, Object>> newMapListPrincipalCryptography = new ArrayList<>(mapListPrincipal.size());
 
-        if(Objects.nonNull(map)){
-            try{
-                for (Map.Entry<String,Object> line: map.entrySet()) {
+        for (Map<String, Object> linePrincipal: mapListPrincipal) {
 
-                    Object ob = line.getValue();
+            for (Map.Entry<String,Object> lineSec: linePrincipal.entrySet()){
+                  Object objLineSec = lineSec.getValue();
 
-                    if (ob instanceof LinkedHashMap) {
+                if(objLineSec instanceof ArrayList){
 
-                        Map<String, Object> mapHashLink = convertToMap(ob);
+                    List<Map<String, Object>> mapList = new ArrayList<>();
 
-                        if(Objects.nonNull(mapHashLink)){
+                    for (Object lineObj: ((ArrayList<?>) objLineSec).toArray()){
+                        Map<String, Object> mapHashPrincipal = convertToMap(lineObj);
 
-                            for (Map.Entry<String, Object> lineHash: mapHashLink.entrySet()) {
-                                encrypt(mapHashLink, lineHash);
-                            }
+                        for (Map.Entry<String, Object> lineHashPrincipal: mapHashPrincipal.entrySet()) {
 
-                            map.put(line.getKey(), mapHashLink);
+                            Object lineHashPrincipalObj = lineHashPrincipal.getValue();
+
+                            crypt(mapHashPrincipal, lineHashPrincipal, lineHashPrincipalObj);
                         }
-
-                    }else {
-                        encrypt(map, line);
+                        mapList.add(mapHashPrincipal);
                     }
+
+                    linePrincipal.put(lineSec.getKey(), mapList);
+
+                }else{
+                    crypt(linePrincipal, lineSec, objLineSec);
                 }
-            }catch (Exception ex){
-                throw new Exception("Houve uma falha na criptografia dos dados. Detalhes: " + ex.getMessage());
             }
+            newMapListPrincipalCryptography.add(linePrincipal);
         }
 
-        return Convert.convertMapToObject(map);
+        return convertToMapListToObject(newMapListPrincipalCryptography);
+    }
+
+    private static void crypt(Map<String, Object> linePrincipal,
+                              Map.Entry<String, Object> lineSec,
+                              Object objLineSec) throws JsonProcessingException {
+        if (objLineSec instanceof LinkedHashMap){
+
+              Map<String, Object> mapTer = Convert.convertJsonToMap(Convert.toJson(objLineSec));
+
+              for(Map.Entry<String,Object> lineTer: mapTer.entrySet()){
+                  encrypt(mapTer, lineTer);
+              }
+
+              linePrincipal.put(lineSec.getKey(), mapTer);
+
+        }else {
+            encrypt(linePrincipal, lineSec);
+        }
     }
 
     private static Map<String, Object> convertToMap(Object value) throws JsonProcessingException {
@@ -116,6 +138,31 @@ public final class CryptographyService {
            return new HashMap<>();
 
         return Convert.convertJsonToMap(Convert.toJson(value));
+    }
+
+
+    private static Object convertToMapListToObject(final List<Map<String,Object>> maps){
+        if(Objects.isNull(maps))
+            return null;
+
+        if(maps.size() == 1)
+           return Convert.convertMapToObject(maps.get(0));
+        else
+            return Convert.convertMapListToObject(maps);
+    }
+
+    private static List<Map<String, Object>> convertToMapList(final Object value) throws JsonProcessingException{
+        if(Objects.isNull(value))
+            return new ArrayList<>();
+
+        List<Map<String, Object>> mapList = new ArrayList<>();
+
+        if(value instanceof ArrayList)
+            mapList.addAll(Convert.convertJsonToMapList(Convert.toJson(value)));
+        else
+            mapList.add(Convert.convertJsonToMap(Convert.toJson(value)));
+
+        return mapList;
     }
 
     private static void encrypt(Map<String, Object> map, Map.Entry<String, Object> line) {

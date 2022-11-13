@@ -106,7 +106,9 @@ public class CollaboratorControllerImpl implements CollaboratorController {
     public ResponseEntity<PaginationResponse<CollaboratorResponse>> paginationResponse(
             String searchTerm, String page, String size) {
 
-        log.info(MessageConstant.REQUISICAO, "searchTerm=" +searchTerm + "&page="+page+"&size="+size );
+        final String jsonRequest = logRest.jsonLogInfoParams("searchTerm=" +searchTerm + "&page="+page+"&size="+size, MessageConstant.INICIALIZADO);
+
+        log.info(MessageConstant.REQUISICAO, jsonRequest);
 
         this.validator.pathPaginationValidator(searchTerm, page, size);
 
@@ -118,7 +120,9 @@ public class CollaboratorControllerImpl implements CollaboratorController {
                                Integer.parseInt(size)));
 
 
-        log.info(MessageConstant.RESPOSTA, response);
+        final String jsonResponse = logRest.jsonLogInfo(response, MessageConstant.FINALIZADO);
+
+        log.info(MessageConstant.RESPOSTA, jsonResponse);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -133,7 +137,7 @@ public class CollaboratorControllerImpl implements CollaboratorController {
         CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
                 service.getById(userDetails.getId()));
 
-        final String jsonResponse = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.RESPOSTA);
+        final String jsonResponse = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.FINALIZADO);
 
         log.info(MessageConstant.RESPOSTA, jsonResponse);
 
