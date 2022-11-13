@@ -14,6 +14,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.InetAddress;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class ContextHandleInterceptor implements HandlerInterceptor {
 
@@ -37,9 +41,12 @@ public class ContextHandleInterceptor implements HandlerInterceptor {
         requestContext.setClientId(request.getHeader(FieldConstant.CLIENT_ID));
         requestContext.setClientSecret(request.getHeader(FieldConstant.CLIENT_SECRET));
         requestContext.setRequestUri(request.getRequestURI());
+        requestContext.setRequestUriParameterString(setParameters(request.getParameterMap()));
+        requestContext.setRequestUriHeaders(setHeaders(request));
         requestContext.setMethod(request.getMethod());
         requestContext.setCorrelationId(request.getHeader(FieldConstant.CURRENTCORRELATION_ID));
         requestContext.setInstanceId(InetAddress.getLocalHost().getHostName());
+
 
         ContextHolder.set(requestContext);
 
@@ -55,5 +62,37 @@ public class ContextHandleInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, @Nullable final Exception ex)  {
         ContextHolder.remove();
+    }
+
+    private Map<String, String> setHeaders(HttpServletRequest request) {
+
+        Map<String, String> map = new HashMap<>();
+
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+
+            if(key.equalsIgnoreCase("Authorization")
+                    || key.equalsIgnoreCase("client_id")
+                    || key.equalsIgnoreCase("client_secret"))
+                value = "********";
+
+            map.put(key, value);
+        }
+
+        return map;
+    }
+
+    private Map<String, String> setParameters(Map<String, String[]> value){
+        if(value.isEmpty())
+            return null;
+
+        Map<String, String> map = new HashMap<>();
+
+        for(Map.Entry<String, String[]> line : value.entrySet()){
+            map.put(line.getKey(), line.getValue()[0]);
+        }
+        return map;
     }
 }
