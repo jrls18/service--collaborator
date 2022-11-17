@@ -63,7 +63,8 @@ public final class CryptographyService {
             "clientId",
             "clientSecret",
             "client_id",
-            "client_secret"
+            "client_secret",
+            "arquivo_base_64"
     };
 
     private static final String[] noCrypt = {
