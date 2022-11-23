@@ -37,6 +37,9 @@ public interface CollaboratorController {
     @GetMapping(path = "/v1/profile", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CollaboratorResponse> getUserProfile(@AuthenticationPrincipal UserPrinciple userDetails);
 
-    @GetMapping(path = "/internal/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
+    @GetMapping(path = "/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CollaboratorResponse> getProfileId(@PathVariable("codigo") final String id);
+
+    @GetMapping(path = "/internal/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
+    ResponseEntity<CollaboratorResponse> getProfileNotImageId(@PathVariable("codigo") final String id);
 }

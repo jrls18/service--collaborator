@@ -153,7 +153,25 @@ public class CollaboratorControllerImpl implements CollaboratorController {
         log.info(MessageConstant.REQUISICAO, jsonRequest);
 
         CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
-                service.getById(Long.parseLong(id)));
+                service.getByIdNotImage(Long.parseLong(id)));
+
+        final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.FINALIZADO);
+
+        log.info(MessageConstant.RESPOSTA, response);
+
+        return new ResponseEntity<>(
+                collaboratorResponse,
+                HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<CollaboratorResponse> getProfileNotImageId(String id) {
+        final String jsonRequest = logRest.jsonLogInfoParams(id, MessageConstant.INICIALIZADO);
+
+        log.info(MessageConstant.REQUISICAO, jsonRequest);
+
+        CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
+                service.getByIdNotImage(Long.parseLong(id)));
 
         final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.FINALIZADO);
 

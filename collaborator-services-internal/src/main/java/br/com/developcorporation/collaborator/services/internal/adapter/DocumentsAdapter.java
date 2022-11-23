@@ -23,9 +23,11 @@ public class DocumentsAdapter implements DocumentPort {
 
        DocumentsModel model = service.consultaImagem(idCompany, nomeImage);
 
-       if(Objects.nonNull(model))
-           if(model.getArquivo_base_64().equals(""))
-               return null;
+       if(Objects.isNull(model))
+           return null;
+
+       if(StringUtils.isEmpty(model.getArquivo_base_64()))
+           return null;
 
         return Base64.getDecoder().decode(model.getArquivo_base_64());
     }

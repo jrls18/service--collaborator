@@ -64,7 +64,8 @@ public final class CryptographyService {
             "clientSecret",
             "client_id",
             "client_secret",
-            "arquivo_base_64"
+            "arquivo_base_64",
+            "file"
     };
 
     private static final String[] noCrypt = {
@@ -168,11 +169,11 @@ public final class CryptographyService {
 
     private static void encrypt(Map<String, Object> map, Map.Entry<String, Object> line) {
         if(Objects.nonNull(map) && Objects.nonNull(line)){
-            if(!(Arrays.stream(asterisk).filter(x -> x.contains(line.getKey())).count() == 0)){
+            if(!(Arrays.stream(asterisk).filter(x -> x.equalsIgnoreCase(line.getKey())).count() == 0)){
                 map.put(line.getKey(), "*************");
             }
             else{
-                if(Arrays.stream(noCrypt).filter(x -> x.contains(line.getKey())).count() == 0)
+                if(Arrays.stream(noCrypt).filter(x -> x.equalsIgnoreCase(line.getKey())).count() == 0)
                     map.put(line.getKey(), line.getValue());
             }
         }
