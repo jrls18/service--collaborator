@@ -4,6 +4,8 @@ import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.message.request.AuthorizationRequest;
 import br.com.developcorporation.collaborator.rest.message.response.AuthorizationResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +14,9 @@ import java.util.List;
 
 public interface AuthorizationController {
 
+
     @PostMapping("/v1/save")
+    @ApiOperation(value = "Get All Projects")
     ResponseEntity<MessageResponse> add(@RequestBody AuthorizationRequest request);
 
     @PutMapping("/v1/save")

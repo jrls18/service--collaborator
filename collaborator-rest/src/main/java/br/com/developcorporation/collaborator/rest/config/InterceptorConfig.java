@@ -5,8 +5,7 @@ import br.com.developcorporation.collaborator.rest.validation.AuthorizationValid
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 @AllArgsConstructor
@@ -17,6 +16,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ContextHandleInterceptor(service, validator));
+        registry.addInterceptor(new ContextHandleInterceptor(service, validator))
+                .excludePathPatterns(AntMatchersConstants.AUTH_URL_SWAGGER_WHITELIST);
     }
 }

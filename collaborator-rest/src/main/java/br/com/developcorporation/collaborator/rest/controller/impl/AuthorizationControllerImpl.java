@@ -13,6 +13,7 @@ import br.com.developcorporation.collaborator.rest.message.response.Authorizatio
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@AllArgsConstructor
-@RestController
+@RequiredArgsConstructor
 @RequestMapping(FieldConstant.AUTORIZACAO)
 @CrossOrigin(origins = "*")
+@RestController
 public class AuthorizationControllerImpl implements AuthorizationController {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthorizationControllerImpl.class);
