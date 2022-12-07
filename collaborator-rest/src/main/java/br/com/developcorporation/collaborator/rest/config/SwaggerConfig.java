@@ -1,18 +1,21 @@
 package br.com.developcorporation.collaborator.rest.config;
 
+import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import static springfox.documentation.builders.PathSelectors.regex;
 
 
 @Configuration
@@ -32,20 +35,51 @@ public class SwaggerConfig {
                 Collections.emptyList());
     }
 
+
+
     @Bean
     public Docket api() {
+
+        ParameterBuilder aParameterBuilder = new ParameterBuilder();
+
+        List<Parameter> aParameters = new ArrayList<>();
+        aParameterBuilder.name(FieldConstant.CURRENTCORRELATION_ID)
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(true)
+                .description("trace id")
+                //.defaultValue(UUID.randomUUID().toString())
+                .build();
+        aParameters.add(aParameterBuilder.build());
+
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("/v1")
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()))
+                .securitySchemes(apiKey())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.com.developcorporation.collaborator.rest.controller.impl"))
+                .apis(RequestHandlerSelectors.basePackage("br.com.developcorporation.collaborator.rest.controller"))
                 .paths(PathSelectors.any())
-                .build();
+                //.paths(regex("*/v1*"))
+                .build()
+                .globalOperationParameters(aParameters);
     }
 
-    private ApiKey apiKey() {
-        return new ApiKey(AUTHORIZATION_HEADER, "JWT", "header");
+    private List<SecurityScheme> basicScheme() {
+        List<SecurityScheme> schemeList = new ArrayList<>();
+        schemeList.add(new BasicAuth("basicAuth"));
+        return schemeList;
+    }
+
+    private List<ApiKey> apiKey() {
+
+        List<ApiKey> apiKeyList = new ArrayList<>(2);
+
+        apiKeyList.add(new ApiKey(FieldConstant.CLIENT_ID, FieldConstant.CLIENT_ID, "header"));
+        apiKeyList.add(new ApiKey(FieldConstant.CLIENT_SECRET, FieldConstant.CLIENT_SECRET, "header"));
+
+        return apiKeyList;
+        //return new ApiKey(AUTHORIZATION_HEADER, "JWT", "header");
     }
 
     private SecurityContext securityContext() {

@@ -8,6 +8,8 @@ import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
 import br.com.developcorporation.collaborator.rest.security.model.UserPrinciple;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
