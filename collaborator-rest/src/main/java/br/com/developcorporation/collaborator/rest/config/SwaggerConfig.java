@@ -48,9 +48,18 @@ public class SwaggerConfig {
                 .parameterType("header")
                 .required(true)
                 .description("trace id")
-                //.defaultValue(UUID.randomUUID().toString())
                 .build();
         aParameters.add(aParameterBuilder.build());
+
+        ParameterBuilder aParameterBuilde = new ParameterBuilder();
+        aParameterBuilde.name("Authorization")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(true)
+                .description("Bearer {token}")
+                .build();
+        aParameters.add(aParameterBuilde.build());
+
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("/v1")
@@ -60,7 +69,6 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("br.com.developcorporation.collaborator.rest.controller"))
                 .paths(PathSelectors.any())
-                //.paths(regex("*/v1*"))
                 .build()
                 .globalOperationParameters(aParameters);
     }
@@ -88,13 +96,12 @@ public class SwaggerConfig {
                 .build();
     }
 
-    List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope
-                = new AuthorizationScope("global", "accessEverything");
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope(
+                "global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference(AUTHORIZATION_HEADER, authorizationScopes));
+        return Arrays.asList(new SecurityReference("apiKey",
+                authorizationScopes));
     }
-
-
 }
