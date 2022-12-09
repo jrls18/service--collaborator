@@ -1,6 +1,7 @@
 package br.com.developcorporation.collaborator.rest.config;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ import java.util.*;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    @Value("${prop.swagger.enabled:false}")
+    private boolean enableSwagger;
+
     private ApiInfo apiInfo() {
         return new ApiInfo("Management Collaborator Rest APIs",
                 "APIs for Collaborator",
@@ -40,6 +44,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(apiKey())
+                .enable(enableSwagger)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("br.com.developcorporation.collaborator.rest.controller"))
                 .paths(PathSelectors.any())
