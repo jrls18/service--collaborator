@@ -108,7 +108,6 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-swagger-version}</version>
-
         </dependency>
 
         <dependency>

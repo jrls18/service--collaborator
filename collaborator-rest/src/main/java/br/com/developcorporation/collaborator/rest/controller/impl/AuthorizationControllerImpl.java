@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping(FieldConstant.AUTORIZACAO)
-@CrossOrigin(origins = "*")
 @RestController
 public class AuthorizationControllerImpl implements AuthorizationController {
 

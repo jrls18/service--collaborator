@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.ROUTER_COLLABORATOR)
-@CrossOrigin(origins = "*")
 public class CollaboratorControllerImpl implements CollaboratorController {
 
     private final CollaboratorValidator validator;

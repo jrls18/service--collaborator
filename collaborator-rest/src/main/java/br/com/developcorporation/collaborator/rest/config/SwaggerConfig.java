@@ -3,9 +3,12 @@ package br.com.developcorporation.collaborator.rest.config;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
@@ -15,54 +18,25 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.*;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
-
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-
     private ApiInfo apiInfo() {
-        return new ApiInfo("MyApp Rest APIs",
-                "APIs for MyApp.",
-                "1.0",
-                "Terms of service",
-                new Contact("test", "www.org.com", "test@emaildomain.com"),
-                "License of API",
-                "API license URL",
+        return new ApiInfo("Management Collaborator Rest APIs",
+                "APIs for Collaborator",
+                "1.0.0",
+                null,
+                null,
+                "Repositório do git",
+                "https://gitlab.com/software-engineer2/service-management-collaborator",
                 Collections.emptyList());
     }
-
-
 
     @Bean
     public Docket api() {
 
-        ParameterBuilder aParameterBuilder = new ParameterBuilder();
-
-        List<Parameter> aParameters = new ArrayList<>();
-        aParameterBuilder.name(FieldConstant.CURRENTCORRELATION_ID)
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .required(true)
-                .description("trace id")
-                .build();
-        aParameters.add(aParameterBuilder.build());
-
-        ParameterBuilder aParameterBuilde = new ParameterBuilder();
-        aParameterBuilde.name("Authorization")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .required(true)
-                .description("Bearer {token}")
-                .build();
-        aParameters.add(aParameterBuilde.build());
-
-
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("/v1")
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(apiKey())
@@ -70,25 +44,98 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("br.com.developcorporation.collaborator.rest.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .globalOperationParameters(aParameters);
+                .globalOperationParameters(parameterList())
+                .globalResponseMessage(RequestMethod.POST, responseMessages())
+                .globalResponseMessage(RequestMethod.PUT, responseMessages())
+                .globalResponseMessage(RequestMethod.GET, responseMessages())
+                .globalResponseMessage(RequestMethod.DELETE, responseMessages())
+                .globalResponseMessage(RequestMethod.PATCH, responseMessages());
     }
 
-    private List<SecurityScheme> basicScheme() {
-        List<SecurityScheme> schemeList = new ArrayList<>();
-        schemeList.add(new BasicAuth("basicAuth"));
-        return schemeList;
+    private List<ResponseMessage> responseMessages(){
+        List<ResponseMessage> responseMessages = new ArrayList<>();
+
+        responseMessages.add(new ResponseMessageBuilder()
+                .code(400)
+                .message(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .responseModel(new ModelRef("MessageResponse")).build()
+        );
+
+        responseMessages.add(new ResponseMessageBuilder()
+                .code(401)
+                .message(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .responseModel(new ModelRef("MessageResponse")).build()
+        );
+
+        responseMessages.add(new ResponseMessageBuilder()
+                .code(403)
+                .message(HttpStatus.FORBIDDEN.getReasonPhrase())
+                .responseModel(new ModelRef("MessageResponse"))
+                .build()
+
+        );
+
+        responseMessages.add(new ResponseMessageBuilder()
+                .code(422)
+                .message(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase())
+                .responseModel(new ModelRef("MessageResponse")).build()
+        );
+
+        responseMessages.add(new ResponseMessageBuilder()
+                .code(500)
+                .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+                .responseModel(new ModelRef("MessageResponse")).build()
+        );
+
+        return responseMessages;
     }
 
-    private List<ApiKey> apiKey() {
 
-        List<ApiKey> apiKeyList = new ArrayList<>(2);
+    private List<Parameter> parameterList(){
+        List<Parameter> aParameters = new ArrayList<>(2);
 
-        apiKeyList.add(new ApiKey(FieldConstant.CLIENT_ID, FieldConstant.CLIENT_ID, "header"));
-        apiKeyList.add(new ApiKey(FieldConstant.CLIENT_SECRET, FieldConstant.CLIENT_SECRET, "header"));
+        aParameters.add(aParameterBuilder(
+                FieldConstant.CURRENTCORRELATION_ID,
+                "string",
+                "header",
+                true,
+                "trace id"));
 
-        return apiKeyList;
-        //return new ApiKey(AUTHORIZATION_HEADER, "JWT", "header");
+        aParameters.add(aParameterBuilder(
+                "Authorization",
+                "string",
+                "header",
+                true,
+                "Bearer {token}"));
+
+        return aParameters;
     }
+
+
+    private Parameter aParameterBuilder(
+            final String fieldName,
+            final String type,
+            final String parameterType,
+            final boolean required,
+            final String description ){
+
+        return new ParameterBuilder().name(fieldName).description(description)
+                .modelRef(new ModelRef(type))
+                .parameterType(parameterType)
+                .required(required)
+                .build();
+
+    }
+
+    private List<SecurityScheme> apiKey() {
+
+        List<SecurityScheme> securityScheme = new ArrayList<>(2);
+        securityScheme.add(new ApiKey(FieldConstant.CLIENT_ID, FieldConstant.CLIENT_ID, "header"));
+        securityScheme.add(new ApiKey(FieldConstant.CLIENT_SECRET, FieldConstant.CLIENT_SECRET, "header"));
+
+        return securityScheme;
+    }
+
 
     private SecurityContext securityContext() {
         return SecurityContext.builder()
@@ -96,12 +143,17 @@ public class SwaggerConfig {
                 .build();
     }
 
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope(
-                "global", "accessEverything");
+   private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope
+                = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("apiKey",
-                authorizationScopes));
+
+        List<SecurityReference> references = new ArrayList<>(2);
+        references.add(new SecurityReference(FieldConstant.CLIENT_ID, authorizationScopes));
+        references.add(new SecurityReference(FieldConstant.CLIENT_SECRET, authorizationScopes));
+
+        return references;
     }
+
 }

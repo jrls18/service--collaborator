@@ -20,8 +20,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.STATUS)
-@CrossOrigin(origins = "*")
 public class StatusControllerImpl implements StatusController {
 
     private static final Logger LOG = LoggerFactory.getLogger(StatusControllerImpl.class);
