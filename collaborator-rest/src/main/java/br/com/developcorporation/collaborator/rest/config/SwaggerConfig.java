@@ -106,13 +106,6 @@ public class SwaggerConfig {
                 true,
                 "trace id"));
 
-        aParameters.add(aParameterBuilder(
-                "Authorization",
-                "string",
-                "header",
-                true,
-                "Bearer {token}"));
-
         return aParameters;
     }
 
@@ -134,9 +127,10 @@ public class SwaggerConfig {
 
     private List<SecurityScheme> apiKey() {
 
-        List<SecurityScheme> securityScheme = new ArrayList<>(2);
+        List<SecurityScheme> securityScheme = new ArrayList<>(3);
         securityScheme.add(new ApiKey(FieldConstant.CLIENT_ID, FieldConstant.CLIENT_ID, "header"));
         securityScheme.add(new ApiKey(FieldConstant.CLIENT_SECRET, FieldConstant.CLIENT_SECRET, "header"));
+        securityScheme.add(new ApiKey(FieldConstant.AUTORIZACAO, FieldConstant.AUTORIZACAO, "header"));
 
         return securityScheme;
     }
@@ -155,9 +149,10 @@ public class SwaggerConfig {
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
 
-        List<SecurityReference> references = new ArrayList<>(2);
+        List<SecurityReference> references = new ArrayList<>(3);
         references.add(new SecurityReference(FieldConstant.CLIENT_ID, authorizationScopes));
         references.add(new SecurityReference(FieldConstant.CLIENT_SECRET, authorizationScopes));
+        references.add(new SecurityReference(FieldConstant.AUTORIZACAO, authorizationScopes));
 
         return references;
     }
