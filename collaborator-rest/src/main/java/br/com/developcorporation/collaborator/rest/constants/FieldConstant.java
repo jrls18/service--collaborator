@@ -10,40 +10,47 @@ public final class FieldConstant {
     }
 
     public static final String IMAGE = "imagem";
-    public static final String NOME_IMAGEM = "nome_imagem";
+
     public static final String NOME = "nome";
-    public static final String CPF = "cpf";
-    public static final String RG = "rg";
+
     public static final String DATA_NASCIMENTO = "data_nascimento";
     public static final String ID_COMPANY = "codigo_empresa";
-    public static final String USUARIO = "usuario";
+
     public static final String CPF_CNPJ = "cpf_cnpj";
-    public static final String TIPO_SISTEMA = "tipo_sistema";
 
-    public static final String CODIGO_EMPRESA = "codigo_empresa";
-    public static final String TIPO_ARQUIVO = "tipo_arquivo";
-    public static final String FILE_NAME = "file_name";
+    private static final String PREFIX_API = "api/";
 
-    public static final String ROUTER_COLLABORATOR = "colaborador";
+    public static final String ROUTER_AUTHENTICATION = "auth";
 
 
-    public static final String ACEITA_TERMOS = "aceita_termos_de_uso";
 
-    public static final String STATUS = "situacao";
-    public static final String EMPRESA = "empresa";
     public static final String AUTORIZACAO = "authorization";
-    public static final String FOLLOW_UP = "seguimento";
-    public static final String GROUP = "grupo";
+    public static final String COLLABORATOR = "colaborador";
+    public static final String STATUS = "situacao";
 
-    public static final String NOME_APLICAO = "br.com.developcorporation.management.collaborators";
-    public static final String NAME_SIGLA_APP = "api_empresa";
+    public static final String EMPRESA = "empresa";
+
+    public static final String FOLLOW_UP = "seguimento";
+
+    public static final String TIPO_USUARIO = "tipo_usuario";
+
+
+
+    public static final String ROUTER_COLLABORATOR = PREFIX_API + COLLABORATOR ;
+
+    public static final String ROUTER_STATUS = PREFIX_API + STATUS;
+    public static final String ROUTER_EMPRESA = PREFIX_API + EMPRESA;
+    public static final String ROUTER_AUTORIZACAO = PREFIX_API + AUTORIZACAO;
+    public static final String ROUTER_FOLLOW_UP = PREFIX_API + FOLLOW_UP;
+
+    public static final String ROUTER_TIPO_USUARIO = PREFIX_API + TIPO_USUARIO;
+
+
+
+
+
 
     public static final String APPLICATION_JSON = "application/json";
-    public static final String ROUTER_FIX = "/api/develop_corporation/gestao_usuario/";
-    public static final String ROUTER_STATUS = ROUTER_FIX + STATUS;
-    public static final String ROUTER_CLIENTE = ROUTER_FIX + USUARIO;
-    public static final String ROUTER_FOLLOW_UP = ROUTER_FIX + FOLLOW_UP;
-    public static final String ROUTER_GROUP = ROUTER_FIX + GROUP;
 
 
     public static final String CLIENT_ID = "client_id";
@@ -52,7 +59,6 @@ public final class FieldConstant {
 
     public static final String APPLICATION_NAME = "application_name";
     public static final String SIGLA_APP = "sigla_app";
-    public static final String ORIGEM = "origem";
 
     public static final String CODIGO = "codigo";
     public static final String DESCRICAO = "descricao";
@@ -66,11 +72,9 @@ public final class FieldConstant {
     public static final String VALOR = "valor";
     public static final String DETALHES = "detalhes";
 
-    public static final String RAZAO_SOCIAL = "razao_social";
-    public static final String NOME_FANTASIA = "nome_fantasia";
+
     public static final String CNPJ = "cnpj";
-    public static final String DATA_FUNDACAO = "data_nascimento";
-    public static final String INSCRICAO_ESTADUAL = "inscricao_estadual";
+
     public static final String TELEFONE_PRINCIPAL = "telefone_principal";
     public static final String TELEFONE = "telefone";
     public static final String EMAIL = "email";
@@ -92,5 +96,5 @@ public final class FieldConstant {
     public static final String TOKEN_TYPE = "token_type";
     public static final String EXPIRES_IN = "expires_in";
     public static final String LOGIN = "login";
-    public static final String TIPO_USUARIO = "tipo_usuario";
+
 }

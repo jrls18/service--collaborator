@@ -1,13 +1,10 @@
 package br.com.developcorporation.collaborator.rest.message.response;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
-import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping(FieldConstant.STATUS)
+@RequestMapping(FieldConstant.ROUTER_STATUS)
 @CrossOrigin(origins = "*")
 public interface StatusController {
 

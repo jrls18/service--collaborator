@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping(FieldConstant.TIPO_USUARIO)
+@RequestMapping(FieldConstant.ROUTER_TIPO_USUARIO)
 @CrossOrigin(origins = "*")
 public interface TypeCollaboratorController {
 

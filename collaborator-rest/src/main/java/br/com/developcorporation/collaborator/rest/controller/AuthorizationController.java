@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(FieldConstant.AUTORIZACAO)
+@RequestMapping(FieldConstant.ROUTER_AUTORIZACAO)
 @CrossOrigin(origins = "*")
 public interface AuthorizationController {
 

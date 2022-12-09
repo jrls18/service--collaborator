@@ -2,9 +2,7 @@ package br.com.developcorporation.collaborator.rest.controller;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
-import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
 import br.com.developcorporation.collaborator.rest.message.response.CollaboratorResponse;
-import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
 import br.com.developcorporation.collaborator.rest.security.model.UserPrinciple;
@@ -20,18 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public interface CollaboratorController {
 
-
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/auth/v1/save")
+    @PostMapping("/v1/save")
     ResponseEntity<MessageResponse> add(@RequestBody CollaboratorRequest request);
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/v1/save")
     ResponseEntity<MessageResponse> update(@Validated @RequestBody CollaboratorRequest request);
-
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping(value =  "/auth/v1/signin", produces = FieldConstant.APPLICATION_JSON)
-    ResponseEntity<JwtResponse> authenticateUser(@Validated @RequestBody LoginRequest loginRequest);
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "", produces = FieldConstant.APPLICATION_JSON)

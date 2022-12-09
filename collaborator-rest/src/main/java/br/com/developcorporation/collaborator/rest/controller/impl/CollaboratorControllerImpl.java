@@ -83,24 +83,6 @@ public class CollaboratorControllerImpl implements CollaboratorController {
     }
 
     @Override
-    public ResponseEntity<JwtResponse> authenticateUser(LoginRequest loginRequest) {
-
-        final String jsonRequest = logRest.jsonLogInfo(loginRequest, MessageConstant.INICIALIZADO);
-
-        log.info(MessageConstant.REQUISICAO, jsonRequest);
-
-        this.validator.loginRequestValidator(loginRequest);
-
-        JwtResponse response =  JwtMapper.INSTANCE.toResponse(authenticateService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        final String reponseLog = logRest.jsonLogInfo(response, MessageConstant.FINALIZADO);
-
-        log.info(MessageConstant.RESPOSTA, reponseLog);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<PaginationResponse<CollaboratorResponse>> paginationResponse(
             String searchTerm, String page, String size) {
 
