@@ -25,6 +25,8 @@
         <spring-boot-admin-starter-client>2.5.0</spring-boot-admin-starter-client>
         <resilience4j-micrometer-version>1.7.1</resilience4j-micrometer-version>
         <jjwt-version>0.9.1</jjwt-version>
+        <springfox-swagger-version>2.9.2</springfox-swagger-version>
+        <chaos-monkey-spring-boot-version>2.6.1</chaos-monkey-spring-boot-version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -93,7 +95,19 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>chaos-monkey-spring-boot</artifactId>
-            <version>2.6.1</version>
+            <version>${chaos-monkey-spring-boot-version}</version>
+
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-swagger-version}</version>
         </dependency>
 
         <dependency>
@@ -133,4 +147,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>

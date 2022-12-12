@@ -41,6 +41,7 @@ public final class MessageConstants {
     public static final String EXISTE_ERROS_NOS_CAMPOS_DE_AUTORIZACAO = "Existe erro(s) no(s) campo(s) da autorização.";
     public static final String EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO = "Existe erro(s) no(s) campo(s) da usuário.";
 
+    public static final String COLLABORADOR_NAO_EXISTE_CADASTRO = "Não existe um colaborador para o código informado.";
 
     public static final String INFORME_A_CHAVE_DE_ACESSO_CLIENT_ID = "Informe a chave de acesso clientId";
     public static final String INFORME_A_CHAVE_DE_ACESSO_CLIENT_SECRET = "Informe a chave de acesso clientSecret";

@@ -2,6 +2,7 @@ package br.com.developcorporation.collaborator.domain.logger;
 
 import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.lib.commons.monitorable.SpringLogger;
+import br.com.developcorporation.lib.commons.service.CryptographyService;
 import br.com.developcorporation.lib.commons.util.Convert;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -23,7 +24,9 @@ public class LogDomain {
                applicationName,
                ContextHolder.get().getMethod(),
                ContextHolder.get().getRequestUri(),
-               payload,
+               ContextHolder.get().getRequestUriParameterString(),
+               ContextHolder.get().getRequestUriHeaders(),
+               CryptographyService.mapCryptography(payload),
                StringUtils.EMPTY,
                ContextHolder.get().getInstanceId(),
                 "INFO",
@@ -38,6 +41,25 @@ public class LogDomain {
                 applicationName,
                 ContextHolder.get().getMethod(),
                 ContextHolder.get().getRequestUri(),
+                ContextHolder.get().getRequestUriParameterString(),
+                ContextHolder.get().getRequestUriHeaders(),
+                CryptographyService.mapCryptography(payload),
+                StringUtils.EMPTY,
+                ContextHolder.get().getInstanceId(),
+                "INFO",
+                StringUtils.EMPTY,
+                message));
+    }
+
+    public String jsonLogInfoParams(final Object payload, final String message){
+
+        return Convert.toJson( new  SpringLogger(
+                ContextHolder.get().getCorrelationId(),
+                applicationName,
+                ContextHolder.get().getMethod(),
+                ContextHolder.get().getRequestUri(),
+                ContextHolder.get().getRequestUriParameterString(),
+                ContextHolder.get().getRequestUriHeaders(),
                 payload,
                 StringUtils.EMPTY,
                 ContextHolder.get().getInstanceId(),
@@ -53,7 +75,9 @@ public class LogDomain {
                 applicationName,
                 ContextHolder.get().getMethod(),
                 ContextHolder.get().getRequestUri(),
-                value,
+                ContextHolder.get().getRequestUriParameterString(),
+                ContextHolder.get().getRequestUriHeaders(),
+                CryptographyService.mapCryptography(value),
                 ex,
                 ContextHolder.get().getInstanceId(),
                 info,
@@ -70,6 +94,8 @@ public class LogDomain {
                         applicationName,
                         ContextHolder.get().getMethod(),
                         ContextHolder.get().getRequestUri(),
+                        ContextHolder.get().getRequestUriParameterString(),
+                        ContextHolder.get().getRequestUriHeaders(),
                         value,
                         ex,
                         ContextHolder.get().getInstanceId(),

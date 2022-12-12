@@ -20,8 +20,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.TIPO_USUARIO)
-@CrossOrigin(origins = "*")
 public class TypeCollaboratorControllerImpl implements TypeCollaboratorController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TypeCollaboratorControllerImpl.class);
@@ -33,7 +31,7 @@ public class TypeCollaboratorControllerImpl implements TypeCollaboratorControlle
     @Override
     public ResponseEntity<List<TypeCollaboratorResponse>> getAll() {
 
-        final String jsonRequest = logRest.jsonLogInfo(null, MessageConstant.INICIALIZADO);
+        final String jsonRequest = logRest.jsonLogInfoParams(null, MessageConstant.INICIALIZADO);
 
         LOG.info(MessageConstant.REQUISICAO, jsonRequest);
 

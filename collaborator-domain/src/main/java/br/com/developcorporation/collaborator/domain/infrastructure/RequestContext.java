@@ -41,6 +41,10 @@ public class RequestContext extends HashMap<String, Object> implements Context {
 
     private Map<String, Object> map = new HashMap<>();
 
+    private Map<String, String> queryParameters;
+
+    private Map<String, String> headers;
+
     @Override
     public String getMethod() {
         return method;
@@ -58,6 +62,26 @@ public class RequestContext extends HashMap<String, Object> implements Context {
     @Override
     public void setRequestUri(String requestUri) {
         this.requestUri = requestUri;
+    }
+
+    @Override
+    public Map<String, String> getRequestUriParameterString() {
+        return queryParameters;
+    }
+
+    @Override
+    public void setRequestUriParameterString(Map<String, String> parameterString) {
+       this.queryParameters = parameterString;
+    }
+
+    @Override
+    public Map<String, String> getRequestUriHeaders() {
+        return this.headers;
+    }
+
+    @Override
+    public void setRequestUriHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 
     @Override
