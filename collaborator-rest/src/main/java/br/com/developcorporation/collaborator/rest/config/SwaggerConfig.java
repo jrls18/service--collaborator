@@ -41,6 +41,7 @@ public class SwaggerConfig {
     public Docket api() {
 
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("/api/v1")
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(apiKey())
