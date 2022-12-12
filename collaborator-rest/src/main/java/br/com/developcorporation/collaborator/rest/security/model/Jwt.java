@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonRootName(FieldConstant.AUTORIZACAO)
+@JsonRootName(FieldConstant.ROUTER_AUTORIZACAO)
 public class Jwt implements Serializable {
 
     private static final long serialVersionUID = 5308897202897798301L;

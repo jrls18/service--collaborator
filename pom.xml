@@ -32,7 +32,8 @@
 
 	<properties>
 		<revision>1.0.0</revision>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
+		<spring.version>2.6.7</spring.version>
 
 		<aggregate.report.dir>target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 
@@ -43,7 +44,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
-		<lombok.version>1.18.20</lombok.version>
+		<lombok.version>1.18.22</lombok.version>
 		<jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
@@ -196,6 +197,11 @@
 								<groupId>org.mapstruct</groupId>
 								<artifactId>mapstruct-processor</artifactId>
 								<version>${org.mapstruct.version}</version>
+							</path>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok-mapstruct-binding</artifactId>
+								<version>0.2.0</version>
 							</path>
 						</annotationProcessorPaths>
 					</configuration>

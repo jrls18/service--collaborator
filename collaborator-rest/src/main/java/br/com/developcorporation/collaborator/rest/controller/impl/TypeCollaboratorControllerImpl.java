@@ -20,8 +20,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.TIPO_USUARIO)
-@CrossOrigin(origins = "*")
 public class TypeCollaboratorControllerImpl implements TypeCollaboratorController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TypeCollaboratorControllerImpl.class);

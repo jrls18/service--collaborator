@@ -9,12 +9,10 @@ import br.com.developcorporation.collaborator.rest.message.response.MessageRespo
 import br.com.developcorporation.lib.commons.util.Convert;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -188,8 +186,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return genericResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
 
-    private ResponseEntity<Object> genericResponseEntity(Object obj, HttpStatus httpStatus){
+    private ResponseEntity<Object> genericResponseEntity(Object obj, HttpStatus httpStatus) {
         return new ResponseEntity<>(obj, httpStatus);
     }
-
 }

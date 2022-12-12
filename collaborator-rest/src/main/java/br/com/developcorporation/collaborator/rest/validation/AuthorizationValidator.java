@@ -96,7 +96,7 @@ public class AuthorizationValidator implements BaseValidator<AuthorizationReques
                 MessageMapper.INSTANCE.toDetailsResponse(
                         Validation.mandatoryNull(
                                 request.getStatus(),
-                                FieldConstant.STATUS,
+                                FieldConstant.ROUTER_STATUS,
                                 MessageConstant.SITUACAO_NAO_DEVE_SER_ENVIADO_NO_FORMULARIO)
                 ));
 
@@ -140,7 +140,7 @@ public class AuthorizationValidator implements BaseValidator<AuthorizationReques
 
         if(Objects.isNull(request.getStatus()))
             detailsResponses.add(new MessageResponse.DetailsResponse(
-                    FieldConstant.STATUS,
+                    FieldConstant.ROUTER_STATUS,
                     MessageConstant.SITUACAO_DEVE_SER_EVIADO,
                     null));
         else{

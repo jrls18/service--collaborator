@@ -36,6 +36,7 @@ public class ContextHandleInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)  {
 
+
         final RequestContext requestContext = new RequestContext();
 
         requestContext.setClientId(request.getHeader(FieldConstant.CLIENT_ID));
@@ -55,6 +56,9 @@ public class ContextHandleInterceptor implements HandlerInterceptor {
         validator.validCorrelationId(request.getHeader(FieldConstant.CURRENTCORRELATION_ID));
 
         service.isAuthentication();
+
+
+
 
         return true;
     }

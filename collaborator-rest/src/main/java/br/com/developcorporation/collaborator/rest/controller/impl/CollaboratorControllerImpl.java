@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.ROUTER_COLLABORATOR)
-@CrossOrigin(origins = "*")
 public class CollaboratorControllerImpl implements CollaboratorController {
 
     private final CollaboratorValidator validator;
@@ -82,24 +80,6 @@ public class CollaboratorControllerImpl implements CollaboratorController {
         return new ResponseEntity<>(
                 response,
                 HttpStatus.ACCEPTED);
-    }
-
-    @Override
-    public ResponseEntity<JwtResponse> authenticateUser(LoginRequest loginRequest) {
-
-        final String jsonRequest = logRest.jsonLogInfo(loginRequest, MessageConstant.INICIALIZADO);
-
-        log.info(MessageConstant.REQUISICAO, jsonRequest);
-
-        this.validator.loginRequestValidator(loginRequest);
-
-        JwtResponse response =  JwtMapper.INSTANCE.toResponse(authenticateService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        final String reponseLog = logRest.jsonLogInfo(response, MessageConstant.FINALIZADO);
-
-        log.info(MessageConstant.RESPOSTA, reponseLog);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
