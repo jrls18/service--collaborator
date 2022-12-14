@@ -33,7 +33,7 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
                     String[] splItemArray = line.getKey().split(":");
                     if(Arrays.stream(splItemArray).count() == 2){
                         Map<String, Object> mapItem = (Map<String, Object>)dados.get(splItemArray[0]);
-                        mapItem.put(splItemArray[1], setSpaces(line.getValue()));
+                        mapItem.put(splItemArray[1], setSpacesOrEmpty(line.getValue()));
                         dados.put(splItemArray[0], mapItem);
                     }else {
 
@@ -48,7 +48,7 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
                         for(Map<String, Object> mapItemLine : mapItem){
                             String position = splItemArray[1].replace("[","").replace("]", "");
                             if(count == Integer.parseInt(position)){
-                                mapItemLine.put(splItemArray[2], setSpaces(line.getValue()));
+                                mapItemLine.put(splItemArray[2], setSpacesOrEmpty(line.getValue()));
                             }
                             count ++;
                             newMapItemList.add(mapItemLine);
@@ -57,7 +57,7 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
                     }
 
                 }else{
-                    dados.put(line.getKey(), setSpaces(line.getValue()));
+                    dados.put(line.getKey(), setSpacesOrEmpty(line.getValue()));
                 }
             }
 
@@ -76,7 +76,7 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
             Map<String,String> newMapPayload = new HashMap<>(mapPayload.size());
 
             for (Map.Entry<String, String> line: mapPayload.entrySet()){
-                newMapPayload.put(line.getKey(), setSpaces(line.getValue()));
+                newMapPayload.put(line.getKey(), setSpacesOrEmpty(line.getValue()));
             }
 
             super.testContext()
@@ -148,7 +148,7 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
                     count = count + 1;
                 }
             }else{
-                mapAdapterPayloadExpected.put(line.getKey(), setSpaces(line.getValue().toString()));
+                mapAdapterPayloadExpected.put(line.getKey(), setSpacesOrEmpty(line.getValue().toString()));
             }
         }
         return mapAdapterPayloadExpected;
@@ -161,7 +161,7 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
         Map<String,Object> newMapPayload = new HashMap<>();
         for (Map<String, Object> map: mapPayloadExpected){
             for(Map.Entry<String, Object> line: map.entrySet()){
-                newMapPayload.put(line.getKey(), setSpaces(line.getValue().toString()));
+                newMapPayload.put(line.getKey(), setSpacesOrEmpty(line.getValue().toString()));
             }
         }
         return newMapPayload;
@@ -176,7 +176,11 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
         return headers;
     }
 
-    private String setSpaces(final String value) {
+
+
+
+
+    private String setSpaces(final String value){
         if (StringUtils.isEmpty(value) || !value.contains("&nbsp:"))
             return value;
 
@@ -189,6 +193,17 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
             setNewValue = setNewValue.concat(line);
         }
         return setNewValue;
+    }
+
+
+    private String setSpacesOrEmpty(final String value) {
+        if(value.equalsIgnoreCase("empty"))
+            return StringUtils.EMPTY;
+
+        if(value.contains("&nbsp:"))
+            return setSpaces(value);
+
+        return value;
     }
 }
 
