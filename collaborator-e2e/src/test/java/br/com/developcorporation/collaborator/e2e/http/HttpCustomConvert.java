@@ -1,5 +1,6 @@
 package br.com.developcorporation.collaborator.e2e.http;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -7,7 +8,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class HttpCustomConvert {
 
@@ -82,5 +85,8 @@ public class HttpCustomConvert {
         return obj;
     }
 
+    public static Map<String, Object> convertJsonToMap(final String json) throws Exception{
+        return new ObjectMapper().readValue(json, HashMap.class);
+    }
 }
 

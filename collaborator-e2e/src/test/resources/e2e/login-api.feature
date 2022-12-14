@@ -13,3 +13,15 @@ Funcionalidade: Realizando a autenticação do usuário.
       | access_token | eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huLmpvaG4xNkBob3RtYWlsLmNvbSIsImlhdCI6MTY3MDk1MjU3MiwiZXhwIjoxNjcxMDM4OTcyfQ.STr52-jOx9Vw-2k_UH3PbABBomCfsjECcnEFhyvC0Wb4XYsM4WBs7buwbUok577uL6dqG_1X8NAeAb5ofi0ucQ |
       | token_type   | Bearer                        |
       | expires_in   | 2022-12-14T17:29:32.427+00:00 |
+
+
+  Cenario: Ao fazer uma requisição de login com o username do usuario que não existe cadastrado então deve retornar uma mensagem de erro.
+    Dado usuario preencheu o formulario com as seguintes informacoes
+      | username    | password    |
+      | john.john16 | @@HMNXpT00  |
+    E as credenciais do sistema sendo preenchida de forma automatica
+    Quando o formulario foi preenchido por completo o usuario solicitou uma chamada de autenticacao
+    Entao o status code da chamada deve ser "unauthorized"
+    E no body da resposta deve conter os seguintes informacoes
+      | codigo   | 401                        |
+      | mensagem | Usuario ou senha inválido. |

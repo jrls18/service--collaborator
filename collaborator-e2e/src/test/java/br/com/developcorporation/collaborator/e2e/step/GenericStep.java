@@ -2,14 +2,15 @@ package br.com.developcorporation.collaborator.e2e.step;
 
 import br.com.developcorporation.collaborator.e2e.http.HttpCustomAbstract;
 
+import br.com.developcorporation.collaborator.e2e.http.HttpCustomConvert;
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.Maps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.Pt;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -17,19 +18,16 @@ import static org.junit.Assert.*;
 public class GenericStep extends HttpCustomAbstract implements Pt {
     public GenericStep() {
 
-
-
-
         Dado("^usuario preencheu o formulario com as seguintes informacoes$", (DataTable dataTable) -> {
 
             Map<String, String> mapPayload =  dataTable.transpose().asMap();
 
+            if(Objects.isNull(mapPayload) || mapPayload.isEmpty())
+                throw new Exception("Por favor informe os dados para a validação do payload.");
+
             super.testContext()
                     .setPayload(mapPayload);
         });
-
-
-
 
         Entao("^o status code da chamada deve ser \"([^\"]*)\"$", (String arg0) -> {
             Response response = testContext().getResponse();
@@ -61,9 +59,34 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
             }
         });
 
-
         E("^as credenciais do sistema sendo preenchida de forma automatica$", () -> {
             super.testContext().setHeaders(getHeaderGeneric());
+        });
+
+        E("^no body da resposta deve conter os seguintes informacoes$", (DataTable dataTable) -> {
+
+            List<Map<String, Object>> mapPayloadExpected =  dataTable.transpose().asMaps(String.class, Object.class);
+
+            if(Objects.isNull(mapPayloadExpected) || mapPayloadExpected.isEmpty())
+                throw new Exception("Por favor informe os dados para a validação do payload.");
+
+            Response response = testContext().getResponse();
+
+            Map<String, Object> responseHttp = HttpCustomConvert.convertJsonToMap(response.print());
+
+            Map<String, Object> mapAdapterPayloadExpected = new HashMap<>();
+
+            for(Map.Entry<String, Object> line: responseHttp.entrySet()){
+
+                if(line.getKey().equalsIgnoreCase("detalhes")){
+
+                }
+                mapAdapterPayloadExpected.put(line.getKey(), line.getValue());
+            }
+
+            MapDifference<String, Object> diff = Maps.difference(mapPayloadExpected.get(0), mapAdapterPayloadExpected);
+
+            assertTrue(diff.areEqual());
         });
 
     }
