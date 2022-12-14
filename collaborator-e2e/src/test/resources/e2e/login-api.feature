@@ -14,7 +14,6 @@ Funcionalidade: Realizando a autenticação do usuário.
       | token_type   | Bearer                        |
       | expires_in   | 2022-12-14T17:29:32.427+00:00 |
 
-
   Cenario: Ao fazer uma requisição de login com o username do usuario que não existe cadastrado então deve retornar uma mensagem de erro.
     Dado usuario preencheu o formulario com as seguintes informacoes
       | username    | password    |
@@ -22,6 +21,35 @@ Funcionalidade: Realizando a autenticação do usuário.
     E as credenciais do sistema sendo preenchida de forma automatica
     Quando o formulario foi preenchido por completo o usuario solicitou uma chamada de autenticacao
     Entao o status code da chamada deve ser "unauthorized"
-    E no body da resposta deve conter os seguintes informacoes
+    E no body da resposta deve conter as seguintes informacoes
       | codigo   | 401                        |
       | mensagem | Usuario ou senha inválido. |
+
+  Cenario: Ao fazer uma requisição de login com o password do usuário incorreto então deve retornar uma mensagem de erro.
+    Dado usuario preencheu o formulario com as seguintes informacoes
+      | username                | password      |
+      | john.john16@hotmail.com | @@HMNXpT0021  |
+    E as credenciais do sistema sendo preenchida de forma automatica
+    Quando o formulario foi preenchido por completo o usuario solicitou uma chamada de autenticacao
+    Entao o status code da chamada deve ser "unauthorized"
+    E no body da resposta deve conter as seguintes informacoes
+      | codigo   | 401                        |
+      | mensagem | Usuario ou senha inválido. |
+
+
+  Cenario: Ao fazer uma requisição de login com o username e password do usuário com espaço então deve retornar uma mensagem de erro.
+    Dado usuario preencheu o formulario com as seguintes informacoes
+      | username | password |
+      | &nbsp:   | &nbsp:   |
+    E as credenciais do sistema sendo preenchida de forma automatica
+    Quando o formulario foi preenchido por completo o usuario solicitou uma chamada de autenticacao
+    Entao o status code da chamada deve ser "bad_request"
+    E no body da resposta deve conter as seguintes informacoes
+      | codigo    | 400                                                           |
+      | mensagem  | Existe erro(s) no(s) campo(s) do usuario.                     |
+      | campo0    | username                                                      |
+      | mensagem0 | Usuario deve ser informado um número de telefone ou um email. |
+      | valor0    | &nbsp:                                                        |
+      | campo1    | password                                                      |
+      | mensagem1 | Senha deve conter no mínimo 5 caracteres e no máximo 150.     |
+      | valor1    | &nbsp:                                                        |

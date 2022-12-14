@@ -88,5 +88,10 @@ public class HttpCustomConvert {
     public static Map<String, Object> convertJsonToMap(final String json) throws Exception{
         return new ObjectMapper().readValue(json, HashMap.class);
     }
+
+    public static Map<String, Object> convertObjectToMap(final Object obj){
+        return new ObjectMapper().convertValue(obj, Map.class);
+    }
+
 }
 
