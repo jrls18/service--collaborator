@@ -101,7 +101,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
             if(Objects.nonNull(dto.getDocument()))
-                if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO))
+                if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                     enviaDocuments(dto);
 
             configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
@@ -142,6 +142,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         ContextHolder.get().setApplicationName(this.applicationName);
 
         dto.setPassword(encoder.encode(dto.getPassword()));
+
+        dto.getDocument().setCommand(INCLUSAO_ALTERACAO);
 
         save(dto);
 

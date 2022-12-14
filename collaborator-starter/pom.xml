@@ -49,6 +49,10 @@
             <artifactId>collaborator-jpa</artifactId>
         </dependency>
         <dependency>
+            <groupId>br.com.developcorporation</groupId>
+            <artifactId>collaborator-e2e</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
             <version>3.2.4</version>

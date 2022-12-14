@@ -26,7 +26,6 @@
         <resilience4j-micrometer-version>1.7.1</resilience4j-micrometer-version>
         <jjwt-version>0.9.1</jjwt-version>
         <springfox-swagger-version>2.9.2</springfox-swagger-version>
-        <chaos-monkey-spring-boot-version>2.6.1</chaos-monkey-spring-boot-version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -92,12 +91,6 @@
             <artifactId>micrometer-core</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>chaos-monkey-spring-boot</artifactId>
-            <version>${chaos-monkey-spring-boot-version}</version>
-
-        </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
@@ -130,7 +123,6 @@
             <artifactId>lib-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>

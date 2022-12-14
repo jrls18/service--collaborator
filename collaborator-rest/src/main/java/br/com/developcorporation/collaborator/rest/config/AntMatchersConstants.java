@@ -6,7 +6,8 @@ public final class AntMatchersConstants {
 
     public static final String[] AUTH_URL_SERVICE_WHITELIST = {
             "/auth/v1/**",
-            "/api/colaborador/internal/**"
+            "/api/colaborador/internal/**",
+            "/actuator/**"
     };
 
     public static final String[] AUTH_URL_SWAGGER_WHITELIST = {
