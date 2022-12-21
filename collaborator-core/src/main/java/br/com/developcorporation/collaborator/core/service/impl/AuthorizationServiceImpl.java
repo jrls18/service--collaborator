@@ -11,13 +11,13 @@ import br.com.developcorporation.collaborator.domain.model.Authorization;
 import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.AuthorizationPort;
 import br.com.developcorporation.collaborator.domain.port.StatusPort;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AuthorizationServiceImpl implements AuthorizationService {
 
