@@ -145,4 +145,42 @@ class AuthorizationServiceTest {
         assertEquals("Sigla app já existe cadastrada.", exception.getDetails().get(0).getMessage());
         assertEquals(authorizationMock.getSiglaApp(), exception.getDetails().get(0).getValue());
     }
+
+    @Test
+    @DisplayName("04 - Valida erro 500 sistema indisponível.")
+    void addSucessThow(){
+        doNothing().when(validation).clientIdAndClientSecret();
+        doNothing().when(validation).validCorrelationId();
+        doNothing().when(validation).add(any(Authorization.class));
+
+        when(authorizationPort.existsByName(anyString())).thenReturn(false);
+        when(authorizationPort.existsBySiglaApp(anyString())).thenReturn(false);
+
+        doThrow(new RuntimeException("Error occurred"))
+                .when(authorizationPort)
+                .add(any(Authorization.class));
+
+        Authorization authorizationMock = AuthorizationMock.getAuthorization();
+        authorizationMock.setId(null);
+        DomainException exception = null;
+
+        try {
+            service.add(authorizationMock);
+        }catch (DomainException ex){
+            exception = ex;
+        }
+
+        InOrder inOrder = inOrder(validation, authorizationPort);
+
+        inOrder.verify(validation).clientIdAndClientSecret();
+        inOrder.verify(validation).validCorrelationId();
+        inOrder.verify(validation).add(any(Authorization.class));
+        inOrder.verify(authorizationPort).existsByName(anyString());
+        inOrder.verify(authorizationPort).existsBySiglaApp(anyString());
+
+        assertNotNull(exception);
+        assertEquals("500", exception.getCode());
+        assertEquals("Ocorreu um erro interno tente novamente mais tarde!", exception.getMessage());
+        assertNull(exception.getDetails());
+    }
 }
