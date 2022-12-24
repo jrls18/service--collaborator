@@ -1,10 +1,13 @@
 package br.com.developcorporation.collaborator.core.service;
 
+import br.com.developcorporation.collaborator.core.mock.StatusMock;
 import br.com.developcorporation.collaborator.core.service.impl.AuthorizationServiceImpl;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
+import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Authorization;
+import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.AuthorizationPort;
 import br.com.developcorporation.collaborator.domain.port.StatusPort;
 import br.com.developcorporation.collaborator.core.mock.AuthorizationMock;
@@ -16,6 +19,10 @@ import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -183,4 +190,94 @@ class AuthorizationServiceTest {
         assertEquals("Ocorreu um erro interno tente novamente mais tarde!", exception.getMessage());
         assertNull(exception.getDetails());
     }
+
+    @Test
+    @DisplayName("05 - Consulta todas as autorizações")
+    void getAllSucess() {
+
+        when(authorizationPort.getAll()).thenReturn(List.of(AuthorizationMock.getAuthorization()));
+        List<Authorization> authorizationList = service.getAll();
+
+        InOrder inOrder = inOrder(validation, authorizationPort);
+
+        inOrder.verify(authorizationPort).getAll();
+
+        assertNotNull(authorizationList);
+        assertEquals(1, authorizationList.size());
+    }
+
+    @Test
+    @DisplayName("06 - Autenticação")
+    void isAuthenticationSucess() {
+
+        doNothing().when(validation).clientIdAndClientSecret();
+        doNothing().when(validation).validCorrelationId();
+
+        when(authorizationPort.getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret())).thenReturn(Optional.of(AuthorizationMock.getAuthorization()));
+
+        service.isAuthentication();
+
+        InOrder inOrder = inOrder(validation, authorizationPort);
+
+        inOrder.verify(authorizationPort).getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret());
+    }
+
+    @Test
+    @DisplayName("07 - Autenticação empty")
+    void isAuthenticationEmpty() {
+
+        doNothing().when(validation).clientIdAndClientSecret();
+        doNothing().when(validation).validCorrelationId();
+        when(authorizationPort.getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret())).thenReturn(Optional.empty());
+
+        DomainException exception = null;
+
+        try {
+            service.isAuthentication();
+        }catch (DomainException ex){
+            exception = ex;
+        }
+
+        InOrder inOrder = inOrder(validation, authorizationPort);
+
+        inOrder.verify(authorizationPort).getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret());
+
+        assertNotNull(exception);
+        assertEquals("401",exception.getCode());
+        assertEquals("Não autorizado.", exception.getMessage());
+        assertNull(exception.getDetails());
+    }
+
+    @Test
+    @DisplayName("08 - Autenticação não ativo")
+    void isAuthenticationAtivoFalse() {
+
+        doNothing().when(validation).clientIdAndClientSecret();
+        doNothing().when(validation).validCorrelationId();
+
+        Authorization authorization = AuthorizationMock.getAuthorization();
+        Status status = StatusMock.getStatus();
+        status.setId(2L);
+        authorization.setStatus(status);
+
+        when(authorizationPort.getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret())).thenReturn(Optional.of(authorization));
+
+        DomainException exception = null;
+
+        try {
+            service.isAuthentication();
+        }catch (DomainException ex){
+            exception = ex;
+        }
+
+        InOrder inOrder = inOrder(validation, authorizationPort);
+
+        inOrder.verify(authorizationPort).getByClientIdAndClientSecret(ContextHolder.get().getClientId(), ContextHolder.get().getClientSecret());
+
+        assertNotNull(exception);
+        assertEquals("401",exception.getCode());
+        assertEquals("Não autorizado.", exception.getMessage());
+        assertNull(exception.getDetails());
+    }
+
 }
