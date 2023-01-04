@@ -83,7 +83,6 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
                     .setPayload(newMapPayload);
         });
 
-
         Entao("^o status code da chamada deve ser \"([^\"]*)\"$", (String arg0) -> {
             Response response = testContext().getResponse();
 
@@ -99,11 +98,9 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
             }
         });
 
-
         E("^as credenciais do sistema sendo preenchida de forma automatica$", () -> {
             super.testContext().setHeaders(getHeaderGeneric());
         });
-
 
         E("^no body da resposta deve conter as seguintes informacoes$", (DataTable dataTable) -> {
 
@@ -176,10 +173,6 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
         return headers;
     }
 
-
-
-
-
     private String setSpaces(final String value){
         if (StringUtils.isEmpty(value) || !value.contains("&nbsp:"))
             return value;
@@ -195,13 +188,16 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
         return setNewValue;
     }
 
-
     private String setSpacesOrEmpty(final String value) {
+
         if(value.equalsIgnoreCase("empty"))
             return StringUtils.EMPTY;
 
         if(value.contains("&nbsp:"))
             return setSpaces(value);
+
+        if(value.equalsIgnoreCase("NULLO"))
+            return null;
 
         return value;
     }
