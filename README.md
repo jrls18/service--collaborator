@@ -67,3 +67,7 @@ kubectl create namespace monitoramento
 kubectl create configmap prometheus-configmap --from-file=.\Prometheus\server\config\prometheus.yml --namespace=monitoramento
 
 kubectl apply -f .\gateway\
+
+## Swagger 
+
+http://localhost:5000/service--collaborator/swagger-ui.html
