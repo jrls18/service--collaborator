@@ -36,5 +36,6 @@ public class AutenticacaoStep extends HttpCustomAbstract implements Pt {
                 assertTrue(responseHttp.containsKey(line.getKey()));
             }
         });
+
     }
 }
