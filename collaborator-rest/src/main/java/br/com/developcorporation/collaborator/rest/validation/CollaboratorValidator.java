@@ -10,7 +10,7 @@ import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
-import br.com.developcorporation.lib.commons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.validation.Validation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

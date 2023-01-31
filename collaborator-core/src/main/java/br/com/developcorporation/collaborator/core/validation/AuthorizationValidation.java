@@ -7,7 +7,7 @@ import br.com.developcorporation.collaborator.core.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Authorization;
-import br.com.developcorporation.lib.commons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.validation.Validation;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

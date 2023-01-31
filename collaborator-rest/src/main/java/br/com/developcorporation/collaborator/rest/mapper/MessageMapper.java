@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.rest.mapper;
 
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
-import br.com.developcorporation.lib.commons.message.Message;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -14,9 +14,9 @@ public interface MessageMapper {
     MessageResponse toResponse(final Message message);
     MessageResponse dtoToResponse(final br.com.developcorporation.collaborator.domain.message.Message message);
 
-    MessageResponse.DetailsResponse toDetailsResponse(final br.com.developcorporation.lib.commons.message.Message.Details details);
+    MessageResponse.DetailsResponse toDetailsResponse(final br.com.grupo.developer.corporation.libcommons.message.Message.Details details);
 
-    List<MessageResponse.DetailsResponse> toDetailsResponseList(final  List<br.com.developcorporation.lib.commons.message.Message.Details> detailsList);
+    List<MessageResponse.DetailsResponse> toDetailsResponseList(final  List<br.com.grupo.developer.corporation.libcommons.message.Message.Details> detailsList);
 
     MessageResponse.DetailsResponse toDetailsResponse(final br.com.developcorporation.collaborator.domain.message.Message.Details details);
 

@@ -7,7 +7,7 @@ import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.lib.commons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.validation.Validation;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

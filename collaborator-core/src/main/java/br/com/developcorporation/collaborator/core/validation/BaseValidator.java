@@ -3,8 +3,8 @@ package br.com.developcorporation.collaborator.core.validation;
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
+import br.com.grupo.developer.corporation.libcommons.utils.UseFul;
 
-import br.com.developcorporation.lib.commons.util.UseFul;
 
 import java.util.List;
 import java.util.Objects;
