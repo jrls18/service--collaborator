@@ -17,10 +17,11 @@
                 </repository>
                 <repository>
                     <id>github</id>
-                    <url>https://maven.pkg.github.com/jrls18</url>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
+                    <url>https://maven.pkg.github.com/jrls18/lib-logger</url>
+                </repository>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/jrls18/lib-commons</url>
                 </repository>
             </repositories>
         </profile>
