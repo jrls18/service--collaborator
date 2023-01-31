@@ -98,7 +98,7 @@ Funcionalidade: Realizando a autenticação do usuário.
   Cenario: 08 - Ao fazer uma requisição de login com o username e password do usuário com vazio então deve retornar uma mensagem de erro.
     Dado usuario preencheu o formulario com as seguintes informacoes
       | username | password |
-      | empty    | empty   |
+      | empty    | empty    |
     E as credenciais do sistema sendo preenchida de forma automatica
     Quando o formulario foi preenchido por completo o usuario solicitou uma chamada de autenticacao
     Entao o status code da chamada deve ser "bad_request"

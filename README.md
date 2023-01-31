@@ -53,6 +53,7 @@ minikube image load service--collaborator-img
 ## Configure HOST
 Adicionar no host o ip com o nome da host exemplo
 
+
 C:\Windows\System32\drivers\etc
 For example:
 102.54.94.97     rhino.acme.com          source server 
@@ -67,3 +68,7 @@ kubectl create namespace monitoramento
 kubectl create configmap prometheus-configmap --from-file=.\Prometheus\server\config\prometheus.yml --namespace=monitoramento
 
 kubectl apply -f .\gateway\
+
+## Swagger 
+
+http://localhost:5000/service--collaborator/swagger-ui.html

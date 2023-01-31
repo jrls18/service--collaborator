@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.Pt;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -67,22 +68,8 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
         });
 
         Dado("^usuario preencheu o formulario com as seguintes informacoes$", (DataTable dataTable) -> {
-
-            Map<String, String> mapPayload =  dataTable.transpose().asMap();
-
-            if(Objects.isNull(mapPayload) || mapPayload.isEmpty())
-                throw new Exception("Por favor informe os dados para a validação do payload.");
-
-            Map<String,String> newMapPayload = new HashMap<>(mapPayload.size());
-
-            for (Map.Entry<String, String> line: mapPayload.entrySet()){
-                newMapPayload.put(line.getKey(), setSpacesOrEmpty(line.getValue()));
-            }
-
-            super.testContext()
-                    .setPayload(newMapPayload);
+            setPayloadContext(dataTable);
         });
-
 
         Entao("^o status code da chamada deve ser \"([^\"]*)\"$", (String arg0) -> {
             Response response = testContext().getResponse();
@@ -99,11 +86,9 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
             }
         });
 
-
         E("^as credenciais do sistema sendo preenchida de forma automatica$", () -> {
             super.testContext().setHeaders(getHeaderGeneric());
         });
-
 
         E("^no body da resposta deve conter as seguintes informacoes$", (DataTable dataTable) -> {
 
@@ -116,6 +101,9 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
 
             Map<String, Object> responseHttp = HttpCustomConvert.convertJsonToMap(response.print());
 
+            if(responseHttp.containsKey("data_cadastro"))
+                responseHttp.remove("data_cadastro");
+
             Map<String, Object> mapAdapterPayloadExpected = getStringObjectMap(responseHttp);
 
             assertNotNull(mapAdapterPayloadExpected);
@@ -125,7 +113,55 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
             assertTrue(diff.areEqual());
 
         });
+        E("^apos fazer o login deve-se recuperar o token gerado no campo \"([^\"]*)\"$", (String arg0) -> {
 
+            if(StringUtils.isEmpty(arg0))
+                throw new Exception("Por favor informe o nome do campo que representa o token gerado.");
+
+            Response response = testContext().getResponse();
+
+            Map<String, Object> responseHttp = HttpCustomConvert.convertJsonToMap(response.print());
+
+            super.testContext().set("token", responseHttp.get(arg0));
+
+        });
+
+        E("^o usuario preencheu o formulado de \"([^\"]*)\" com os seguintes atributos$", (String arg0, DataTable dataTable) -> {
+
+            if(StringUtils.isEmpty(arg0))
+                throw new Exception("Por favor informe o nome do campo para ação.");
+
+            setPayloadContext(dataTable);
+
+        });
+
+        E("^adicionou nos headers base o autorization com o token$", () -> {
+
+            Map<String, String> map = this.getHeaderGeneric();
+
+            String token = super.testContext().get("token").toString();
+            map.put("Authorization", "Bearer ".concat(token));
+
+            super.testContext().setHeaders(map);
+        });
+
+    }
+
+    private void setPayloadContext(final DataTable dataTable) throws Exception{
+        Map<String, String> mapPayload =  dataTable.transpose().asMap();
+
+
+        if(Objects.isNull(mapPayload) || mapPayload.isEmpty())
+            throw new Exception("Por favor informe os dados para do payload.");
+
+        Map<String,String> newMapPayload = new HashMap<>(mapPayload.size());
+
+        for (Map.Entry<String, String> line: mapPayload.entrySet()){
+            newMapPayload.put(line.getKey(), setRandomic(setSpacesOrEmpty(line.getValue())));
+        }
+
+        super.testContext()
+                .setPayload(newMapPayload);
     }
 
     private Map<String, Object> getStringObjectMap(Map<String, Object> responseHttp) {
@@ -161,7 +197,7 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
         Map<String,Object> newMapPayload = new HashMap<>();
         for (Map<String, Object> map: mapPayloadExpected){
             for(Map.Entry<String, Object> line: map.entrySet()){
-                newMapPayload.put(line.getKey(), setSpacesOrEmpty(line.getValue().toString()));
+                newMapPayload.put(line.getKey(), setRandomic(setSpacesOrEmpty(line.getValue().toString())));
             }
         }
         return newMapPayload;
@@ -175,10 +211,6 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
 
         return headers;
     }
-
-
-
-
 
     private String setSpaces(final String value){
         if (StringUtils.isEmpty(value) || !value.contains("&nbsp:"))
@@ -195,13 +227,29 @@ public class GenericStep extends HttpCustomAbstract implements Pt {
         return setNewValue;
     }
 
-
     private String setSpacesOrEmpty(final String value) {
+
         if(value.equalsIgnoreCase("empty"))
             return StringUtils.EMPTY;
 
         if(value.contains("&nbsp:"))
             return setSpaces(value);
+
+        if(value.equalsIgnoreCase("NULLO"))
+            return null;
+
+        return value;
+    }
+
+    private String setRandomic(String value){
+        if(StringUtils.isEmpty(value))
+            return value;
+
+        if (value.contains("RandomText"))
+            value = value.replace("-RandomText", RandomStringUtils.randomAlphabetic(6));
+
+        if(value.contains("RandomNumber"))
+            value =  value.replace("-RandomNumber", RandomStringUtils.randomNumeric(6));
 
         return value;
     }

@@ -4,26 +4,26 @@ import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
-import br.com.developcorporation.collaborator.core.service.StatusService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Authorization;
 import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.AuthorizationPort;
-import lombok.AllArgsConstructor;
+import br.com.developcorporation.collaborator.domain.port.StatusPort;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AuthorizationServiceImpl implements AuthorizationService {
 
     public static final long ATIVO = 1L;
     private final AuthorizationPort port;
-    private final StatusService statusPort;
+    private final StatusPort statusPort;
     private final AuthorizationValidation validator;
 
     @Override
