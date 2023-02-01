@@ -34,8 +34,19 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
+            <groupId>br.com.grupo.developer.corporation</groupId>
             <artifactId>lib-commons</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>br.com.grupo.developer.corporation</groupId>
+            <artifactId>lib-logger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>br.com.grupo.developer.corporation</groupId>
+            <artifactId>lib-spring-context-holder</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

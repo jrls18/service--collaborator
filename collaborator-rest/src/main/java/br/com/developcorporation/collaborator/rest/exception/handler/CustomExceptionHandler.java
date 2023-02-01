@@ -6,7 +6,7 @@ import br.com.developcorporation.collaborator.rest.exception.error.*;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
-import br.com.developcorporation.lib.commons.util.Convert;
+import br.com.grupo.developer.corporation.libcommons.utils.Convert;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 

@@ -1,7 +1,6 @@
 package br.com.developcorporation.collaborator.rest.controller;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
-import br.com.developcorporation.collaborator.rest.message.response.StatusResponse;
 import br.com.developcorporation.collaborator.rest.message.response.TypeCollaboratorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

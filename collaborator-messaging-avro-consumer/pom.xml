@@ -40,9 +40,14 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
+            <groupId>br.com.grupo.developer.corporation</groupId>
+            <artifactId>lib-logger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>br.com.grupo.developer.corporation</groupId>
             <artifactId>lib-commons</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

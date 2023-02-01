@@ -1,14 +1,11 @@
 package br.com.developcorporation.collaborator.message.avro.produce.mapper;
 
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.documents.message.avro.DocumentsMessage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Objects;
 

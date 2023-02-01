@@ -49,9 +49,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
+            <groupId>br.com.grupo.developer.corporation</groupId>
             <artifactId>lib-commons</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -6,7 +6,7 @@ import br.com.developcorporation.collaborator.rest.exception.error.BadRequestEnt
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.AuthorizationRequest;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
-import br.com.developcorporation.lib.commons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.validation.Validation;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

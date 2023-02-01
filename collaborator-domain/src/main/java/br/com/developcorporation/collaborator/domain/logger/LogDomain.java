@@ -1,9 +1,11 @@
 package br.com.developcorporation.collaborator.domain.logger;
 
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
-import br.com.developcorporation.lib.commons.monitorable.SpringLogger;
-import br.com.developcorporation.lib.commons.service.CryptographyService;
-import br.com.developcorporation.lib.commons.util.Convert;
+
+import br.com.grupo.developer.corporation.lib.logger.monitorable.SpringLogger;
+import br.com.grupo.developer.corporation.lib.logger.service.CryptographyService;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.libcommons.utils.Convert;
+
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +21,7 @@ public class LogDomain {
 
     public String jsonLogInfo(final Object payload, final int statusCode, final String message){
 
-       return Convert.toJson( new  SpringLogger(
+       return Convert.toJson( new SpringLogger(
                ContextHolder.get().getCorrelationId(),
                applicationName,
                ContextHolder.get().getMethod(),

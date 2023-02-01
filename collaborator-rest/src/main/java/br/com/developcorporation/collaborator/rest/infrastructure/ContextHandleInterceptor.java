@@ -1,10 +1,11 @@
 package br.com.developcorporation.collaborator.rest.infrastructure;
 
 import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
-import br.com.developcorporation.collaborator.domain.infrastructure.RequestContext;
+
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.RequestContext;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,6 @@ import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ContextHandleInterceptor implements HandlerInterceptor {
 

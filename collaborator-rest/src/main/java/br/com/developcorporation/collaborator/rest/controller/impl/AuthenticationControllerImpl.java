@@ -1,6 +1,5 @@
 package br.com.developcorporation.collaborator.rest.controller.impl;
 
-import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.domain.logger.LogDomain;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.AuthenticationController;

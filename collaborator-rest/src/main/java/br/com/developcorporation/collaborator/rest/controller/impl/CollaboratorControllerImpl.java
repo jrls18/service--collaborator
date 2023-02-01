@@ -3,16 +3,12 @@ package br.com.developcorporation.collaborator.rest.controller.impl;
 import br.com.developcorporation.collaborator.domain.logger.*;
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.domain.message.Message;
-import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.CollaboratorController;
 import br.com.developcorporation.collaborator.rest.mapper.CollaboratorMapper;
-import br.com.developcorporation.collaborator.rest.mapper.JwtMapper;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
-import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
 import br.com.developcorporation.collaborator.rest.message.response.CollaboratorResponse;
-import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
 import br.com.developcorporation.collaborator.rest.security.model.UserPrinciple;
@@ -22,8 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
