@@ -1,9 +1,9 @@
 package br.com.developcorporation.collaborator.domain.logger;
 
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
 
 import br.com.grupo.developer.corporation.lib.logger.monitorable.SpringLogger;
 import br.com.grupo.developer.corporation.lib.logger.service.CryptographyService;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
 import br.com.grupo.developer.corporation.libcommons.utils.Convert;
 
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package br.com.developcorporation.collaborator.services.internal.service.httpUtils;
 
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
