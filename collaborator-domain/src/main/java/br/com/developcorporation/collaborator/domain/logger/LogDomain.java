@@ -13,24 +13,6 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class LogDomain {
 
-    @Value("${spring.application.name}")
-    private String applicationName;
-
-    public String jsonLogInfo(final Object payload, final int statusCode, final String message){
-
-       return Logger.info(payload, statusCode, message);
-
-    }
-
-    public String jsonLogInfo(final Object payload, final String message){
-
-        return Logger.info(payload, message);
-    }
-
-    public String jsonLogInfoParams(final Object payload, final String message){
-
-        return Logger.info(payload, message);
-    }
 
     @SneakyThrows
     public String springLogger(final Object value, final String info, final String statusCode, final Exception ex){
