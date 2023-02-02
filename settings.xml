@@ -23,6 +23,10 @@
                     <id>github</id>
                     <url>https://maven.pkg.github.com/jrls18/lib-commons</url>
                 </repository>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/jrls18/lib-spring-context-holder</url>
+                </repository>
             </repositories>
         </profile>
     </profiles>
