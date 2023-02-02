@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "bfb3415c-4bdc-4379-9bc0-6bd42b18c43c",
+		"_postman_id": "0e0f41d2-3a4e-4bb6-8593-5b566ecce4b0",
 		"name": "Service--Collaborator",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "2169879"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -33,12 +32,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/situacao/v1/all",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/situacao/v1/all",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"situacao",
 						"v1",
 						"all"
@@ -78,13 +78,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/auth/v1/signin",
+					"raw": "{{url_base}}/{{url_base_domain}}/auth/v1/signin",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
-						"colaborador",
 						"auth",
 						"v1",
 						"signin"
@@ -120,12 +119,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/v1/profile",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/colaborador/v1/profile",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"colaborador",
 						"v1",
 						"profile"
@@ -161,12 +161,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/internal/v1/profile/id=5",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/colaborador/internal/v1/profile/id=5",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"colaborador",
 						"internal",
 						"v1",
@@ -204,12 +205,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador?searchTerm&page=0&size=20",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/colaborador?searchTerm&page=0&size=20",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"colaborador"
 					],
 					"query": [
@@ -249,6 +251,11 @@
 						"key": "correlation_id",
 						"value": "{{correlation_id}}",
 						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "default"
 					}
 				],
 				"body": {
@@ -261,14 +268,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/auth/v1/save",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/colaborador/v1/save",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"colaborador",
-						"auth",
 						"v1",
 						"save"
 					]
@@ -312,12 +319,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/colaborador/v1/save",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/colaborador/v1/save",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"colaborador",
 						"v1",
 						"save"
@@ -353,12 +361,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/authorization/v1/all",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/authorization/v1/all",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"authorization",
 						"v1",
 						"all"
@@ -408,12 +417,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/authorization/v1/save",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/authorization/v1/save",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"authorization",
 						"v1",
 						"save"
@@ -458,12 +468,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/authorization/v1/save",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/authorization/v1/save",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"authorization",
 						"v1",
 						"save"
@@ -499,12 +510,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/tipo_usuario/v1/all",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/tipo_usuario/v1/all",
 					"host": [
 						"{{url_base}}"
 					],
 					"path": [
 						"{{url_base_domain}}",
+						"api",
 						"tipo_usuario",
 						"v1",
 						"all"
@@ -540,7 +552,7 @@
 					"",
 					"const signin = {",
 					"    url: pm.environment.get('url_base')+  \"/\"+",
-					"    pm.environment.get('url_base_domain') + \"/colaborador/auth/v1/signin\",",
+					"    pm.environment.get('url_base_domain') + \"/auth/v1/signin\",",
 					"    method: 'POST',",
 					"    header: {",
 					"        'Content-Type': \"application/json\",",

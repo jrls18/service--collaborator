@@ -19,6 +19,8 @@ public interface CollaboratorService {
 
     Collaborator getById(Long id);
 
+    Collaborator getByIdNotImage(Long id);
+
     void sendMessage(final CollaboratorMessage collaboratorMessage);
 
     Optional<Collaborator> findByUsername(final String username);

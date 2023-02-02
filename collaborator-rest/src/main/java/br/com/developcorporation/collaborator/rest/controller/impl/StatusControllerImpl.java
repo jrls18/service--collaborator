@@ -20,8 +20,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.STATUS)
-@CrossOrigin(origins = "*")
 public class StatusControllerImpl implements StatusController {
 
     private static final Logger LOG = LoggerFactory.getLogger(StatusControllerImpl.class);
@@ -33,7 +31,7 @@ public class StatusControllerImpl implements StatusController {
     @Override
     public ResponseEntity<List<StatusResponse>> getAll() {
 
-        final String jsonRequest = logRest.jsonLogInfo(null, MessageConstant.INICIALIZADO);
+        final String jsonRequest = logRest.jsonLogInfoParams(null, MessageConstant.INICIALIZADO);
 
         LOG.info(MessageConstant.REQUISICAO, jsonRequest);
 

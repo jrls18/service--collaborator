@@ -19,8 +19,16 @@ public interface Context extends Map<String, Object> {
     String getMethod();
 
     String getRequestUri();
-
     void setRequestUri(final String correlationId);
+
+    Map<String, String> getRequestUriParameterString();
+
+    void setRequestUriParameterString(final Map<String, String> parameterString);
+
+    Map<String, String> getRequestUriHeaders();
+
+    void setRequestUriHeaders(final Map<String, String> headers);
+
 
     void setInstanceId(final String instanceId);
 

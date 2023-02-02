@@ -13,6 +13,7 @@ import br.com.developcorporation.collaborator.rest.message.response.Authorizatio
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.AUTORIZACAO)
-@CrossOrigin(origins = "*")
 public class AuthorizationControllerImpl implements AuthorizationController {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthorizationControllerImpl.class);
@@ -83,7 +82,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
     @Override
     public ResponseEntity<List<AuthorizationResponse>> getAll() {
 
-        final String jsonRequest = logRest.jsonLogInfo(null, MessageConstant.INICIALIZADO);
+        final String jsonRequest = logRest.jsonLogInfoParams(null, MessageConstant.INICIALIZADO);
 
         LOG.info(MessageConstant.REQUISICAO, jsonRequest);
 

@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @AllArgsConstructor
 @RestController
-@RequestMapping(FieldConstant.ROUTER_COLLABORATOR)
-@CrossOrigin(origins = "*")
 public class CollaboratorControllerImpl implements CollaboratorController {
 
     private final CollaboratorValidator validator;
@@ -85,28 +83,12 @@ public class CollaboratorControllerImpl implements CollaboratorController {
     }
 
     @Override
-    public ResponseEntity<JwtResponse> authenticateUser(LoginRequest loginRequest) {
-
-        final String jsonRequest = logRest.jsonLogInfo(loginRequest, MessageConstant.INICIALIZADO);
-
-        log.info(MessageConstant.REQUISICAO, jsonRequest);
-
-        this.validator.loginRequestValidator(loginRequest);
-
-        JwtResponse response =  JwtMapper.INSTANCE.toResponse(authenticateService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        final String reponseLog = logRest.jsonLogInfo(response, MessageConstant.INICIALIZADO);
-
-        log.info(MessageConstant.RESPOSTA, reponseLog);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<PaginationResponse<CollaboratorResponse>> paginationResponse(
             String searchTerm, String page, String size) {
 
-        log.info(MessageConstant.REQUISICAO, "searchTerm=" +searchTerm + "&page="+page+"&size="+size );
+        final String jsonRequest = logRest.jsonLogInfoParams("searchTerm=" +searchTerm + "&page="+page+"&size="+size, MessageConstant.INICIALIZADO);
+
+        log.info(MessageConstant.REQUISICAO, jsonRequest);
 
         this.validator.pathPaginationValidator(searchTerm, page, size);
 
@@ -118,7 +100,9 @@ public class CollaboratorControllerImpl implements CollaboratorController {
                                Integer.parseInt(size)));
 
 
-        log.info(MessageConstant.RESPOSTA, response);
+        final String jsonResponse = logRest.jsonLogInfo(response, MessageConstant.FINALIZADO);
+
+        log.info(MessageConstant.RESPOSTA, jsonResponse);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -133,7 +117,7 @@ public class CollaboratorControllerImpl implements CollaboratorController {
         CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
                 service.getById(userDetails.getId()));
 
-        final String jsonResponse = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.RESPOSTA);
+        final String jsonResponse = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.FINALIZADO);
 
         log.info(MessageConstant.RESPOSTA, jsonResponse);
 
@@ -144,14 +128,32 @@ public class CollaboratorControllerImpl implements CollaboratorController {
 
     @Override
     public ResponseEntity<CollaboratorResponse> getProfileId(String id) {
-        final String jsonRequest = logRest.jsonLogInfo(id, MessageConstant.INICIALIZADO);
+        final String jsonRequest = logRest.jsonLogInfoParams(id, MessageConstant.INICIALIZADO);
 
         log.info(MessageConstant.REQUISICAO, jsonRequest);
 
         CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
-                service.getById(Long.parseLong(id)));
+                service.getByIdNotImage(Long.parseLong(id)));
 
-        final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.RESPOSTA);
+        final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.FINALIZADO);
+
+        log.info(MessageConstant.RESPOSTA, response);
+
+        return new ResponseEntity<>(
+                collaboratorResponse,
+                HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<CollaboratorResponse> getProfileNotImageId(String id) {
+        final String jsonRequest = logRest.jsonLogInfoParams(id, MessageConstant.INICIALIZADO);
+
+        log.info(MessageConstant.REQUISICAO, jsonRequest);
+
+        CollaboratorResponse collaboratorResponse =  CollaboratorMapper.INSTANCE.toResponse(
+                service.getByIdNotImage(Long.parseLong(id)));
+
+        final String response = logRest.jsonLogInfo(collaboratorResponse, MessageConstant.FINALIZADO);
 
         log.info(MessageConstant.RESPOSTA, response);
 

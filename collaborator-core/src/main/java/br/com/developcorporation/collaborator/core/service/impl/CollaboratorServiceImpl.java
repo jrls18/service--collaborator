@@ -101,7 +101,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
             if(Objects.nonNull(dto.getDocument()))
-                if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO))
+                if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                     enviaDocuments(dto);
 
             configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
@@ -142,6 +142,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         ContextHolder.get().setApplicationName(this.applicationName);
 
         dto.setPassword(encoder.encode(dto.getPassword()));
+
+        dto.getDocument().setCommand(INCLUSAO_ALTERACAO);
 
         save(dto);
 
@@ -268,13 +270,38 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 
 
+
     @Override
     public Collaborator getById(Long id) {
         validatorAuthorization.validCredentials();
 
         Collaborator collaborator = port.getById(id);
+
+        if(Objects.isNull(collaborator)){
+            throw new DomainException(
+                    CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.COLLABORADOR_NAO_EXISTE_CADASTRO,
+                    null);
+        }
+
         if(toggleCallApiDocuments){
             collaborator.getDocument().setDocument(documentPort.getImage(collaborator.getIdCompany(), collaborator.getDocument().getNameDocument()));
+        }
+
+        return  collaborator;
+    }
+
+    @Override
+    public Collaborator getByIdNotImage(Long id) {
+        validatorAuthorization.validCredentials();
+
+        Collaborator collaborator = port.getById(id);
+
+        if(Objects.isNull(collaborator)){
+            throw new DomainException(
+                    CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.COLLABORADOR_NAO_EXISTE_CADASTRO,
+                    null);
         }
 
         return  collaborator;

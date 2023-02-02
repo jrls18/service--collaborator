@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
-
 	<modules>
 		<module>collaborator-core</module>
 		<module>collaborator-domain</module>
@@ -14,6 +13,7 @@
         <module>lib-commons</module>
         <module>collaborator-messaging-avro-produce</module>
         <module>collaborator-services-internal</module>
+        <module>collaborator-e2e</module>
     </modules>
 
 	<parent>
@@ -32,10 +32,8 @@
 
 	<properties>
 		<revision>1.0.0</revision>
-		<java.version>11</java.version>
-
-		<aggregate.report.dir>target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
-
+		<java.version>17</java.version>
+		<spring.version>2.6.7</spring.version>
 
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
@@ -43,12 +41,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
-		<lombok.version>1.18.20</lombok.version>
-		<jacoco-maven-plugin-version>0.8.7</jacoco-maven-plugin-version>
+		<lombok.version>1.18.22</lombok.version>
+		<jacoco-maven-plugin-version>0.8.8</jacoco-maven-plugin-version>
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
-
-
 
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<sonar-maven-plugin-version>3.9.0.2155</sonar-maven-plugin-version>
@@ -62,12 +58,19 @@
 		<maven-source-plugin-version>3.2.1</maven-source-plugin-version>
 		<maven-release-plugin-version>2.5.3</maven-release-plugin-version>
 		<maven-deploy-plugin-version>2.8.2</maven-deploy-plugin-version>
-
-
+		<mockito-version>4.10.0</mockito-version>
+		<byte-buddy-version>1.12.20</byte-buddy-version>
 
 		<sonar.exclusions>
 			**/App.java,
+			**/message/**,
+			**/config/**,
+			**/handler/**,
+			**/exception/**,
+			**/model/**,
+			**/infrastructure/**,
 			**/test/**
+			**/mapper/*Impl**
 		</sonar.exclusions>
 	</properties>
 
@@ -114,6 +117,11 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>br.com.developcorporation</groupId>
+				<artifactId>collaborator-e2e</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
 				<version>${spring-cloud-version}</version>
@@ -121,13 +129,30 @@
 				<scope>import</scope>
 			</dependency>
 
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockito-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-junit-jupiter</artifactId>
+				<version>${mockito-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy</artifactId>
+				<version>${byte-buddy-version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 
 	<build>
 			<plugins>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
@@ -197,6 +222,11 @@
 								<artifactId>mapstruct-processor</artifactId>
 								<version>${org.mapstruct.version}</version>
 							</path>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok-mapstruct-binding</artifactId>
+								<version>0.2.0</version>
+							</path>
 						</annotationProcessorPaths>
 					</configuration>
 				</plugin>
@@ -205,31 +235,18 @@
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco-maven-plugin-version}</version>
-					<configuration>
-						<excludes>
-							<exclude>**/App.*</exclude>
-						</excludes>
-					</configuration>
 					<executions>
 						<execution>
 							<id>report-unit-tests</id>
 							<goals>
 								<goal>report</goal>
 							</goals>
-							<configuration>
-								<dataFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</dataFile>
-								<outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
-							</configuration>
 						</execution>
 						<execution>
 							<id>prepare-agent</id>
 							<goals>
 								<goal>prepare-agent</goal>
 							</goals>
-							<configuration>
-								<destFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</destFile>
-								<propertyName>surefire.jacoco.args</propertyName>
-							</configuration>
 						</execution>
 						<execution>
 							<id>report-aggregate</id>
@@ -238,8 +255,26 @@
 								<goal>report-aggregate</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>${project.basedir}/../target/site/jacoco-aggregate</outputDirectory>
+								<outputDirectory>${project.basedir}/../target/site/jacoco</outputDirectory>
 							</configuration>
+						</execution>
+					</executions>
+					<configuration>
+						<excludes>
+							<exclude>**/message/**</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>3.9.1.2184</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>sonar</goal>
+							</goals>
 						</execution>
 					</executions>
 				</plugin>

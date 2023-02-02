@@ -32,6 +32,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
+
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
         return new JwtAuthTokenFilter();
@@ -55,20 +56,26 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .deny()
+                .and()
+                .authorizeRequests()
+                .antMatchers(AntMatchersConstants.AUTH_URL_SERVICE_WHITELIST).permitAll()
+                .antMatchers(AntMatchersConstants.AUTH_URL_H2_WHITELIST).permitAll()
+                .antMatchers(AntMatchersConstants.AUTH_URL_SWAGGER_WHITELIST).permitAll()
+                .anyRequest().authenticated()
+                .and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
+                .and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.cors().and().csrf().disable().authorizeRequests().antMatchers(
-                        "/colaborador/auth/v1/**",
-                        "/colaborador/internal/**",
-                        "/h2-console/**",
-                        "/actuator/**"
-                ).permitAll().anyRequest()
-                .authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        http.headers().frameOptions().disable();
-
+        httpSecurity.headers().frameOptions().disable();
     }
 }
