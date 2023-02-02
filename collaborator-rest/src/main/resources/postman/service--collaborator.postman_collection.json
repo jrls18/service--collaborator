@@ -161,7 +161,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_base}}/{{url_base_domain}}/api/colaborador/internal/v1/profile/id=5",
+					"raw": "{{url_base}}/{{url_base_domain}}/api/colaborador/internal/v1/profile/5",
 					"host": [
 						"{{url_base}}"
 					],
@@ -172,7 +172,7 @@
 						"internal",
 						"v1",
 						"profile",
-						"id=5"
+						"5"
 					]
 				}
 			},

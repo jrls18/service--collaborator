@@ -39,11 +39,11 @@ public interface CollaboratorController {
     ResponseEntity<CollaboratorResponse> getUserProfile(@AuthenticationPrincipal UserPrinciple userDetails);
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
+    @GetMapping(path = "/v1/profile/{codigo}", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CollaboratorResponse> getProfileId(@PathVariable("codigo") final String id);
 
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/internal/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
+    @GetMapping(path = "/internal/v1/profile/{codigo}", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CollaboratorResponse> getProfileNotImageId(@PathVariable("codigo") final String id);
 }
