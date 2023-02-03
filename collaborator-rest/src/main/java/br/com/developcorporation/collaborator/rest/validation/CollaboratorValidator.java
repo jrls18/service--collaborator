@@ -5,12 +5,13 @@ import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
-import br.com.developcorporation.collaborator.rest.exception.error.BadRequestEntityException;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
+import br.com.grupo.developer.corporation.libcommons.exception.BadRequestEntityException;
 import br.com.grupo.developer.corporation.libcommons.message.request.LoginRequest;
 import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import br.com.grupo.developer.corporation.libcommons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.validation.response.BaseValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>{
+public class CollaboratorValidator implements BaseValidator<CollaboratorRequest> {
     @Override
     public void addRequestValidation(CollaboratorRequest value) {
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
