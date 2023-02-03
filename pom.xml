@@ -10,7 +10,6 @@
 		<module>collaborator-rest</module>
 		<module>collaborator-starter</module>
 		<module>collaborator-messaging-avro-consumer</module>
-        <module>lib-commons</module>
         <module>collaborator-messaging-avro-produce</module>
         <module>collaborator-services-internal</module>
         <module>collaborator-e2e</module>
@@ -31,7 +30,7 @@
 
 
 	<properties>
-		<revision>1.0.0</revision>
+		<revision>1.1.0</revision>
 		<java.version>17</java.version>
 		<spring.version>2.6.7</spring.version>
 
@@ -41,6 +40,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
+		<lib-logger-version>1.1.1</lib-logger-version>
 		<lombok.version>1.18.22</lombok.version>
 		<jacoco-maven-plugin-version>0.8.8</jacoco-maven-plugin-version>
 		<coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
@@ -113,11 +113,6 @@
 			</dependency>
 			<dependency>
 				<groupId>br.com.developcorporation</groupId>
-				<artifactId>lib-commons</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>br.com.developcorporation</groupId>
 				<artifactId>collaborator-e2e</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -128,8 +123,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-
+			<dependency>
+				<groupId>br.com.grupo.developer.corporation</groupId>
+				<artifactId>lib-logger</artifactId>
+				<version>${lib-logger-version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>

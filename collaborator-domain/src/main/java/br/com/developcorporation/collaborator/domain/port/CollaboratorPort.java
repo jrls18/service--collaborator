@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.domain.port;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.model.Pagination;
+import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 
 import java.util.Optional;
 

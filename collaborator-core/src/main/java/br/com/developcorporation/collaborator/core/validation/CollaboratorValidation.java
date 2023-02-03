@@ -3,11 +3,12 @@ package br.com.developcorporation.collaborator.core.validation;
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.core.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
-import br.com.developcorporation.collaborator.core.enums.CoreEnum;
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
-import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.lib.commons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.enums.CoreEnum;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
+import br.com.grupo.developer.corporation.libcommons.validation.BaseValidator;
+import br.com.grupo.developer.corporation.libcommons.validation.Validation;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
-public class CollaboratorValidation implements BaseValidator<Collaborator>{
+public class CollaboratorValidation implements BaseValidator<Collaborator> {
 
 
     @Override

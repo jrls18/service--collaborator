@@ -2,11 +2,12 @@ package br.com.developcorporation.collaborator.rest.validation;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
-import br.com.developcorporation.collaborator.rest.exception.error.BadRequestEntityException;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.AuthorizationRequest;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
-import br.com.developcorporation.lib.commons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.exception.BadRequestEntityException;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
+import br.com.grupo.developer.corporation.libcommons.validation.Validation;
+import br.com.grupo.developer.corporation.libcommons.validation.response.BaseValidator;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class AuthorizationValidator implements BaseValidator<AuthorizationRequest>{
+public class AuthorizationValidator implements BaseValidator<AuthorizationRequest> {
 
     public void validClientIdAndClientSecret(final String clientId, final String clientSecret) {
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();

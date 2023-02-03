@@ -2,19 +2,17 @@ package br.com.developcorporation.collaborator.message.avro.consumer.service.imp
 
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
-import br.com.developcorporation.collaborator.domain.logger.LogDomain;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
-import br.com.developcorporation.collaborator.message.avro.Colaborador;
+
 import br.com.developcorporation.collaborator.message.avro.consumer.mapper.CollaboratorMessageMapper;
-import br.com.developcorporation.collaborator.message.avro.consumer.service.CollaboratorMessageService;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.UnlockCollaboratorMessageService;
 import br.com.developcorporation.menu.configure.user.unlock.message.avro.UnlockMenuUser;
+import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
@@ -25,18 +23,17 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorMessageService<UnlockMenuUser> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UnlockCollaboratorMessageServiceImpl.class);
 
     private static final String INICIO_PROCESSAMENTO = "INICIO-PROCESSAMENTO";
 
     private static final String FIM_PROCESSAMENTO = "FIM-PROCESSAMENTO";
     private static final String FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO = "FIM-PROCESSAMENTO-COM-ERRO-DE-NEGOCIO";
 
-    private final LogDomain logDomain;
     private final CollaboratorService collaboratorService;
 
     @Value("${spring.application.name}")
@@ -60,17 +57,14 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
             message.getMessageControl().setDataInicioProcessamento(LocalDateTime.now().toString());
             message.getMessageControl().setSituacaoDoProcessamento(INICIO_PROCESSAMENTO);
 
-            final String json = logDomain.jsonLogInfo(message, MessageConstants.INICIALIZADO);
+            log.info(MessageConstants.ASYNC_REQUEST, Logger.info(message, MessageConstants.INICIALIZADO));
 
-            LOG.info(MessageConstants.ASYNC_REQUEST, json);
 
             collaboratorService.unlockCollaboratorAsync(CollaboratorMessageMapper.INSTANCE.toDomain(message.getCollaborator()));
 
             setDadosController(message, FIM_PROCESSAMENTO);
 
-            final String response = logDomain.jsonLogInfo(message, MessageConstants.FINALIZADO);
-
-            LOG.info(MessageConstants.ASYNC_RESPONSE, response);
+            log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(message, MessageConstants.FINALIZADO));
 
         }catch (DomainException ex){
 
@@ -80,9 +74,7 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
 
             collaboratorService.sendMessage(message);
 
-            final String json = logDomain.jsonLogInfo(message, MessageConstants.FINALIZADO);
-
-            LOG.info(MessageConstants.ASYNC_RESPONSE, json);
+            log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(message, MessageConstants.FINALIZADO));
         }
     }
 

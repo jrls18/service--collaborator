@@ -21,13 +21,16 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Value("${prop.swagger.enabled:false}")
     private boolean enableSwagger;
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         if(enableSwagger){
-            registry.addInterceptor(new ContextHandleInterceptor(service, validator))
+            registry.addInterceptor(new ContextHandleInterceptor(service, validator, applicationName))
                     .excludePathPatterns(AntMatchersConstants.AUTH_URL_SWAGGER_WHITELIST);
         }else {
-            registry.addInterceptor(new ContextHandleInterceptor(service, validator));
+            registry.addInterceptor(new ContextHandleInterceptor(service, validator,applicationName));
         }
     }
 }

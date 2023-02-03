@@ -1,15 +1,16 @@
 package br.com.developcorporation.collaborator.rest.infrastructure;
 
 import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
-import br.com.developcorporation.collaborator.domain.infrastructure.ContextHolder;
-import br.com.developcorporation.collaborator.domain.infrastructure.RequestContext;
+
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.RequestContext;
 import lombok.SneakyThrows;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,17 +20,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Log4j2
 public class ContextHandleInterceptor implements HandlerInterceptor {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ContextHandleInterceptor.class);
 
     private AuthorizationService service;
 
     private AuthorizationValidator validator;
 
-    public ContextHandleInterceptor(final AuthorizationService service, final  AuthorizationValidator validator){
+    private String applicationName;
+
+    public ContextHandleInterceptor(final AuthorizationService service,
+                                    final AuthorizationValidator validator,
+                                    final String applicationName){
         this.service = service;
         this.validator = validator;
+        this.applicationName = applicationName;
     }
 
     @SneakyThrows
@@ -49,6 +54,11 @@ public class ContextHandleInterceptor implements HandlerInterceptor {
         requestContext.setMethod(request.getMethod());
         requestContext.setCorrelationId(request.getHeader(FieldConstant.CURRENTCORRELATION_ID));
         requestContext.setInstanceId(InetAddress.getLocalHost().getHostName());
+        requestContext.setApplicationName(applicationName);
+
+        requestContext.setPathVariable(
+                setPathVariable(
+                        request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)));
 
         ContextHolder.set(requestContext);
 
@@ -96,5 +106,17 @@ public class ContextHandleInterceptor implements HandlerInterceptor {
             map.put(line.getKey(), line.getValue()[0]);
         }
         return map;
+    }
+
+    private Map<String, String> setPathVariable(Object obj){
+        Map<String, String> pathVariables = null;
+
+        if(Objects.nonNull(obj)) {
+            pathVariables = (Map) obj;
+
+            if(pathVariables.isEmpty())
+                return null;
+        }
+        return pathVariables;
     }
 }

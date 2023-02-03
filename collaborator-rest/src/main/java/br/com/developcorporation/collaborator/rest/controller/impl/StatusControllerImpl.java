@@ -1,45 +1,37 @@
 package br.com.developcorporation.collaborator.rest.controller.impl;
 
-import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.StatusController;
-import br.com.developcorporation.collaborator.domain.logger.*;
 import br.com.developcorporation.collaborator.rest.mapper.StatusMapper;
 import br.com.developcorporation.collaborator.core.service.StatusService;
 import br.com.developcorporation.collaborator.rest.message.response.StatusResponse;
+import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Log4j2
 @AllArgsConstructor
 @RestController
 public class StatusControllerImpl implements StatusController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StatusControllerImpl.class);
-
     private final StatusService service;
-
-    private final LogDomain logRest;
 
     @Override
     public ResponseEntity<List<StatusResponse>> getAll() {
 
-        final String jsonRequest = logRest.jsonLogInfoParams(null, MessageConstant.INICIALIZADO);
-
-        LOG.info(MessageConstant.REQUISICAO, jsonRequest);
+        log.info(MessageConstant.REQUISICAO, Logger.info(null, MessageConstant.INICIALIZADO));
 
         List<StatusResponse> statusResponses = StatusMapper.INSTANCE.toResponseList(service.getByAll());
 
-        final String jsonResponse = logRest.jsonLogInfo(statusResponses, HttpStatus.OK.value(), MessageConstant.FINALIZADO);
-
-        LOG.info(MessageConstant.RESPOSTA, jsonResponse);
+        log.info(MessageConstant.RESPOSTA, Logger.info(
+                statusResponses,
+                HttpStatus.OK.value(),
+                MessageConstant.FINALIZADO));
 
         return new ResponseEntity<>(
                 statusResponses,
