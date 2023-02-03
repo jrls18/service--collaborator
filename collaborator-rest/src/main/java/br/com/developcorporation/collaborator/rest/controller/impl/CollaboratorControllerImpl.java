@@ -1,7 +1,6 @@
 package br.com.developcorporation.collaborator.rest.controller.impl;
 
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
-import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.CollaboratorController;
 import br.com.developcorporation.collaborator.rest.mapper.CollaboratorMapper;
@@ -13,6 +12,7 @@ import br.com.developcorporation.collaborator.rest.message.response.PaginationRe
 import br.com.developcorporation.collaborator.rest.security.model.UserPrinciple;
 import br.com.developcorporation.collaborator.rest.validation.CollaboratorValidator;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

@@ -12,15 +12,10 @@ public interface MessageMapper {
     MessageMapper INSTANCE = Mappers.getMapper(MessageMapper.class);
 
     MessageResponse toResponse(final Message message);
-    MessageResponse dtoToResponse(final br.com.developcorporation.collaborator.domain.message.Message message);
+    MessageResponse dtoToResponse(final br.com.grupo.developer.corporation.libcommons.message.Message message);
 
     MessageResponse.DetailsResponse toDetailsResponse(final br.com.grupo.developer.corporation.libcommons.message.Message.Details details);
 
-    List<MessageResponse.DetailsResponse> toDetailsResponseList(final  List<br.com.grupo.developer.corporation.libcommons.message.Message.Details> detailsList);
-
-    MessageResponse.DetailsResponse toDetailsResponse(final br.com.developcorporation.collaborator.domain.message.Message.Details details);
-
-    List<MessageResponse.DetailsResponse> domainToDetailsResponseList(final  List<br.com.developcorporation.collaborator.domain.message.Message.Details> domainDetailsList);
-
+    List<MessageResponse.DetailsResponse> domainToDetailsResponseList(final  List<br.com.grupo.developer.corporation.libcommons.message.Message.Details> domainDetailsList);
 
 }

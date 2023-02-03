@@ -69,7 +69,7 @@ public final class MessageConstants {
     public static final String SIGLA_APP_JA_EXISTE_CADASTRADA = "Sigla app já existe cadastrada.";
     public static final String AUTORIZACAO_CADASTRADA_COM_SUCESSO = "Autorização cadastrada com sucesso.";
     public static final String AUTORIZACAO_ATUALIZADA_COM_SUCESSO = "Autorização atualizada com sucesso.";
-    
+
     public static final String USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU = "Usuario não autorizado. Aguardando configuração de menu.";
 
     public static final String COLABORADOR_ATUALIZADA_COM_SUCESSO = "Colaborador atualizada com sucesso.";

@@ -1,11 +1,11 @@
 package br.com.developcorporation.collaborator.message.avro.consumer.mapper;
 
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.message.avro.Colaborador;
 import br.com.developcorporation.collaborator.message.avro.consumer.constans.DataConstant;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.menu.configure.user.unlock.message.avro.UnlockMenuUser;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

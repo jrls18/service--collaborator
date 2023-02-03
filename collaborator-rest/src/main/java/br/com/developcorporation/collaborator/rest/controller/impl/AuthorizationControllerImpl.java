@@ -2,7 +2,6 @@ package br.com.developcorporation.collaborator.rest.controller.impl;
 
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
 
-import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.AuthorizationController;
 import br.com.developcorporation.collaborator.rest.mapper.AuthorizationMapper;
@@ -12,6 +11,7 @@ import br.com.developcorporation.collaborator.rest.message.response.Authorizatio
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

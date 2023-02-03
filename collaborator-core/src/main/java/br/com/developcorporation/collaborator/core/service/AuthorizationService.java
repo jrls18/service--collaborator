@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.core.service;
 
-import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Authorization;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 
 import java.util.List;
 

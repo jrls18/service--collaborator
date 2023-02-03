@@ -1,5 +1,6 @@
 package br.com.developcorporation.collaborator.domain.message;
 
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package br.com.developcorporation.collaborator.core.validation;
 
 import br.com.developcorporation.collaborator.core.enums.CoreEnum;
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
-import br.com.developcorporation.collaborator.domain.message.Message;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import br.com.grupo.developer.corporation.libcommons.utils.UseFul;
 
 

@@ -2,7 +2,6 @@ package br.com.developcorporation.collaborator.message.avro.consumer.service.imp
 
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 
 import br.com.developcorporation.collaborator.message.avro.consumer.mapper.CollaboratorMessageMapper;
@@ -10,6 +9,7 @@ import br.com.developcorporation.collaborator.message.avro.consumer.service.Unlo
 import br.com.developcorporation.menu.configure.user.unlock.message.avro.UnlockMenuUser;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

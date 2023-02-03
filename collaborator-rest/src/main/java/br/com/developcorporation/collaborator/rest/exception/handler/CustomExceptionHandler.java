@@ -4,10 +4,10 @@ package br.com.developcorporation.collaborator.rest.exception.handler;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.exception.error.*;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 

@@ -4,13 +4,13 @@ import br.com.developcorporation.collaborator.core.enums.CoreEnum;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
 import br.com.developcorporation.collaborator.core.validation.AuthorizationValidation;
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
-import br.com.developcorporation.collaborator.domain.message.Message;
 import br.com.developcorporation.collaborator.domain.model.Authorization;
 import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.AuthorizationPort;
 import br.com.developcorporation.collaborator.domain.port.StatusPort;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
