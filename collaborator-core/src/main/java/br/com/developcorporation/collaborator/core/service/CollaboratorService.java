@@ -2,8 +2,8 @@ package br.com.developcorporation.collaborator.core.service;
 
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.grupo.developer.corporation.libcommons.message.Message;
+import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 
 import java.util.Optional;
 

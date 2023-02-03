@@ -3,6 +3,9 @@ package br.com.developcorporation.collaborator.domain.constants;
 
 public final class MessageConstants {
 
+    private MessageConstants(){
+    }
+
     public static final String ASYNC_REQUEST = "Async Request {}";
 
     public static final String ASYNC_RESPONSE = "Async Response {}";
@@ -20,10 +23,6 @@ public final class MessageConstants {
 
     public static final String PASSWORD_DEVE_SER_NULLO = "Password deve ser nulo.";
     public static final String ID_COMPANY_NAO_DEVE_SER_PREENCHIDO = "O codigo_empresa não deve ser preenchido.";
-
-
-    private MessageConstants(){
-    }
 
     public static final String CODIGO_E_OBRIGATORIO = "Codigo é obrigatório.";
     public static final String CODIGO_AUTORIZACAO_DEVE_SER_INFORMADO = "Código autorização deve ser informado.";

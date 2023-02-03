@@ -2,11 +2,11 @@ package br.com.developcorporation.collaborator.rest.mapper;
 
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.response.CollaboratorResponse;
 import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
+import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

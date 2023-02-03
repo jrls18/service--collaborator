@@ -1,18 +1,14 @@
 package br.com.developcorporation.collaborator.jpa.mapper;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.jpa.entity.Role;
-import org.mapstruct.AfterMapping;
+import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Mapper
 public interface CollaboratorMapper {
