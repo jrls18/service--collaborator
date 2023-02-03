@@ -1,11 +1,11 @@
 package br.com.developcorporation.collaborator.jpa.adapter;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.domain.model.Pagination;
 import br.com.developcorporation.collaborator.domain.port.CollaboratorPort;
 import br.com.developcorporation.collaborator.jpa.mapper.CollaboratorMapper;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
 import br.com.developcorporation.collaborator.jpa.service.RoleRepositoryService;
+import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

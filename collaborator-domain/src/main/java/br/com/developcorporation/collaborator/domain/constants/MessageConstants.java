@@ -3,6 +3,9 @@ package br.com.developcorporation.collaborator.domain.constants;
 
 public final class MessageConstants {
 
+    private MessageConstants(){
+    }
+
     public static final String ASYNC_REQUEST = "Async Request {}";
 
     public static final String ASYNC_RESPONSE = "Async Response {}";
@@ -20,10 +23,6 @@ public final class MessageConstants {
 
     public static final String PASSWORD_DEVE_SER_NULLO = "Password deve ser nulo.";
     public static final String ID_COMPANY_NAO_DEVE_SER_PREENCHIDO = "O codigo_empresa não deve ser preenchido.";
-
-
-    private MessageConstants(){
-    }
 
     public static final String CODIGO_E_OBRIGATORIO = "Codigo é obrigatório.";
     public static final String CODIGO_AUTORIZACAO_DEVE_SER_INFORMADO = "Código autorização deve ser informado.";
@@ -70,11 +69,6 @@ public final class MessageConstants {
     public static final String AUTORIZACAO_CADASTRADA_COM_SUCESSO = "Autorização cadastrada com sucesso.";
     public static final String AUTORIZACAO_ATUALIZADA_COM_SUCESSO = "Autorização atualizada com sucesso.";
 
-    public static final String EMPRESA_CADASTRADA_COM_SUCESSO = "Empresa cadastrada com sucesso.";
-
-    public static final String USUARIO_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA_CADASTRADA_COM_SUCESSO_NO_MAXIMO_24_HORAS_SERA_LIBERADO_SEU_ACESSO_NO_SISTEMA =
-            "Usuário cadastrada com sucesso. No máximo 24 horas será liberado seu acesso no sistema.";
-
     public static final String USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU = "Usuario não autorizado. Aguardando configuração de menu.";
 
     public static final String COLABORADOR_ATUALIZADA_COM_SUCESSO = "Colaborador atualizada com sucesso.";
@@ -85,13 +79,7 @@ public final class MessageConstants {
 
     public static final String NAO_AUTORIZADO = "Não autorizado.";
 
-    public static final String CPF_INFORMARDO_E_INVALIDO = "Cpf informardo é inválido.";
-    public static final String CNPJ_INFORMARDO_E_INVALIDO = "Cnpj informardo é inválido.";
-    public static final String CNPJ_CPF_INFORMADO_E_INVALIDO = "CNPJ - CPF informado é inválido.";
-    public static final String CNPJ_CPF_JA_EXISTE_CADASTRADO = "CNPJ - CPF Já existe cadastrado.";
-    public static final String RAZAO_SOCIAL_JA_EXISTE_CADASTRADA = "Razão social já existe cadastrada.";
 
-    public static final String PARA_REALIZAR_O_CADASTRO_LEIA_O_CONTRATO_E_ACEITE_AS_CONDICOES = "Para realizar o cadastro leia o contrato e aceite as condições.";
     public static final String DATA_DE_NASCIMENTO_E_OBRIGATORIO = "Data de nascimento é obrigatório.";
     public static final String EMAIL_DEVE_SER_ENVIADO_NO_FORMATO_VALIDO = "Email deve ser enviado no formato válido.";
 
@@ -103,11 +91,8 @@ public final class MessageConstants {
 
     public static final String EMAIL_INFORMADO_JA_EXISTE_CADASTRADO = "O Email informado já existe cadastrado.";
 
-    public static final String PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACETERES_E_DEVE_CONTER_UMA_LETRA_MAIUSCULA_UMA_LETRA_MINUSCULA_UM_SIBOLO_E_UM_CARACTER_ESPECIAL = "Password deve conter no mínimo 8 caraceteres e deve conter uma letra maiuscula, uma letra minuscula, um sibolo e um caracter especial.";
     public static final String TELEFONE_DEVE_SER_NUMERO_VALIDO = "Telefone deve ser número válido.";
     public static final String TELEFONE_PRINCIPAL_DEVE_SER_NUMERO_VALIDO = "Telefone principal deve ser número válido.";
-    public static final String RAZAO_SOCIAL_DEVE_SEM_PREENCHIDA_COM_NO_MINIMO_10_CARACTERES_E_NO_MAXIMO_80 = "Razão social deve sem preenchida com no mínimo 10 caracteres e no máximo 80.";
-    public static final String RAZAO_SOCIAL_E_OBRIGATORIO = "Razão social é obrigatório.";
     public static final String CEP_DEVE_SER_INFORMADO_NO_FORMATO_DE_8_CARACTERES = "Cep deve ser informado no formato de 8 caracteres.";
     public static final String LOGRADOURO_DEVE_SER_INFORMADO_COM_NO_MAXIMO_90_CARACTERES = "Logradouro deve ser informado com no máximo 90 caracteres.";
     public static final String LOGRADOURO_DEVE_SER_INFORMADO = "Logradouro deve ser informado.";
@@ -118,14 +103,5 @@ public final class MessageConstants {
     public static final String LOCALIDADE_CIDADE_DEVE_SER_INFORMADO_COM_NO_MAXIMO_90_CARACTERES = "Localidade - Cidade deve ser informado com no máximo 90 caracteres.";
     public static final String UF_DEVE_SER_INFORMADO_COM_BASE_NOS_ESTADOS_BRASILEIROS = "Uf deve ser informado com base nos estados brasileiros.";
     public static final String NUMERO_DEVE_SER_INFORMADO = "Número deve ser informado.";
-    public static final String NOME_FANTASIA_E_OBRIGATORIO = "Nome fantasia é obrigatório.";
-    public static final String NOME_FANTASIA_DEVE_SEM_PREENCHIDA_COM_NO_MINIMO_10_CARACTERES_E_NO_MAXIMO_80 = "Nome fantasia deve sem preenchida com no mínimo 10 caracteres e no máximo 80.";
-    public static final String CODIGO_SEGUIMENTO_E_OBRIGATORIO = "Código seguimento é obrigatório.";
-    public static final String CODIGO_SEGUIMENTO_DE_DEVE_SER_INFORMADO_MAIOR_QUE_ZERO = "Código seguimento de deve ser informado maior que zero.";
-    public static final String CODIGO_TIPO_DE_ACESSO_E_OBRIGATORIO = "Código tipo de acesso é obrigatório.";
-    public static final String CODIGO_TIPO_DE_ACESSO_DE_DEVE_SER_INFORMADO_MAIOR_QUE_ZERO = "Código tipo de acesso de deve ser informado maior que zero.";
-    public static final String INSCRICAO_ESTADUAL_DEVE_CONTER_SOMENTE_NUMERO = "Inscrição estadual deve conter somente número.";
-    public static final String INSCRICAO_ESTADUAL_DEVE_CONTER_NO_MAXIMO_30_CARACTERES = "Inscrição estadual deve conter no máximo 30 caracteres.";
-    public static final String CNPJ_CPF_E_OBRIGATORIO = "CNPJ - CPF é obrigatório.";
 
 }

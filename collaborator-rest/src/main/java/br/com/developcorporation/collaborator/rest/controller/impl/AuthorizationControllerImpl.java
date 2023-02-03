@@ -1,19 +1,19 @@
 package br.com.developcorporation.collaborator.rest.controller.impl;
 
 import br.com.developcorporation.collaborator.core.service.AuthorizationService;
-import br.com.developcorporation.collaborator.domain.logger.*;
-import br.com.developcorporation.collaborator.domain.message.Message;
+
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.controller.AuthorizationController;
 import br.com.developcorporation.collaborator.rest.mapper.AuthorizationMapper;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.AuthorizationRequest;
 import br.com.developcorporation.collaborator.rest.message.response.AuthorizationResponse;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.validation.AuthorizationValidator;
+import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,23 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Log4j2
 @RequiredArgsConstructor
 @RestController
 public class AuthorizationControllerImpl implements AuthorizationController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AuthorizationControllerImpl.class);
-
     private final AuthorizationService service;
     private final AuthorizationValidator validator;
-
-    private final LogDomain logRest;
 
     @Override
     public ResponseEntity<MessageResponse> add(AuthorizationRequest request) {
 
-        final String jsonRequest = logRest.jsonLogInfo(request, MessageConstant.INICIALIZADO);
-
-        LOG.info(MessageConstant.REQUISICAO, jsonRequest);
+        log.info(MessageConstant.REQUISICAO, Logger.info(request, MessageConstant.INICIALIZADO));
 
         this.validator.addRequestValidation(request);
 
@@ -45,9 +40,10 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 
         MessageResponse response = MessageMapper.INSTANCE.dtoToResponse(message);
 
-        final String jsonResponse =  logRest.jsonLogInfo(response, HttpStatus.CREATED.value(), MessageConstant.FINALIZADO);
-
-        LOG.info(MessageConstant.RESPOSTA,jsonResponse);
+        log.info(MessageConstant.RESPOSTA, Logger.info(
+                response,
+                HttpStatus.CREATED.value(),
+                MessageConstant.FINALIZADO));
 
         return new ResponseEntity<>(
                 response,
@@ -57,9 +53,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
     @Override
     public ResponseEntity<MessageResponse> update(AuthorizationRequest request) {
 
-        final String jsonRequest = logRest.jsonLogInfo(request, MessageConstant.INICIALIZADO);
-
-        LOG.info(MessageConstant.REQUISICAO, jsonRequest);
+        log.info(MessageConstant.REQUISICAO, Logger.info(request, MessageConstant.INICIALIZADO));
 
         this.validator.updateRequestValidation(request);
 
@@ -67,9 +61,10 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 
         MessageResponse response = MessageMapper.INSTANCE.dtoToResponse(message);
 
-        final String jsonResponse =  logRest.jsonLogInfo(response, HttpStatus.ACCEPTED.value(), MessageConstant.FINALIZADO);
-
-        LOG.info(MessageConstant.RESPOSTA,jsonResponse);
+        log.info(MessageConstant.RESPOSTA, Logger.info(
+                response,
+                HttpStatus.ACCEPTED.value(),
+                MessageConstant.FINALIZADO));
 
         return new ResponseEntity<>(
                 response,
@@ -79,15 +74,16 @@ public class AuthorizationControllerImpl implements AuthorizationController {
     @Override
     public ResponseEntity<List<AuthorizationResponse>> getAll() {
 
-        final String jsonRequest = logRest.jsonLogInfoParams(null, MessageConstant.INICIALIZADO);
-
-        LOG.info(MessageConstant.REQUISICAO, jsonRequest);
+        log.info(MessageConstant.REQUISICAO, Logger.info(
+                null,
+                MessageConstant.INICIALIZADO));
 
         List<AuthorizationResponse> responseList =  AuthorizationMapper.INSTANCE.toResponseList(service.getAll());
 
-        final String jsonResponse = logRest.jsonLogInfo(responseList, HttpStatus.OK.value(), MessageConstant.FINALIZADO);
-
-        LOG.info(MessageConstant.RESPOSTA,jsonResponse );
+        log.info(MessageConstant.RESPOSTA, Logger.info(
+                responseList,
+                HttpStatus.OK.value(),
+                MessageConstant.FINALIZADO));
 
         return new ResponseEntity<>(
                 responseList,

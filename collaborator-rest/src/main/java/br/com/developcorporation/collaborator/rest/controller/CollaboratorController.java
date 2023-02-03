@@ -3,10 +3,10 @@ package br.com.developcorporation.collaborator.rest.controller;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
 import br.com.developcorporation.collaborator.rest.message.response.CollaboratorResponse;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
-import br.com.developcorporation.collaborator.rest.message.response.PaginationResponse;
 import br.com.developcorporation.collaborator.rest.security.model.UserPrinciple;
 
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
+import br.com.grupo.developer.corporation.libcommons.message.response.PaginationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,11 +39,11 @@ public interface CollaboratorController {
     ResponseEntity<CollaboratorResponse> getUserProfile(@AuthenticationPrincipal UserPrinciple userDetails);
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
+    @GetMapping(path = "/v1/profile/{codigo}", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CollaboratorResponse> getProfileId(@PathVariable("codigo") final String id);
 
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/internal/v1/profile/id={codigo}", produces = FieldConstant.APPLICATION_JSON)
+    @GetMapping(path = "/internal/v1/profile/{codigo}", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<CollaboratorResponse> getProfileNotImageId(@PathVariable("codigo") final String id);
 }

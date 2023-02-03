@@ -1,10 +1,10 @@
 package br.com.developcorporation.collaborator.services.internal.service.impl;
 
-import br.com.developcorporation.collaborator.domain.exception.DomainException;
 import br.com.developcorporation.collaborator.services.internal.constant.MessageConstants;
 import br.com.developcorporation.collaborator.services.internal.model.DocumentsModel;
 import br.com.developcorporation.collaborator.services.internal.service.DocumentsService;
 import br.com.developcorporation.collaborator.services.internal.service.httpUtils.HttpUtil;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

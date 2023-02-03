@@ -1,6 +1,6 @@
 package br.com.developcorporation.collaborator.core.mapper;
 
-import br.com.developcorporation.collaborator.domain.message.Message;
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
