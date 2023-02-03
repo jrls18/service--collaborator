@@ -5,7 +5,7 @@ import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.exception.error.BadRequestEntityException;
 import br.com.developcorporation.collaborator.rest.mapper.MessageMapper;
 import br.com.developcorporation.collaborator.rest.message.request.AuthorizationRequest;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import br.com.grupo.developer.corporation.libcommons.validation.Validation;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.rest.mapper;
 
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.grupo.developer.corporation.libcommons.message.Message;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -5,12 +5,12 @@ import br.com.developcorporation.collaborator.rest.controller.AuthenticationCont
 import br.com.developcorporation.collaborator.rest.controller.CollaboratorController;
 import br.com.developcorporation.collaborator.rest.mapper.JwtMapper;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
-import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
-import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
 import br.com.developcorporation.collaborator.rest.security.service.AuthenticateService;
 import br.com.developcorporation.collaborator.rest.validation.CollaboratorValidator;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
+import br.com.grupo.developer.corporation.libcommons.message.request.LoginRequest;
+import br.com.grupo.developer.corporation.libcommons.message.response.JwtResponse;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

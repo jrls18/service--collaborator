@@ -30,8 +30,6 @@ public final class FieldConstant {
 
     public static final String EMPRESA = "empresa";
 
-    public static final String FOLLOW_UP = "seguimento";
-
     public static final String TIPO_USUARIO = "tipo_usuario";
 
 
@@ -39,16 +37,9 @@ public final class FieldConstant {
     public static final String ROUTER_COLLABORATOR = PREFIX_API + COLLABORATOR ;
 
     public static final String ROUTER_STATUS = PREFIX_API + STATUS;
-    public static final String ROUTER_EMPRESA = PREFIX_API + EMPRESA;
     public static final String ROUTER_AUTORIZACAO = PREFIX_API + AUTORIZACAO;
-    public static final String ROUTER_FOLLOW_UP = PREFIX_API + FOLLOW_UP;
 
     public static final String ROUTER_TIPO_USUARIO = PREFIX_API + TIPO_USUARIO;
-
-
-
-
-
 
     public static final String APPLICATION_JSON = "application/json";
 
@@ -62,16 +53,7 @@ public final class FieldConstant {
 
     public static final String CODIGO = "codigo";
     public static final String DESCRICAO = "descricao";
-    public static final String CHAVE_UNICA_UUID = "chave_unica_uuid";
     public static final String DATA_CADASTRO = "data_cadastro";
-    public static final String DATA_CONTROL = "controle_de_dados";
-
-
-    public static final String CAMPO = "campo";
-    public static final String MENSAGEM = "mensagem";
-    public static final String VALOR = "valor";
-    public static final String DETALHES = "detalhes";
-
 
     public static final String CNPJ = "cnpj";
 
@@ -91,10 +73,5 @@ public final class FieldConstant {
     public static final String USERNAME = "username";
 
     public static final String NUMERO = "numero";
-
-    public static final String ACCESS_TOKEN = "access_token";
-    public static final String TOKEN_TYPE = "token_type";
-    public static final String EXPIRES_IN = "expires_in";
-    public static final String LOGIN = "login";
 
 }

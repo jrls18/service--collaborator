@@ -2,9 +2,9 @@ package br.com.developcorporation.collaborator.rest.controller;
 
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.message.request.CollaboratorRequest;
-import br.com.developcorporation.collaborator.rest.message.request.LoginRequest;
-import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+import br.com.grupo.developer.corporation.libcommons.message.request.LoginRequest;
+import br.com.grupo.developer.corporation.libcommons.message.response.JwtResponse;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.http.HttpStatus;

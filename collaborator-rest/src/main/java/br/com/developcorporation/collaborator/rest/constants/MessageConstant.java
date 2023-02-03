@@ -48,9 +48,6 @@ public final class MessageConstant {
     public static final String SITUACAO_NAO_DEVE_SER_ENVIADO_NO_FORMULARIO = "Situação não deve ser enviado no formulário.";
 
     public static final String CODIGO_NAO_DEVE_SER_PREENCHIDO = "Codigo não deve ser preenchido.";
-    public static final String RAZAO_SOCIAL_E_OBRIGATORIO = "Razão social é obrigatório.";
-    public static final String NOME_FANTASIA_E_OBRIGATORIO = "Nome fantasia é obrigatório.";
-    public static final String TIPO_SISTEMA_E_OBRIGATORIO = "Tipo sistema é obrigatório.";
     public static final String CODIGO_DA_EMPRESA_E_OBRIGATORIO = "Codigo da empresa é obrigatório.";
     public static final String DADOS_DE_CONTATO_E_OBRIGATORIO = "Dados de contato é obrigatório.";
     public static final String TELEFONE_PRINCIPAL_E_OBRIGATORIO = "Telefone principal é obrigatório.";

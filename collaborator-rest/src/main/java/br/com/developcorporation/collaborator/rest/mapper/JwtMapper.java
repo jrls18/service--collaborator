@@ -1,8 +1,8 @@
 package br.com.developcorporation.collaborator.rest.mapper;
 
-import br.com.developcorporation.collaborator.rest.message.response.JwtResponse;
 import br.com.developcorporation.collaborator.rest.security.model.Jwt;
 
+import br.com.grupo.developer.corporation.libcommons.message.response.JwtResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

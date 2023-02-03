@@ -1,7 +1,7 @@
 package br.com.developcorporation.collaborator.rest.validation;
 
 import br.com.developcorporation.collaborator.rest.exception.error.BadRequestEntityException;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import br.com.grupo.developer.corporation.libcommons.utils.UseFul;
 
 import java.util.List;

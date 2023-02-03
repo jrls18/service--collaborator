@@ -3,7 +3,7 @@ package br.com.developcorporation.collaborator.rest.controller;
 import br.com.developcorporation.collaborator.rest.constants.FieldConstant;
 import br.com.developcorporation.collaborator.rest.message.request.AuthorizationRequest;
 import br.com.developcorporation.collaborator.rest.message.response.AuthorizationResponse;
-import br.com.developcorporation.collaborator.rest.message.response.MessageResponse;
+import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
