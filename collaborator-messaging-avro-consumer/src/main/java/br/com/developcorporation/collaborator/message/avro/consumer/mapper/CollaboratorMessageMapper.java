@@ -1,11 +1,12 @@
 package br.com.developcorporation.collaborator.message.avro.consumer.mapper;
 
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
-import br.com.developcorporation.collaborator.message.avro.Colaborador;
 import br.com.developcorporation.collaborator.message.avro.consumer.constans.DataConstant;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.menu.configure.user.unlock.message.avro.UnlockMenuUser;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
+import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
+import br.com.grupo.developer.corporation.msg.avro.collaborator.CollaboratorAsync;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -32,11 +33,15 @@ public interface CollaboratorMessageMapper {
     Collaborator toDomain(final CollaboratorMessage.Collaborator request);
 
 
-    CollaboratorMessage toDomainAvro(final Colaborador colaborador);
+    @Mapping(source = "collaborator", target = "obj")
+    MessageAsync<Collaborator> toDomain(final CollaboratorAsync colaborador);
+
 
     @Mapping(source = "user.id", target = "collaborator.id")
     CollaboratorMessage toDomainAvro(final UnlockMenuUser unlockMenuUser);
 
     CollaboratorMessage.Message toMessage(final DomainException ex);
+
+
 
 }

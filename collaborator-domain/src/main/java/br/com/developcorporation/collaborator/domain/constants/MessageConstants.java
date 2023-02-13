@@ -104,4 +104,11 @@ public final class MessageConstants {
     public static final String UF_DEVE_SER_INFORMADO_COM_BASE_NOS_ESTADOS_BRASILEIROS = "Uf deve ser informado com base nos estados brasileiros.";
     public static final String NUMERO_DEVE_SER_INFORMADO = "Número deve ser informado.";
 
+    public static final String INICIO_CADASTRO_ASYNC = "Início do cadastro async.";
+
+    public static final String FIM_CADASTRO_ASYNC = "Fim do cadastro async.";
+
+    public static final String FIM_CADASTRO_ASYNC_ERRO_DE_NEGOCIO = "Fim do cadastro async com erro de negocio.";
+
+
 }
