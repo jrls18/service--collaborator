@@ -39,7 +39,7 @@ kubectl apply -k .\k8s\gtw.yaml
 
 ## Deploy Kubernetes
 
-docker build -t service--company-img .
+docker build -t service--collaborator-img .
 docker run -d -p 10020:5000 -t service--company-img .
 
 kubectl get pods --all-namespaces
