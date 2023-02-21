@@ -12,4 +12,4 @@ WORKDIR /app
 ENV JAVA_OPTS "$JAVA_OPTS "
 
 EXPOSE 5000 9090
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java -XX:MaxRAM=150m -XX:+UseSerialGC ${JAVA_OPTS} -jar app.jar"]

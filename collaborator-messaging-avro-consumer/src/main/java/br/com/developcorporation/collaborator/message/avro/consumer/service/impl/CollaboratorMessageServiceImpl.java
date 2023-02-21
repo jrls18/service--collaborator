@@ -5,9 +5,9 @@ import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.message.avro.consumer.mapper.CollaboratorMessageMapper;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.CollaboratorMessageService;
+import br.com.developcorporation.collaborator.message.avro.consumer.service.ContextService;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
-import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.RequestContext;
 import br.com.grupo.developer.corporation.libcommons.constants.MessageAssistantConstants;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
@@ -23,7 +23,6 @@ import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.kafka.retrytopic.FixedDelayStrategy;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
-import java.net.InetAddress;
 import java.time.LocalDateTime;
 
 
@@ -32,6 +31,9 @@ import java.time.LocalDateTime;
 @Service
 public class CollaboratorMessageServiceImpl implements CollaboratorMessageService<CollaboratorAsync> {
     private final CollaboratorService collaboratorService;
+
+    private final ContextService contextService;
+
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -82,13 +84,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     private MessageAsync<Collaborator> setDadosDeControleDeProcessamento(final ConsumerRecord<String, CollaboratorAsync> record) {
         MessageAsync<Collaborator> messageAsync = CollaboratorMessageMapper.INSTANCE.toDomain(record.value());
 
-        final RequestContext requestContext = new RequestContext();
-        requestContext.setApplicationName(this.applicationName);
-        requestContext.setCorrelationId(messageAsync.getCorrelationId());
-        requestContext.setInstanceId(InetAddress.getLocalHost().getHostName());
-        requestContext.setMethod("onReceive");
-        requestContext.setRequestUri(record.topic());
-        ContextHolder.set(requestContext);
+        contextService.context(this.applicationName, messageAsync.getCorrelationId(), record.topic());
 
         return messageAsync;
     }

@@ -37,8 +37,8 @@ public interface CollaboratorMessageMapper {
     MessageAsync<Collaborator> toDomain(final CollaboratorAsync colaborador);
 
 
-    @Mapping(source = "user.id", target = "collaborator.id")
-    CollaboratorMessage toDomainAvro(final UnlockMenuUser unlockMenuUser);
+    @Mapping(source = "user.id", target = "obj.id")
+    MessageAsync<Collaborator> toDomainAvro(final UnlockMenuUser unlockMenuUser);
 
     CollaboratorMessage.Message toMessage(final DomainException ex);
 

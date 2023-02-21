@@ -2,15 +2,19 @@ package br.com.developcorporation.collaborator.message.avro.consumer.service.imp
 
 import br.com.developcorporation.collaborator.core.service.CollaboratorService;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
-import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 
+import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.message.avro.consumer.mapper.CollaboratorMessageMapper;
+import br.com.developcorporation.collaborator.message.avro.consumer.service.ContextService;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.UnlockCollaboratorMessageService;
 import br.com.developcorporation.menu.configure.user.unlock.message.avro.UnlockMenuUser;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
+import br.com.grupo.developer.corporation.libcommons.constants.MessageAssistantConstants;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
+import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,13 +32,9 @@ import java.time.LocalDateTime;
 @Service
 public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorMessageService<UnlockMenuUser> {
 
-
-    private static final String INICIO_PROCESSAMENTO = "INICIO-PROCESSAMENTO";
-
-    private static final String FIM_PROCESSAMENTO = "FIM-PROCESSAMENTO";
-    private static final String FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO = "FIM-PROCESSAMENTO-COM-ERRO-DE-NEGOCIO";
-
     private final CollaboratorService collaboratorService;
+
+    private final ContextService contextService;
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -50,43 +50,45 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
     @Override
     public void onReceive(ConsumerRecord<String, UnlockMenuUser> record) {
 
-        CollaboratorMessage message = setDadosDeControleDeProcessamento(record);
+        MessageAsync<Collaborator> messageAsync = setDadosDeControleDeProcessamento(record);
 
         try {
+            messageAsync.setDateTimeStartProcessing(LocalDateTime.now());
+            messageAsync.setStatus(MessageConstants.INICIO_CADASTRO_ASYNC);
 
-            message.getMessageControl().setDataInicioProcessamento(LocalDateTime.now().toString());
-            message.getMessageControl().setSituacaoDoProcessamento(INICIO_PROCESSAMENTO);
+            log.info(MessageConstants.ASYNC_REQUEST, Logger.info(messageAsync, MessageConstants.INICIALIZADO));
 
-            log.info(MessageConstants.ASYNC_REQUEST, Logger.info(message, MessageConstants.INICIALIZADO));
+            collaboratorService.unlockCollaboratorAsync(messageAsync.getObj());
 
+            messageAsync.setDateTimeEndProcessing(LocalDateTime.now());
+            messageAsync.setStatus(MessageConstants.FIM_CADASTRO_ASYNC);
 
-            collaboratorService.unlockCollaboratorAsync(CollaboratorMessageMapper.INSTANCE.toDomain(message.getCollaborator()));
-
-            setDadosController(message, FIM_PROCESSAMENTO);
-
-            log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(message, MessageConstants.FINALIZADO));
+            log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(messageAsync, MessageAssistantConstants.FINALIZADO));
 
         }catch (DomainException ex){
 
-            message.setMessage(CollaboratorMessageMapper.INSTANCE.toMessage(ex));
+            messageAsync.setDateTimeEndProcessing(LocalDateTime.now());
+            messageAsync.setStatus(MessageConstants.FIM_CADASTRO_ASYNC_ERRO_DE_NEGOCIO);
 
-            setDadosController(message, FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO);
+            //message.setMessage(CollaboratorMessageMapper.INSTANCE.toMessage(ex));
 
-            collaboratorService.sendMessage(message);
+            //setDadosController(message, FIM_PROCESSAMENTO_COM_ERRO_DE_NEGOCIO);
 
-            log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(message, MessageConstants.FINALIZADO));
+            //collaboratorService.sendMessage(message);
+
+            log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(messageAsync, MessageConstants.FINALIZADO));
         }
+
+        ContextHolder.remove();
     }
 
-    private static void setDadosController(CollaboratorMessage message, String situacaoProcessamento) {
-        message.getMessageControl().setDataFimProcessamento(LocalDateTime.now().toString());
-        message.getMessageControl().setSituacaoDoProcessamento(situacaoProcessamento);
-    }
 
-    private CollaboratorMessage setDadosDeControleDeProcessamento(final ConsumerRecord<String, UnlockMenuUser> record)  {
-            CollaboratorMessage message = CollaboratorMessageMapper.INSTANCE.toDomainAvro(record.value());
-            ContextHolder.get().setCorrelationId(message.getMessageControl().getUuid());
-            ContextHolder.get().setApplicationName(this.applicationName);
-        return message;
+    @SneakyThrows
+    private MessageAsync<Collaborator> setDadosDeControleDeProcessamento(final ConsumerRecord<String, UnlockMenuUser> record) {
+        MessageAsync<Collaborator> messageAsync = CollaboratorMessageMapper.INSTANCE.toDomainAvro(record.value());
+
+        contextService.context(this.applicationName, messageAsync.getCorrelationId(), record.topic());
+
+        return messageAsync;
     }
 }
