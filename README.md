@@ -72,3 +72,4 @@ kubectl apply -f .\gateway\
 ## Swagger 
 
 http://localhost:5000/service--collaborator/swagger-ui.html
+http://cloud.local.develop.corporation.com/service--collaborator/swagger-ui.html#/
