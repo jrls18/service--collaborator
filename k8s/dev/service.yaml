@@ -5,6 +5,7 @@ metadata:
   namespace: services-develop-corporation
   labels:
     java-monitoring: prometheus
+    spring-boot: "true"
     app: service--collaborator
 spec:
   type: ClusterIP

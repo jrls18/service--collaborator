@@ -1,9 +1,10 @@
 package br.com.developcorporation.collaborator.message.avro.produce.service;
 
+
 import br.com.developcorporation.collaborator.message.avro.produce.service.send.SendMessageAvro;
-import br.com.developcorporation.menu.configure.user.message.avro.ConfigureMenuUser;
+import br.com.group.developer.corporation.configure.menu.ConfigureMenu;
 import org.apache.avro.specific.SpecificRecord;
 
 
-public interface ConfigureMenuUserSendMessageService<T extends SpecificRecord> extends SendMessageAvro<ConfigureMenuUser> {
+public interface ConfigureMenuMessageService<T extends SpecificRecord> extends SendMessageAvro<ConfigureMenu> {
 }

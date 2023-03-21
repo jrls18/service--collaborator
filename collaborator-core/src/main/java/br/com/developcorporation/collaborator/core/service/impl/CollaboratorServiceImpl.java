@@ -6,7 +6,7 @@ import br.com.developcorporation.collaborator.core.validation.CollaboratorValida
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
-import br.com.developcorporation.collaborator.domain.message.ConfigureMenuUser;
+import br.com.developcorporation.collaborator.domain.message.ConfigureMenu;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.*;
@@ -104,7 +104,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                     enviaDocuments(dto);
 
-            configureMenuUserSendMessagePort.send(setConfigureMenuUser(dto));
+            configureMenuUserSendMessagePort.send(setConfigureMenu(dto));
 
         }catch (Exception ex){
             throw new DomainException(
@@ -122,16 +122,13 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
-    private ConfigureMenuUser setConfigureMenuUser(Collaborator dto) {
-        ConfigureMenuUser configureMenuUser = new ConfigureMenuUser();
-        configureMenuUser.setUser(new ConfigureMenuUser.User(dto.getId(),true));
-        configureMenuUser.setMessageControl(new
-                ConfigureMenuUser.MessageControl(
-                        ContextHolder.get().getCorrelationId(),
-                        LocalDateTime.now().toString(),
-                        ContextHolder.get().getApplicationName(),
-                        ID_AGUARDANDO_CONFIGURACAO_DE_MENU));
-        return configureMenuUser;
+    private ConfigureMenu setConfigureMenu(Collaborator dto) {
+        ConfigureMenu configureMenu = new ConfigureMenu();
+        configureMenu.setUser(new ConfigureMenu.User(dto.getId(),true));
+        configureMenu.setCorrelationId(ContextHolder.get().getCorrelationId());
+        configureMenu.setPostDateTime(LocalDateTime.now().toString());
+        configureMenu.setOriginSystem(ContextHolder.get().getApplicationName());
+        return configureMenu;
     }
 
 
@@ -241,7 +238,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
 
             if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId()))
-                configureMenuUserSendMessagePort.send(setConfigureMenuUser(domain));
+                configureMenuUserSendMessagePort.send(setConfigureMenu(domain));
 
             enviaDocuments(domain);
 

@@ -46,7 +46,7 @@ spec:
               value: "dev"
           resources:
             requests:
-              memory: "600Mi"
+              memory: "500Mi"
               cpu: "0.4"
             limits:
               memory: "800Mi"
