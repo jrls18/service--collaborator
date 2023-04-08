@@ -71,6 +71,9 @@ public final class MessageConstants {
 
     public static final String USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU = "Usuario não autorizado. Aguardando configuração de menu.";
 
+    public static final String USUARIO_NAO_AUTORIZADO_AGUARDADO_VERIFICACAO_DE_EMAIL_OU_TELEFONE = "Usuario não autorizado. Acesse seu e-mail informado no cadastro e realize a validação de seu e-mail, caso não tenha encontrado na caixa principal verifique a caixa de span.";
+
+
     public static final String COLABORADOR_ATUALIZADA_COM_SUCESSO = "Colaborador atualizada com sucesso.";
 
 

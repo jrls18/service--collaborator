@@ -4,7 +4,9 @@ VALUES('ATIVO', now())
      ,('CANCELADO', now())
      ,('FINALIZADO', now())
      ,('EM PROCESSAMENTO', now())
-     ,('AGUARDANDO CONFIGURAÇÂO DE MENU',now());
+     ,('AGUARDANDO CONFIGURAÇÂO DE MENU',now())
+     ,('AGUARDANDO ATIVAÇÂO DE EMAIL OU TELEFONE',now());
+
 
 INSERT INTO tipoacesso(descricao)
 VALUES('ROLE_COLABORADOR')

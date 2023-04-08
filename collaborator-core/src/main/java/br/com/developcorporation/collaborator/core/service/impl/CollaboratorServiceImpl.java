@@ -33,12 +33,12 @@ import java.util.*;
 public class CollaboratorServiceImpl implements CollaboratorService {
 
     private static final long AGUARDANDO_CONFIGURACAO_DE_MENU = 6L;
-
-    private static final String ID_AGUARDANDO_CONFIGURACAO_DE_MENU = "6 - AGUARDANDO CONFIGURAÇÂO DE MENU";
     public static final long ID_TIPO_STATUS_ATIVO = 1L;
     public static final long IMAGE_PROFILE = 1L;
     public static final String INCLUSAO_ALTERACAO = "I";
     public static final String DELETE_FILE = "D";
+
+    public static final long ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE = 7L;
 
     private final DocumentPort documentPort;
 
@@ -161,15 +161,14 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public void unlockCollaboratorAsync(Collaborator collaborator) {
         if(Objects.nonNull(collaborator)){
+            collaborator.setStatus(new Collaborator.Status(ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE,""));
             updateUnlock(collaborator);
         }
     }
 
     @SneakyThrows
     public void updateUnlock(Collaborator collaborator) {
-
-        validExistsStatus(ID_TIPO_STATUS_ATIVO);
-
+        validExistsStatus(collaborator.getStatus().getId());
         try{
             Collaborator collaboratorExists = port.getById(collaborator.getId());
 
@@ -179,17 +178,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                         MessageConstants.CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO,
                         null);
 
-            port.updateStatus(collaborator.getId(), ID_TIPO_STATUS_ATIVO);
-
-            //Envio de notificação para o cliente informando que está liberado seu usuario.
+            port.updateStatus(collaborator.getId(), collaborator.getStatus().getId());
         }catch (Exception ex){
             log.error("Ops houve um erro inesperado no processo de desbloqueio do colaborador. Detalhes: " + ex.getMessage());
             throw new Exception(ex);
         }
     }
-
-
-
 
     private void updateAsync(final Collaborator domain){
         this.updateBase(domain);
@@ -265,9 +259,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 MessageConstants.COLABORADOR_ATUALIZADA_COM_SUCESSO);
     }
 
-
-
-
     @Override
     public Collaborator getById(Long id) {
         validatorAuthorization.validCredentials();
@@ -323,6 +314,12 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                         MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU,
                         null);
             }
+            if(collaborator.get().getStatus().getId() == ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE){
+                throw new DomainException(
+                        CoreEnum.UNAUTHORIZED.getCode(),
+                        MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDADO_VERIFICACAO_DE_EMAIL_OU_TELEFONE,
+                        null);
+            }
         }
 
         return collaborator;
@@ -339,7 +336,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         return port.search(searchTerm, page, size);
     }
-
 
     private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();
@@ -366,7 +362,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
 
     }
-
 
     private void validExistsStatus(Long idStatus){
         List<Message.Details> details = new ArrayList<>();
@@ -456,5 +451,4 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         ContextHolder.get().setMap("collaborator", collaboratorOriginal);
     }
-
 }
