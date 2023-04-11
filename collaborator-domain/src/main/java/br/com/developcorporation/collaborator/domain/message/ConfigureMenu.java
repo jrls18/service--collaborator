@@ -7,33 +7,22 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConfigureMenu implements Serializable {
+    private static final long serialVersionUID = 7803740248866903339L;
 
-    private static final long serialVersionUID = -7410771900695378682L;
-
-    private String correlationId;
-
-    private String postDateTime;
-
-    private String originSystem;
-
-    private User user;
+    private ConfigureMenu.User user;
 
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class User implements Serializable  {
-
+    public static class User implements Serializable {
         private static final long serialVersionUID = 757312769699414049L;
-
         private Long  id;
-
         private boolean collaborator;
     }
 }

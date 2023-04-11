@@ -53,14 +53,14 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
         try {
 
-            messageAsync.setDateTimeStartProcessing(LocalDateTime.now());
+            messageAsync.setDateTimeStartProcessing(LocalDateTime.now().toString());
             messageAsync.setStatus(MessageConstants.INICIO_CADASTRO_ASYNC);
 
             log.info(MessageConstants.ASYNC_REQUEST, Logger.info(messageAsync, MessageAssistantConstants.INICIALIZADO));
 
             collaboratorService.addAsync(messageAsync.getObj());
 
-            messageAsync.setDateTimeEndProcessing(LocalDateTime.now());
+            messageAsync.setDateTimeEndProcessing(LocalDateTime.now().toString());
             messageAsync.setStatus(MessageConstants.FIM_CADASTRO_ASYNC);
 
             log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(messageAsync, MessageAssistantConstants.FINALIZADO));
@@ -69,7 +69,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
            // message.setMessage(CollaboratorMessageMapper.INSTANCE.toMessage(ex));
 
-            messageAsync.setDateTimeEndProcessing(LocalDateTime.now());
+            messageAsync.setDateTimeEndProcessing(LocalDateTime.now().toString());
             messageAsync.setStatus(MessageConstants.FIM_CADASTRO_ASYNC_ERRO_DE_NEGOCIO);
 
            // collaboratorService.sendMessage(message);

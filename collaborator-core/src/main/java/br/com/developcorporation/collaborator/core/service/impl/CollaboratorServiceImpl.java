@@ -14,6 +14,7 @@ import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructu
 import br.com.grupo.developer.corporation.libcommons.enums.CoreEnum;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import br.com.grupo.developer.corporation.libcommons.message.Message;
+import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
 import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -33,7 +34,6 @@ import java.util.*;
 public class CollaboratorServiceImpl implements CollaboratorService {
 
     private static final long AGUARDANDO_CONFIGURACAO_DE_MENU = 6L;
-    public static final long ID_TIPO_STATUS_ATIVO = 1L;
     public static final long IMAGE_PROFILE = 1L;
     public static final String INCLUSAO_ALTERACAO = "I";
     public static final String DELETE_FILE = "D";
@@ -55,7 +55,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
 
-    private final ConfigureMenuUserSendMessagePort configureMenuUserSendMessagePort;
+    private final ConfigureMenuSendMessagePort configureMenuUserSendMessagePort;
 
     private final StatusPort statusPort;
 
@@ -104,7 +104,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                     enviaDocuments(dto);
 
-            configureMenuUserSendMessagePort.send(setConfigureMenu(dto));
+            configureMenuUserSendMessagePort.send(getConfigureMenuMessageAsync(dto));
 
         }catch (Exception ex){
             throw new DomainException(
@@ -112,6 +112,15 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     MessageConstants.OCORREU_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE,
                     null);
         }
+    }
+
+    private MessageAsync<ConfigureMenu> getConfigureMenuMessageAsync(Collaborator dto) {
+        MessageAsync<ConfigureMenu> messageAsync = new MessageAsync<>();
+        messageAsync.setCorrelationId(ContextHolder.get().getCorrelationId());
+        messageAsync.setOriginSystem(applicationName);
+        messageAsync.setPostDateTime(LocalDateTime.now().toString());
+        messageAsync.setObj(new ConfigureMenu(new ConfigureMenu.User(dto.getId(), true)));
+        return messageAsync;
     }
 
     private void enviaDocuments(Collaborator dto) {
@@ -122,14 +131,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
-    private ConfigureMenu setConfigureMenu(Collaborator dto) {
-        ConfigureMenu configureMenu = new ConfigureMenu();
-        configureMenu.setUser(new ConfigureMenu.User(dto.getId(),true));
-        configureMenu.setCorrelationId(ContextHolder.get().getCorrelationId());
-        configureMenu.setPostDateTime(LocalDateTime.now().toString());
-        configureMenu.setOriginSystem(ContextHolder.get().getApplicationName());
-        return configureMenu;
-    }
+
 
 
     @Transactional
@@ -139,6 +141,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         ContextHolder.get().setApplicationName(this.applicationName);
 
         dto.setPassword(encoder.encode(dto.getPassword()));
+        dto.getContact().setEmail(dto.getContact().getEmail().trim());
 
         dto.getDocument().setCommand(INCLUSAO_ALTERACAO);
 
@@ -231,8 +234,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             if(StringUtils.isEmpty(domain.getDocument().getNameDocument()) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
 
-            if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId()))
-                configureMenuUserSendMessagePort.send(setConfigureMenu(domain));
+            if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId())){
+                configureMenuUserSendMessagePort.send(getConfigureMenuMessageAsync(dto));
+            }
 
             enviaDocuments(domain);
 

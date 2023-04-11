@@ -7,12 +7,12 @@ import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.message.avro.consumer.mapper.CollaboratorMessageMapper;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.ContextService;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.UnlockCollaboratorMessageService;
-import br.com.developcorporation.menu.configure.user.unlock.message.avro.UnlockMenuUser;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
 import br.com.grupo.developer.corporation.libcommons.constants.MessageAssistantConstants;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
+import br.com.grupo.developer.corporation.msg.avro.user.unlock.UnlockMenuUser;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -53,21 +53,21 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
         MessageAsync<Collaborator> messageAsync = setDadosDeControleDeProcessamento(record);
 
         try {
-            messageAsync.setDateTimeStartProcessing(LocalDateTime.now());
+            messageAsync.setDateTimeStartProcessing(LocalDateTime.now().toString());
             messageAsync.setStatus(MessageConstants.INICIO_CADASTRO_ASYNC);
 
             log.info(MessageConstants.ASYNC_REQUEST, Logger.info(messageAsync, MessageConstants.INICIALIZADO));
 
             collaboratorService.unlockCollaboratorAsync(messageAsync.getObj());
 
-            messageAsync.setDateTimeEndProcessing(LocalDateTime.now());
+            messageAsync.setDateTimeEndProcessing(LocalDateTime.now().toString());
             messageAsync.setStatus(MessageConstants.FIM_CADASTRO_ASYNC);
 
             log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(messageAsync, MessageAssistantConstants.FINALIZADO));
 
         }catch (DomainException ex){
 
-            messageAsync.setDateTimeEndProcessing(LocalDateTime.now());
+            messageAsync.setDateTimeEndProcessing(LocalDateTime.now().toString());
             messageAsync.setStatus(MessageConstants.FIM_CADASTRO_ASYNC_ERRO_DE_NEGOCIO);
 
             //message.setMessage(CollaboratorMessageMapper.INSTANCE.toMessage(ex));

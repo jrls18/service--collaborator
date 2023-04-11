@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "br.com.developcorporation.menu.configure.user.unlock.message.avro",
+  "namespace": "br.com.grupo.developer.corporation.msg.avro.user.unlock",
   "name": "UnlockMenuUser",
   "version": "1",
   "fields":[
