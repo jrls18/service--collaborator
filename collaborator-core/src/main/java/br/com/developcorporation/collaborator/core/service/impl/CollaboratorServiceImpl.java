@@ -13,6 +13,7 @@ import br.com.developcorporation.collaborator.domain.port.*;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
 import br.com.grupo.developer.corporation.libcommons.enums.CoreEnum;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
+import br.com.grupo.developer.corporation.libcommons.exception.UnauthorizedException;
 import br.com.grupo.developer.corporation.libcommons.message.Message;
 import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
 import br.com.grupo.developer.corporation.libcommons.message.Pagination;
@@ -313,16 +314,10 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         if(collaborator.isPresent()){
             if(collaborator.get().getStatus().getId() == AGUARDANDO_CONFIGURACAO_DE_MENU){
-                throw new DomainException(
-                        CoreEnum.UNAUTHORIZED.getCode(),
-                        MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU,
-                        null);
+                throw new UnauthorizedException(MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU);
             }
             if(collaborator.get().getStatus().getId() == ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE){
-                throw new DomainException(
-                        CoreEnum.UNAUTHORIZED.getCode(),
-                        MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDADO_VERIFICACAO_DE_EMAIL_OU_TELEFONE,
-                        null);
+                throw new UnauthorizedException(MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDADO_VERIFICACAO_DE_EMAIL_OU_TELEFONE);
             }
         }
 

@@ -3,9 +3,11 @@ package br.com.developcorporation.collaborator.rest.security.service;
 import br.com.developcorporation.collaborator.rest.constants.MessageConstant;
 import br.com.developcorporation.collaborator.rest.security.JwtProvider;
 import br.com.developcorporation.collaborator.rest.security.model.Jwt;
+import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import br.com.grupo.developer.corporation.libcommons.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -35,8 +37,12 @@ public class AuthenticateService {
                             password
                     )
             );
+
         } catch (AuthenticationException ex) {
-            throw new UnauthorizedException(MessageConstant.USUARIO_OU_SENHA_INVALIDO);
+            if(ex instanceof BadCredentialsException)
+                throw new UnauthorizedException(MessageConstant.USUARIO_OU_SENHA_INVALIDO);
+
+            throw new UnauthorizedException(ex.getMessage());
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

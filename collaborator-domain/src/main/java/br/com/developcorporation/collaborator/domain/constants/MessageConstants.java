@@ -113,5 +113,7 @@ public final class MessageConstants {
 
     public static final String FIM_CADASTRO_ASYNC_ERRO_DE_NEGOCIO = "Fim do cadastro async com erro de negocio.";
 
+    public static final String USUARIO_E_SENHA_INVALIDO = "Usuario ou senha inválido.";
+
 
 }
