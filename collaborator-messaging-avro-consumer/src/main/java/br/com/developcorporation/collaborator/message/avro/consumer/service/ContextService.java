@@ -20,4 +20,8 @@ public class ContextService {
         requestContext.setRequestUri(topic);
         ContextHolder.set(requestContext);
     }
+
+    public void remove(){
+        ContextHolder.remove();
+    }
 }

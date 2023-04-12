@@ -8,12 +8,10 @@ import br.com.developcorporation.collaborator.message.avro.consumer.mapper.Colla
 import br.com.developcorporation.collaborator.message.avro.consumer.service.ContextService;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.UnlockCollaboratorMessageService;
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
-import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
 import br.com.grupo.developer.corporation.libcommons.constants.MessageAssistantConstants;
 import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
 import br.com.grupo.developer.corporation.msg.avro.user.unlock.UnlockMenuUser;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +47,9 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
     @Override
     public void onReceive(ConsumerRecord<String, UnlockMenuUser> record) {
 
-        MessageAsync<Collaborator> messageAsync = setDadosDeControleDeProcessamento(record);
+        MessageAsync<Collaborator> messageAsync = CollaboratorMessageMapper.INSTANCE.toDomainAvro(record.value());
+
+        contextService.context(this.applicationName, messageAsync.getCorrelationId(), record.topic());
 
         messageAsync.setDateTimeStartProcessing(LocalDateTime.now().toString());
         messageAsync.setStatus(MessageConstants.INICIO_CADASTRO_ASYNC);
@@ -63,15 +63,6 @@ public class UnlockCollaboratorMessageServiceImpl implements UnlockCollaboratorM
 
         log.info(MessageConstants.ASYNC_RESPONSE, Logger.info(messageAsync, MessageAssistantConstants.FINALIZADO));
 
-        ContextHolder.remove();
-    }
-
-    @SneakyThrows
-    private MessageAsync<Collaborator> setDadosDeControleDeProcessamento(final ConsumerRecord<String, UnlockMenuUser> record) {
-        MessageAsync<Collaborator> messageAsync = CollaboratorMessageMapper.INSTANCE.toDomainAvro(record.value());
-
-        contextService.context(this.applicationName, messageAsync.getCorrelationId(), record.topic());
-
-        return messageAsync;
+        contextService.remove();
     }
 }
