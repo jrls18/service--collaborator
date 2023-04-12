@@ -19,6 +19,7 @@ public interface CollaboratorRepositoryService {
     Optional<Collaborator> consultaPorCodigo(final Long id);
 
      Page<Collaborator> search(final String searchTerm,
+            final String codEmpresa,
             final int page,
             final int size);
 

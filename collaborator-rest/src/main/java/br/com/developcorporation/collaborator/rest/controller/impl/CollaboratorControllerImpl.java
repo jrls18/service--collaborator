@@ -73,17 +73,18 @@ public class CollaboratorControllerImpl implements CollaboratorController {
 
     @Override
     public ResponseEntity<PaginationResponse<CollaboratorResponse>> paginationResponse(
-            String searchTerm, String page, String size) {
+            String searchTerm, String codEmpresa, String page, String size) {
 
         log.info(MessageConstant.REQUISICAO, Logger.info(null,
                 MessageConstant.INICIALIZADO));
 
-        this.validator.pathPaginationValidator(searchTerm, page, size);
+        this.validator.pathPaginationValidator(searchTerm,codEmpresa, page, size);
 
         PaginationResponse<CollaboratorResponse> responsePage =
                CollaboratorMapper.INSTANCE.toResponse(
                        service.search(
                                searchTerm,
+                               codEmpresa,
                                Integer.parseInt(page),
                                Integer.parseInt(size)));
 

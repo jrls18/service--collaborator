@@ -73,9 +73,9 @@ public class CollaboratorAdapter implements CollaboratorPort {
     }
 
     @Override
-    public Pagination<Collaborator> search(String searchTerm, int page, int size) {
+    public Pagination<Collaborator> search(String searchTerm, String codEmpresa,int page, int size) {
 
-        Pagination<Collaborator> pagination = CollaboratorMapper.INSTANCE.toDomain(service.search(searchTerm, page, size));
+        Pagination<Collaborator> pagination = CollaboratorMapper.INSTANCE.toDomain(service.search(searchTerm, codEmpresa, page, size));
 
         List<Collaborator> collaborators = new ArrayList<>(pagination.getItems().size());
 
@@ -88,5 +88,4 @@ public class CollaboratorAdapter implements CollaboratorPort {
 
         return pagination;
     }
-
 }

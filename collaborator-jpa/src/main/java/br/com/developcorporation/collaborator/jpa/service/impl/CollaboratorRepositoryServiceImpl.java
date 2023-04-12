@@ -1,9 +1,7 @@
 package br.com.developcorporation.collaborator.jpa.service.impl;
 
 import br.com.developcorporation.collaborator.jpa.entity.Collaborator;
-import br.com.developcorporation.collaborator.jpa.entity.Role;
 import br.com.developcorporation.collaborator.jpa.repository.CollaboratorRepository;
-import br.com.developcorporation.collaborator.jpa.repository.RoleRepository;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -50,7 +48,7 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
     }
 
     @Override
-    public Page<Collaborator> search(String searchTerm, int page, int size) {
+    public Page<Collaborator> search(String searchTerm,String codEmpresa,int page,int size) {
         PageRequest pageRequest = PageRequest.of(
                 page,
                 size,
@@ -59,6 +57,7 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
 
         return repository.search(
                 searchTerm,
+                codEmpresa,
                 pageRequest);
     }
 
@@ -82,6 +81,4 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
         if(Objects.nonNull(idCollaborator) && Objects.nonNull(idStatus))
             repository.updateStatus(idCollaborator, idStatus);
     }
-
-
 }

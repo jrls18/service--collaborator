@@ -16,6 +16,8 @@ public final class FieldConstant {
     public static final String DATA_NASCIMENTO = "data_nascimento";
     public static final String ID_COMPANY = "codigo_empresa";
 
+    public static final String CODEMPRESA = "codEmpresa";
+
     public static final String CPF_CNPJ = "cpf_cnpj";
 
     private static final String PREFIX_API = "api/";

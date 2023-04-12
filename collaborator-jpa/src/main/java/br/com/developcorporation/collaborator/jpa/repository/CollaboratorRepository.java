@@ -31,8 +31,8 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Query(value = "UPDATE colaborador SET cod_situacao = :idstatus WHERE cod_colaborador = :idcollaborator ", nativeQuery = true)
     void updateStatus(@Param("idcollaborator") final Long idCollaborator, @Param("idstatus") final Long idStatus );
 
-    @Query(value = "SELECT * FROM colaborador WHERE (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
-            countQuery = "SELECT * FROM colaborador WHERE (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
+    @Query(value = "SELECT * FROM colaborador WHERE COD_EMPRESA = :codEmpresa AND (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
+            countQuery = "SELECT * FROM colaborador WHERE COD_EMPRESA = :codEmpresa AND (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
             nativeQuery = true)
-    Page<Collaborator> search(@Param("searchTerm") String searchTerm, Pageable pageable);
+    Page<Collaborator> search(@Param("searchTerm") String searchTerm,@Param("codEmpresa") String codEmpresa, Pageable pageable);
 }

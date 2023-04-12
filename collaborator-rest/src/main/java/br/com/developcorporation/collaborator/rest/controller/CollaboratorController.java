@@ -30,6 +30,7 @@ public interface CollaboratorController {
     @GetMapping(value = "", produces = FieldConstant.APPLICATION_JSON)
     ResponseEntity<PaginationResponse<CollaboratorResponse>> paginationResponse(
             @RequestParam(required = false) String searchTerm,
+            @RequestParam String codEmpresa,
             @RequestParam(defaultValue = "0") String page,
             @RequestParam(defaultValue = "10") String size);
 

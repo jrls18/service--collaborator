@@ -193,7 +193,7 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                 MessageConstant.EXISTE_ERROS_NOS_CAMPOS_DO_COLABORADOR);
     }
 
-    public void pathPaginationValidator(final String searchTerm, final String page, final String size){
+    public void pathPaginationValidator(final String searchTerm, final String codEmpresa, final String page, final String size){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
 
         detailsResponses.add(
@@ -226,6 +226,12 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
                     )
             );
         }
+
+        detailsResponses.add(
+             MessageMapper.INSTANCE.toDetailsResponse(
+                     Validation.mandatoryNumber8(codEmpresa,FieldConstant.CODEMPRESA,"O campo codEmpresa é obrigatório e deve conter somente números.")
+             )
+        );
 
 
         throwBadRequestGeneric(

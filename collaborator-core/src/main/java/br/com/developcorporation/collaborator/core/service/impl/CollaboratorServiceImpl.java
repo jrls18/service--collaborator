@@ -325,7 +325,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     @Override
-    public Pagination<Collaborator> search(String searchTerm, int page, int size) {
+    public Pagination<Collaborator> search(String searchTerm, String codEmpresa, int page, int size) {
 
         if(size == 0)
             size = Integer.parseInt(qtdItems);
@@ -333,7 +333,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         if(StringUtils.isEmpty(searchTerm))
             searchTerm = null;
 
-        return port.search(searchTerm, page, size);
+        return port.search(searchTerm, codEmpresa, page, size);
     }
 
     private void validAddExists(Collaborator dto){

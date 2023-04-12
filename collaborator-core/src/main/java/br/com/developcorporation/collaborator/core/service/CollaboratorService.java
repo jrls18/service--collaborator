@@ -25,6 +25,6 @@ public interface CollaboratorService {
 
     Optional<Collaborator> findByUsername(final String username);
 
-    Pagination<Collaborator> search(final String searchTerm, final int page, final int size);
+    Pagination<Collaborator> search(final String searchTerm, final String codEmpresa, final int page, final int size);
 
 }
