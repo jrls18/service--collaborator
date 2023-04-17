@@ -7,6 +7,7 @@ import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
 import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.message.ConfigureMenu;
+import br.com.developcorporation.collaborator.domain.message.Notification;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Status;
 import br.com.developcorporation.collaborator.domain.port.*;
@@ -40,6 +41,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     public static final String DELETE_FILE = "D";
 
     public static final long ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE = 7L;
+    public static final long EMAIL = 1L;
 
     private final DocumentPort documentPort;
 
@@ -61,6 +63,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final StatusPort statusPort;
 
     private final DocumentSendMessagePort documentSendMessagePort;
+
+    private final PushNotificationSendMessagePort pushNotificationSendMessagePort;
 
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
@@ -107,6 +111,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
             configureMenuUserSendMessagePort.send(getConfigureMenuMessageAsync(dto));
 
+            pushNotificationSendMessagePort.send(getNotificationMessageAsync(dto));
+
         }catch (Exception ex){
             throw new DomainException(
                     CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
@@ -121,6 +127,16 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         messageAsync.setOriginSystem(applicationName);
         messageAsync.setPostDateTime(LocalDateTime.now().toString());
         messageAsync.setObj(new ConfigureMenu(new ConfigureMenu.User(dto.getId(), true)));
+        return messageAsync;
+    }
+
+    private MessageAsync<Notification> getNotificationMessageAsync(Collaborator dto) {
+        MessageAsync<Notification> messageAsync = new MessageAsync<>();
+        messageAsync.setCorrelationId(ContextHolder.get().getCorrelationId());
+        messageAsync.setOriginSystem(applicationName);
+        messageAsync.setPostDateTime(LocalDateTime.now().toString());
+        messageAsync.setObj(new Notification(dto.getContact().getEmail(),dto.getName(),null
+                ,new Notification.TypeNotification(EMAIL),"25425452"));
         return messageAsync;
     }
 

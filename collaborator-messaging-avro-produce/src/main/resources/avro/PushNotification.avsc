@@ -1,0 +1,63 @@
+{
+  "type": "record",
+  "namespace": "br.com.group.developer.corporation.push.message",
+  "name": "PushMessage",
+  "version": "1",
+  "fields":[
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Chave transacional uuid"
+    },
+    {
+      "name": "postDateTime",
+      "type": "string",
+      "doc": "Data da postagem da mensagem. yyyy-MM-ddTHH:mm:ss"
+    },
+    {
+      "name": "originSystem",
+      "type": "string",
+      "doc": "Sistema de origem, usar o patchContext exemplo: 'service--collaborator'"
+    },
+    {
+      "name": "pushNotification",
+      "type": {
+        "type" : "record",
+        "name" : "PushNotification",
+        "fields" : [
+          {
+            "name": "email",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "cellPhone",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
+            "name": "idLayout",
+            "type": "string"
+          },
+          {
+            "name": "typeNotification",
+            "type": {
+              "type": "record",
+              "name": "PushTypeNotification",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "long"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
