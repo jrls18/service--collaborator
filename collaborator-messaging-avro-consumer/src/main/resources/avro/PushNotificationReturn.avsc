@@ -1,7 +1,7 @@
 {
   "type": "record",
-  "namespace": "br.com.grupo.developer.corporation.msg.avro.user.unlock",
-  "name": "UnlockMenuUser",
+  "namespace": "br.com.group.developer.corporation.push.message.return",
+  "name": "PushMessageReturn",
   "version": "1",
   "fields":[
     {
@@ -20,14 +20,19 @@
       "doc": "Sistema de origem, usar o patchContext exemplo: 'service--collaborator'"
     },
     {
-      "name": "user",
+      "name": "pushNotification",
       "type": {
         "type" : "record",
-        "name" : "UnlockUser",
+        "name" : "PushNotification",
         "fields" : [
           {
-            "name": "id",
-            "type": "long"
+            "name": "idAccess",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
+            "name": "isError",
+            "type": "boolean"
           }
         ]
       }

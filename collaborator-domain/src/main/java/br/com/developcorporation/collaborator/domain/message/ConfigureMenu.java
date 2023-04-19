@@ -24,5 +24,7 @@ public class ConfigureMenu implements Serializable {
         private static final long serialVersionUID = 757312769699414049L;
         private Long  id;
         private boolean collaborator;
+
+        private boolean isError;
     }
 }

@@ -17,6 +17,8 @@ public class Notification implements Serializable {
 
     private static final long serialVersionUID = 8334442973691673238L;
 
+    private String idAccess;
+
     private String email;
 
     private String name;

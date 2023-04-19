@@ -26,6 +26,11 @@
         "name" : "PushNotification",
         "fields" : [
           {
+            "name": "idAccess",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
             "name": "email",
             "type": ["null","string"],
             "default": null

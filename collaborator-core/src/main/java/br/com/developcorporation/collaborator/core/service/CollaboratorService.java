@@ -13,7 +13,8 @@ public interface CollaboratorService {
 
     void addAsync(final Collaborator dto);
 
-    void unlockCollaboratorAsync(final Collaborator collaborator);
+    void updateStatusCollaboratorAsync(final Collaborator collaborator, final boolean isError,
+                                      final boolean isMenu);
 
     Message update(final Collaborator dto);
 

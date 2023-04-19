@@ -1,12 +1,14 @@
 package br.com.developcorporation.collaborator.message.avro.consumer.mapper;
 
+
+import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.message.avro.consumer.constans.DataConstant;
-import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
+import br.com.group.developer.corporation.configure.menu.return$.ConfigureMenuReturn;
+import br.com.group.developer.corporation.push.message.return$.PushMessageReturn;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
 import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
 import br.com.grupo.developer.corporation.msg.avro.collaborator.CollaboratorAsync;
-import br.com.grupo.developer.corporation.msg.avro.user.unlock.UnlockMenuUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -38,10 +40,11 @@ public interface CollaboratorMessageMapper {
 
 
     @Mapping(source = "user.id", target = "obj.id")
-    MessageAsync<Collaborator> toDomainAvro(final UnlockMenuUser unlockMenuUser);
+    MessageAsync<Collaborator> toDomainAvro(final ConfigureMenuReturn unlockMenuUser);
 
     CollaboratorMessage.Message toMessage(final DomainException ex);
 
-
+    @Mapping(source = "pushNotification.idAccess", target = "obj.id")
+    MessageAsync<Collaborator> toDomainAvro(final PushMessageReturn pushMessageReturn);
 
 }

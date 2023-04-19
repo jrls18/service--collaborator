@@ -36,12 +36,25 @@ import java.util.*;
 public class CollaboratorServiceImpl implements CollaboratorService {
 
     private static final long AGUARDANDO_CONFIGURACAO_DE_MENU = 6L;
+
+    private static final long FINALIZADO_A_CONFIGURACAO_DE_MENU = 7L;
+
+    private static final long EMAIL_ENVIADO_AGUARDANDO_ATIVACAO = 8L;
+
+    private static final long FALHA_AO_ENVIAR_O_EMAIL_DE_ATIVACAO = 9L;
+
+    private static final long EMAIL_ENVIADO_FALHA_NA_CONFIGURACAO_DO_MENU = 10L;
+
+    private static final long FALHA_NA_CONFIGURACAO_DO_MENU = 11L;
+
+    private static final long FALHA_NA_CONFIGURACAO_DO_MENU_E_FALHA_NO_ENVIO_DO_EMAIL = 12L;
+
+
     public static final long IMAGE_PROFILE = 1L;
+    public static final long EMAIL = 1L;
     public static final String INCLUSAO_ALTERACAO = "I";
     public static final String DELETE_FILE = "D";
 
-    public static final long ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE = 7L;
-    public static final long EMAIL = 1L;
 
     private final DocumentPort documentPort;
 
@@ -126,7 +139,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         messageAsync.setCorrelationId(ContextHolder.get().getCorrelationId());
         messageAsync.setOriginSystem(applicationName);
         messageAsync.setPostDateTime(LocalDateTime.now().toString());
-        messageAsync.setObj(new ConfigureMenu(new ConfigureMenu.User(dto.getId(), true)));
+        messageAsync.setObj(new ConfigureMenu(new ConfigureMenu.User(dto.getId(), true, false)));
         return messageAsync;
     }
 
@@ -135,7 +148,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         messageAsync.setCorrelationId(ContextHolder.get().getCorrelationId());
         messageAsync.setOriginSystem(applicationName);
         messageAsync.setPostDateTime(LocalDateTime.now().toString());
-        messageAsync.setObj(new Notification(dto.getContact().getEmail(),dto.getName(),null
+        messageAsync.setObj(new Notification(dto.getId().toString(),dto.getContact().getEmail(),dto.getName(),null
                 ,new Notification.TypeNotification(EMAIL),"25425452"));
         return messageAsync;
     }
@@ -179,9 +192,32 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     @Override
-    public void unlockCollaboratorAsync(Collaborator collaborator) {
+    public void updateStatusCollaboratorAsync(Collaborator collaborator,
+                                              boolean isError,
+                                              boolean isMenu) {
         if(Objects.nonNull(collaborator)){
-            collaborator.setStatus(new Collaborator.Status(ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE,""));
+
+            if(isMenu){
+                if(isError)
+                    collaborator.setStatus(new Collaborator.Status(FALHA_NA_CONFIGURACAO_DO_MENU,""));
+                else
+                    collaborator.setStatus(new Collaborator.Status(FINALIZADO_A_CONFIGURACAO_DE_MENU,""));
+            }else {
+                Collaborator collaboratorExists = port.getById(collaborator.getId());
+                if(isError){
+                    if(collaboratorExists.getStatus().getId().equals(FALHA_NA_CONFIGURACAO_DO_MENU))
+                        collaborator.setStatus(new Collaborator.Status(FALHA_NA_CONFIGURACAO_DO_MENU_E_FALHA_NO_ENVIO_DO_EMAIL,""));
+                    else
+                        collaborator.setStatus(new Collaborator.Status(FALHA_AO_ENVIAR_O_EMAIL_DE_ATIVACAO,""));
+                }
+                else{
+                   if(collaboratorExists.getStatus().getId().equals(FALHA_NA_CONFIGURACAO_DO_MENU))
+                       collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_FALHA_NA_CONFIGURACAO_DO_MENU,""));
+                   else
+                       collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO,""));
+                }
+            }
+
             updateUnlock(collaborator);
         }
     }
@@ -332,7 +368,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             if(collaborator.get().getStatus().getId() == AGUARDANDO_CONFIGURACAO_DE_MENU){
                 throw new UnauthorizedException(MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU);
             }
-            if(collaborator.get().getStatus().getId() == ID_AGUARDANDO_ATIVACAO_EMAIL_OU_TELEFONE){
+            if(collaborator.get().getStatus().getId() == FINALIZADO_A_CONFIGURACAO_DE_MENU){
                 throw new UnauthorizedException(MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDADO_VERIFICACAO_DE_EMAIL_OU_TELEFONE);
             }
         }
@@ -396,8 +432,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
                     MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
                     details);
-
-
     }
 
     public List<Message.Details> validTypeCollaborator(final Collaborator.TypeCollaborator typeCollaborator){

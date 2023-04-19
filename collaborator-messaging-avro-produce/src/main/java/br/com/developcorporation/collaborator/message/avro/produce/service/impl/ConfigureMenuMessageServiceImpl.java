@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class ConfigureMenuMessageServiceImpl extends SendMessage<ConfigureMenu> implements ConfigureMenuMessageService<ConfigureMenu> {
 
     @Getter
-    @Value(value = "${kafka.produce.topic.name.configure.menu.save}")
+    @Value(value = "${kafka.produce.topic.name.configure.menu}")
     private String topicName;
 
     public ConfigureMenuMessageServiceImpl(KafkaTemplate<String, SpecificRecord> producerKafkaTemplate) {
