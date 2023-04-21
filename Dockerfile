@@ -11,12 +11,12 @@ FROM  eclipse-temurin:17-jdk
 RUN mkdir /app
 COPY --from=build /src/target/*.jar /app/app.jar
 
-
-
 WORKDIR /app
 
-##ENV JVMOPTS = "-XX:MaxRAM=250m -XX:+UseSerialGC"
-ENV JVM_OPTS="-Xss256k -XX:MaxRAMPercentage=80.0 -XX:+UseSerialGC"
+ENV JVM_OPTS="-XX:+UseParallelGC \
+              -XX:ActiveProcessorCount=2 \
+              -XX:MaxRAMPercentage=75 \
+              -Duser.timezone=America/Fortaleza"
 
 ENV JAVA_OPTS "$JAVA_OPTS "
 

@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "br.com.group.developer.corporation.configure.menu.return",
+  "namespace": "br.com.group.developer.corporation.configure.menu.response",
   "name": "ConfigureMenuReturn",
   "version": "1",
   "fields":[

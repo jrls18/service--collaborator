@@ -8,7 +8,7 @@ import br.com.developcorporation.collaborator.message.avro.consumer.mapper.Colla
 import br.com.developcorporation.collaborator.message.avro.consumer.service.ContextService;
 import br.com.developcorporation.collaborator.message.avro.consumer.service.ConfigureMenuReturnMessageService;
 
-import br.com.group.developer.corporation.configure.menu.return$.ConfigureMenuReturn;
+import br.com.group.developer.corporation.configure.menu.response.ConfigureMenuReturn;
 
 import br.com.grupo.developer.corporation.lib.logger.logger.Logger;
 import br.com.grupo.developer.corporation.libcommons.constants.MessageAssistantConstants;

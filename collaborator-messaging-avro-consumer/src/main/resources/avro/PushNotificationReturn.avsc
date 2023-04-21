@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "br.com.group.developer.corporation.push.message.return",
+  "namespace": "br.com.group.developer.corporation.push.message.response",
   "name": "PushMessageReturn",
   "version": "1",
   "fields":[
