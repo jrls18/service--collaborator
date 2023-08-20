@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS situacao(
     ,PRIMARY KEY (cod_situacao)
 );
 
-CREATE TABLE IF NOT EXISTS authorization(
+CREATE TABLE IF NOT EXISTS AUTHENTICATED(
      cod_authorization BIGINT AUTO_INCREMENT NOT NULL
     ,application_name VARCHAR(150) UNIQUE NOT NULL
     ,sigla_app VARCHAR(20) UNIQUE NOT NULL
@@ -31,20 +31,21 @@ CREATE TABLE IF NOT EXISTS colaborador(
   ,cod_empresa BIGINT NOT NULL
   ,cpf_cnpj VARCHAR(14) NULL
   ,email VARCHAR(150) UNIQUE NOT NULL
-	,telefone_principal  VARCHAR(11) NOT NULL
-	,telefone VARCHAR(11) NULL
-	,cep  VARCHAR(8)  NOT NULL
-	,logradouro VARCHAR(255) NOT NULL
-	,complemento VARCHAR(150) NULL
-	,bairro VARCHAR(150) NOT NULL
-	,localidade VARCHAR(150) NOT NULL
-	,uf VARCHAR(2) NOT NULL
-	,numero INT NOT NULL
-	,data_cadastro DATETIME  NULL
-	,cod_situacao INT NOT NULL
-	,nome_image VARCHAR(250) NULL
-	,FOREIGN KEY (cod_situacao) REFERENCES situacao(cod_situacao)
-    ,PRIMARY KEY (cod_colaborador)
+  ,telefone_principal  VARCHAR(11) NOT NULL
+  ,telefone VARCHAR(11) NULL
+  ,cep  VARCHAR(8)  NOT NULL
+  ,logradouro VARCHAR(255) NOT NULL
+  ,complemento VARCHAR(150) NULL
+  ,bairro VARCHAR(150) NOT NULL
+  ,localidade VARCHAR(150) NOT NULL
+  ,uf VARCHAR(2) NOT NULL
+  ,numero INT NOT NULL
+  ,data_cadastro DATETIME  NULL
+  ,cod_situacao INT NOT NULL
+  ,nome_image VARCHAR(250) NULL
+  ,ativacao VARCHAR(40) NOT NULL
+  ,FOREIGN KEY (cod_situacao) REFERENCES situacao(cod_situacao)
+  ,PRIMARY KEY (cod_colaborador)
 );
 
 CREATE TABLE IF NOT EXISTS colaboradoracesso (

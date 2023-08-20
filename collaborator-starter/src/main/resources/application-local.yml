@@ -5,10 +5,11 @@ spring:
   application:
     name: service--collaborator
   flyway:
-    enabled: false
     h2:
       console:
-        enabled: false
+        enabled: true
+    locations: classpath:db/migration
+    enabled: true
   main:
     allow-bean-definition-overriding: true
   boot:

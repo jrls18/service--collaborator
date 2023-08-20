@@ -88,4 +88,7 @@ public class Collaborator implements Serializable {
 
     @Column(name = "nome_image")
     private String nameImage;
+
+    @Column(name = "ativacao")
+    private String idActive;
 }

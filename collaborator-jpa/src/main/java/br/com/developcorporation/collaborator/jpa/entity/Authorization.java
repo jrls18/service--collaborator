@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
-@Table(name = "authorization", uniqueConstraints = {
+@Table(name = "AUTHENTICATED", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"client_id"})
         , @UniqueConstraint(columnNames = {"client_secret"})
         , @UniqueConstraint(columnNames = {"application_name"})
