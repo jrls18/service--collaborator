@@ -5,8 +5,6 @@ import br.com.developcorporation.collaborator.core.validation.AuthorizationValid
 import br.com.developcorporation.collaborator.core.validation.CollaboratorValidation;
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
-import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
-import br.com.developcorporation.collaborator.domain.message.ConfigureMenu;
 import br.com.developcorporation.collaborator.domain.message.Notification;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Status;
@@ -49,6 +47,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private static final long FALHA_NA_CONFIGURACAO_DO_MENU_E_FALHA_NO_ENVIO_DO_EMAIL = 12L;
 
+    private static final long EMAIL_ENVIADO_AGUARDANDO_CONFIGURACAO_DE_MENU = 13L;
+
 
     public static final long IMAGE_PROFILE = 1L;
     public static final long EMAIL = 1L;
@@ -67,11 +67,8 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final CollaboratorRolePort collaboratorRolePort;
 
-    private final CollaboratorSendMessagePort collaboratorSendMessagePort;
     private final CollaboratorValidation validator;
     private final AuthorizationValidation validatorAuthorization;
-
-    private final ConfigureMenuSendMessagePort configureMenuUserSendMessagePort;
 
     private final StatusPort statusPort;
 
@@ -122,8 +119,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                     enviaDocuments(dto);
 
-            configureMenuUserSendMessagePort.send(getConfigureMenuMessageAsync(dto));
-
             pushNotificationSendMessagePort.send(getNotificationMessageAsync(dto));
 
         }catch (Exception ex){
@@ -134,14 +129,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
-    private MessageAsync<ConfigureMenu> getConfigureMenuMessageAsync(Collaborator dto) {
-        MessageAsync<ConfigureMenu> messageAsync = new MessageAsync<>();
-        messageAsync.setCorrelationId(ContextHolder.get().getCorrelationId());
-        messageAsync.setOriginSystem(applicationName);
-        messageAsync.setPostDateTime(LocalDateTime.now().toString());
-        messageAsync.setObj(new ConfigureMenu(new ConfigureMenu.User(dto.getId(), true, false)));
-        return messageAsync;
-    }
+
 
     private MessageAsync<Notification> getNotificationMessageAsync(Collaborator dto) {
         MessageAsync<Notification> messageAsync = new MessageAsync<>();
@@ -191,19 +179,28 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
+
+
+
+
+
     @Override
     public void updateStatusCollaboratorAsync(Collaborator collaborator,
                                               boolean isError,
                                               boolean isMenu) {
         if(Objects.nonNull(collaborator)){
+            Collaborator collaboratorExists = port.getById(collaborator.getId());
 
             if(isMenu){
                 if(isError)
                     collaborator.setStatus(new Collaborator.Status(FALHA_NA_CONFIGURACAO_DO_MENU,""));
-                else
-                    collaborator.setStatus(new Collaborator.Status(FINALIZADO_A_CONFIGURACAO_DE_MENU,""));
+                else{
+                     if(collaboratorExists.getStatus().getId().equals(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO) || collaboratorExists.getStatus().equals(EMAIL_ENVIADO_AGUARDANDO_CONFIGURACAO_DE_MENU))
+                         collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO,""));
+                     else
+                         collaborator.setStatus(new Collaborator.Status(FINALIZADO_A_CONFIGURACAO_DE_MENU,""));
+                }
             }else {
-                Collaborator collaboratorExists = port.getById(collaborator.getId());
                 if(isError){
                     if(collaboratorExists.getStatus().getId().equals(FALHA_NA_CONFIGURACAO_DO_MENU))
                         collaborator.setStatus(new Collaborator.Status(FALHA_NA_CONFIGURACAO_DO_MENU_E_FALHA_NO_ENVIO_DO_EMAIL,""));
@@ -214,7 +211,11 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                    if(collaboratorExists.getStatus().getId().equals(FALHA_NA_CONFIGURACAO_DO_MENU))
                        collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_FALHA_NA_CONFIGURACAO_DO_MENU,""));
                    else
-                       collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO,""));
+                       if(collaboratorExists.getStatus().getId().equals(AGUARDANDO_CONFIGURACAO_DE_MENU))
+                           collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_CONFIGURACAO_DE_MENU,""));
+                       else
+                           collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO,""));
+
                 }
             }
 
@@ -287,9 +288,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             if(StringUtils.isEmpty(domain.getDocument().getNameDocument()) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
                domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
 
-            if(!dto.getTypeCollaborator().getId().equals(domain.getTypeCollaborator().getId())){
-                configureMenuUserSendMessagePort.send(getConfigureMenuMessageAsync(dto));
-            }
 
             enviaDocuments(domain);
 
@@ -352,12 +350,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         return  collaborator;
     }
 
-    @Override
-    public void sendMessage(CollaboratorMessage collaboratorMessage) {
-        if(Objects.nonNull(collaboratorMessage)){
-            collaboratorSendMessagePort.send(collaboratorMessage);
-        }
-    }
+
 
     @Override
     public Optional<Collaborator> findByUsername(String username) {

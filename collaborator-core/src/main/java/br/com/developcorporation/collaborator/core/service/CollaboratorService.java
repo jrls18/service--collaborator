@@ -1,6 +1,5 @@
 package br.com.developcorporation.collaborator.core.service;
 
-import br.com.developcorporation.collaborator.domain.message.CollaboratorMessage;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.grupo.developer.corporation.libcommons.message.Message;
 import br.com.grupo.developer.corporation.libcommons.message.Pagination;
@@ -21,8 +20,6 @@ public interface CollaboratorService {
     Collaborator getById(Long id);
 
     Collaborator getByIdNotImage(Long id);
-
-    void sendMessage(final CollaboratorMessage collaboratorMessage);
 
     Optional<Collaborator> findByUsername(final String username);
 

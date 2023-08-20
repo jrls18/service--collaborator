@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class HttpUtil {
 
-    @Value(value = "${collaborator.client_id}")
+    @Value(value = "${properties.configMap.clientId}")
     private String clientId;
 
-    @Value(value = "${collaborator.client_secret}")
+    @Value(value = "${properties.configMap.clientSecret}")
     private String clientSecret;
 
     public HttpHeaders getHeader(){

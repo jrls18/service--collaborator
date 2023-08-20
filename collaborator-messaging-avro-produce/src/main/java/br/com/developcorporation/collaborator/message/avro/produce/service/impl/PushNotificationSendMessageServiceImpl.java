@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class PushNotificationSendMessageServiceImpl extends SendMessage<PushMessage> implements PushNotificationSendMessageService<PushMessage> {
 
     @Getter
-    @Value(value = "${kafka.produce.topic.name.push.notification}")
+    @Value(value = "${kafka.topic.produce.notification.name}")
     private String topicName;
 
     public PushNotificationSendMessageServiceImpl(KafkaTemplate<String, SpecificRecord> producerKafkaTemplate) {

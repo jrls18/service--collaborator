@@ -38,14 +38,16 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
     @Value("${spring.application.name}")
     private String applicationName;
 
+    /*
     @RetryableTopic(
             attempts = "${kafka.topic.consumer.qtd.retry}",
             backoff = @Backoff(delay = 60000, multiplier = 1.0, maxDelay = 120000),
             autoCreateTopics = "false",
             fixedDelayTopicStrategy = FixedDelayStrategy.SINGLE_TOPIC,
-            dltStrategy = DltStrategy.FAIL_ON_ERROR
+            dltStrategy = DltStrategy.NO_DLT
     )
-    @KafkaListener(topics = "${kafka.topic.consumer.collaborator.save}", groupId = "${kafka.topic.consumer.collaborator.save.id}")
+    @KafkaListener(topics = "${kafka.topic.consumer.collaborator.name}", groupId = "${kafka.topic.consumer.collaborator.id}")
+         */
     @Override
     public void onReceive(ConsumerRecord<String, CollaboratorAsync> record) {
 

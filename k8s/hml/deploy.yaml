@@ -50,5 +50,7 @@ spec:
             - containerPort: 9090
             - containerPort: 5000
           envFrom:
+            - configMapRef:
+                name: service--collaborator-cm
             - secretRef:
-                name: service--collaborator
+                name: service--collaborator-sc

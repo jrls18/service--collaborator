@@ -27,6 +27,10 @@
                     <id>github</id>
                     <url>https://maven.pkg.github.com/jrls18/lib-spring-context-holder</url>
                 </repository>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/jrls18/lib-spring-boot-parent</url>
+                </repository>
             </repositories>
         </profile>
     </profiles>

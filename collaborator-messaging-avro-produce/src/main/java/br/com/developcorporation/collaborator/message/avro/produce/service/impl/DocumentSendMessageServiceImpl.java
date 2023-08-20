@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class DocumentSendMessageServiceImpl extends SendMessage<DocumentsMessage> implements DocumentSendMessageService<DocumentsMessage> {
 
     @Getter
-    @Value(value = "${kafka.topic.produce.document.user}")
+    @Value(value = "${kafka.topic.produce.document.name}")
     private String topicName;
 
     public DocumentSendMessageServiceImpl(KafkaTemplate<String, SpecificRecord> producerKafkaTemplate) {

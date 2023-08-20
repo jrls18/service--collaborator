@@ -85,17 +85,6 @@
     </repositories>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>application-dev.properties</include>
-                    <include>application-local.properties</include>
-                    <include>application.properties</include>
-                </includes>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -129,7 +118,7 @@
                         <configuration>
                             <target name="copy application to parent target">
                                 <copy file="target/service-management-collaborator-starter.jar"
-                                      tofile="../target/service-management-collaborator-${revision}.jar" />
+                                      tofile="../target/service--collaborator-${revision}.jar" />
                             </target>
                         </configuration>
                     </execution>

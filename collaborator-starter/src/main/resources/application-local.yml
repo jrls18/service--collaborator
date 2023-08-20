@@ -1,0 +1,266 @@
+h2:
+  enabled: true
+spring:
+  serviceId: ${spring.application.name}
+  application:
+    name: service--collaborator
+  flyway:
+    enabled: false
+    h2:
+      console:
+        enabled: false
+  main:
+    allow-bean-definition-overriding: true
+  boot:
+    admin:
+      client:
+        auto-registration: true
+        instance:
+          prefer-ip: true
+          name: ${spring.application.name}
+        url: ${properties.configMap.springBootAdminUrl}
+        username: ${properties.configMap.springBootAdminUser}
+        password: ${properties.configMap.springBootAdminPass}
+  cache:
+    type: simple
+    jcache:
+      config: classpath:ehcache.xml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:${properties.configMap.dataBaseName};DB_CLOSE_ON_EXIT=FALSE
+    username: ${properties.configMap.dataBaseUsername}
+    password: ${properties.configMap.dataBasePassword}
+    driverClassName: ${properties.configMap.dataBaseClassDrive}
+    driver-class-name: ${properties.configMap.dataBaseClassDrive}
+    connectionTestQuery: SELECT CURRENT_TIMESTAMP
+    maximumPoolSize: 3
+    connectionTimeout: 20000
+  jmx:
+    enabled: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        storage_engine: innodb
+        generate_statistics: true
+        javax:
+          persistence:
+            sharedCache:
+              mode: ENABLE_SELECTIVE
+            lock:
+              timeout: 3000
+          cache:
+            missing_cache_strategy: create
+            provider: org.ehcache.jsr107.EhcacheCachingProvider
+            uri: classpath:ehcache.xml
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+  kafka:
+    bootstrap-servers: ${properties.configMap.kafkaBootstrapServers}
+    properties:
+      #security:
+        #protocol: SASL_SSL
+      #sasl:
+        #jaas:
+          #config: "org.apache.kafka.common.security.scram.ScramLoginModule required username=1234 password=1234"
+        #mechanism: SCRAM-SHA-512
+      schema:
+        registry:
+          url: ${properties.configMap.kafkaSchemaRegistryUrl}
+      auto:
+        register:
+          schemas: true
+      producer:
+        acks: 1
+        retries: 3
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      consumer:
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+        properties:
+          specific:
+            avro:
+              reader: true
+        enable-auto-commit: false
+        auto-offset-reset: earliest
+        allow:
+          auto:
+            create:
+              topics: true
+
+management:
+  metrics:
+    distribution:
+      percentiles[http.server.requests]: 0.5, 0.7, 0.95, 0.99
+      percentiles-histogram[http.server.requests]: true
+      slo[http.server.requests]: 10ms, 100ms
+  security:
+    enabled: false
+  context-path: /actuator
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    chaosmonkeyjmx:
+      enabled: true
+    chaosmonkey:
+      enabled: true
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+      export:
+        prometheus:
+          enabled: true
+      tags:
+        application: ${spring.application.name}
+
+resilience4j:
+  retry:
+    retry-aspect-order: 2
+  instances:
+    serviceRetry:
+      maxRetryAttempts: 3
+      waitDuration: 3000
+      retryExceptions: br.com.developcorporation.menu.domain.execptions.SistemaIndisponivelException
+      ignoreExceptions: br.com.developcorporation.menu.domain.execptions.ErroDeNegocioException
+
+
+kafka:
+  topic:
+    produce:
+      document:
+        name: topic.save.documents.upload
+      notification:
+        name: group_develop_corporation.push.notification
+    consumer:
+      qtd:
+        retry: 6
+      collaborator:
+        id: topic.collaborator.save-id
+        name: topic.collaborator.save
+        dlt:
+          id: topic.collaborator.save-dlt-id
+          name: ${kafka.topic.consumer.collaborator.name}-dlt
+
+
+
+server:
+  port: 5000
+  servlet:
+    context-path: /${spring.application.name}
+
+log:
+  name: ${spring.application.name}-${server.port}-@project.version@.log
+
+
+endpoints:
+  caches:
+    enabled: true
+
+chaos:
+  monkey:
+    enabled: true
+    watcher:
+      service: true
+    assaults:
+      latencyActive: true
+
+logging:
+  file:
+    max-history: 5
+    max-size: 10MB
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: info
+
+url:
+  api:
+    cep: https://viacep.com.br/ws/{cep}/json/
+    documents:
+      host: http://cloud.local.develop.corporation.com/service--documents/documents/v1/image/base64/company/
+    company:
+      host: http://cloud.local.develop.corporation.com/service--company/empresa/v1/get/id=
+
+toggle:
+  call:
+    api:
+      user: true
+      cep: true
+      documents: true
+      delete:
+        document: true
+
+app:
+  jwtSecret: jwtCbpAa7B#Yy@uUZ
+  jwtExpiration: 86400
+
+quantidade:
+  de:
+    itens:
+      na:
+        paginacao: 10
+
+properties:
+  configMap:
+    clientId: ${CLIENT_ID:"89e7b6e5-a61d-4f67-b688-7b7449db096b"}
+    clientSecret: ${CLIENT_SECRET:"343a5f53-6797-4930-82b7-1a96cb416ead"}
+    dataBaseHots: ${DATA_BASE_HOTS}
+    dataBasePort: ${DATA_BASE_PORT}
+    dataBaseName: ${DATA_BASE_NAME:dbcolaborador}
+    dataBaseClassDrive: ${DATA_BASE_CLASS_DRIVE:org.h2.Driver}
+    dataBaseProtocol: ${DATA_BASE_PROTOCOL}
+    dataBaseUsername: ${DATA_BASE_USERNAME:sa}
+    dataBasePassword: ${DATA_BASE_PASSWORD:}
+    kafkaBootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:192.168.15.94:9092,192.168.15.94:9093}
+    kafkaSchemaRegistryUrl: ${KAFKA_SCHEMA_REGISTRY_URL:"http://192.168.15.94:8085,http://192.168.15.94:8086"}
+    springBootAdminUser: ${SPRING_BOOT_ADMIN_USER:admin}
+    springBootAdminPass: ${SPRING_BOOT_ADMIN_PASS:171513}
+    springBootAdminUrl: ${SPRING_BOOT_ADMIN_URL:"http://localhost:8000"}
+
+parameterize:
+  clientId: ${properties.configMap.clientId}
+  clientSecret: ${properties.configMap.clientSecret}
+  scheduleCron: "0 */2 * * * *"
+  timezone: America/Fortaleza
+  properties:
+    - name: properties-service-conta-corrente-service
+      requestFields:
+        - key: nome-service
+          value: urlServiceInternal
+      fieldCaching:
+        fields:
+          - urlServiceCliente
+
+
+logProperties:
+  typeObfuscateMask: "#"
+  patternObfuscate: partial
+  obfuscate:
+    headers:
+      - "client_secret"
+      - "client_id"
+    body:
+      - "client_secret"
+      - "client_id"
