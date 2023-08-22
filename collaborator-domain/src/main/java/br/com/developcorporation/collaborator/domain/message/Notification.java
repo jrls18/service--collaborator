@@ -25,6 +25,8 @@ public class Notification implements Serializable {
 
     private String cellPhone;
 
+    private String idActive;
+
     private TypeNotification typeNotification;
 
     private String idLayout;

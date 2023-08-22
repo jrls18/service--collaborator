@@ -7,6 +7,7 @@ import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepository
 import br.com.developcorporation.collaborator.jpa.service.RoleRepositoryService;
 import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -46,6 +47,14 @@ public class CollaboratorAdapter implements CollaboratorPort {
         Collaborator collaborator = CollaboratorMapper.INSTANCE.toDomain(service.consultaPorCodigo(id).orElse(null));
 
         return setRoleCollaborator(collaborator);
+    }
+
+    @Override
+    public Collaborator getByIdActive(String uuid) {
+        if(StringUtils.isEmpty(uuid))
+            return null;
+
+        return CollaboratorMapper.INSTANCE.toDomain(service.findByIdActive(uuid));
     }
 
     @Override

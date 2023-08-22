@@ -21,6 +21,7 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Query(value = "SELECT * FROM colaborador WHERE email = :email ", nativeQuery = true)
     Optional<Collaborator> findByEmail(@Param("email") final String email);
 
+    Optional<Collaborator> findByIdActive(final String uuid);
 
     @Query(value = "SELECT COUNT(*) FROM colaborador WHERE cod_empresa = :id", nativeQuery = true)
     Integer existsByIdCompany(Long id);

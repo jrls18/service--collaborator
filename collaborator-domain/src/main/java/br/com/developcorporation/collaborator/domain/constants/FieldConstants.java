@@ -23,4 +23,6 @@ public final class FieldConstants {
     public static final String ID_COMPANY = "codigo_empresa";
 
     public static final String PNG_BASE_64 ="data:image/png;base64,";
+
+    public static final String CHAVE_ATIVACAO_PERFIL = "chave_ativacao_perfil";
 }

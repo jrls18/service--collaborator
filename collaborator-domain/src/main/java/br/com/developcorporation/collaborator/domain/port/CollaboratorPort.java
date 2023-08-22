@@ -16,6 +16,8 @@ public interface CollaboratorPort {
 
     Collaborator getById(Long id);
 
+    Collaborator getByIdActive(final String uuid);
+
     Collaborator getEmail(String email);
 
     Optional<Collaborator> findByUserName(final String username);

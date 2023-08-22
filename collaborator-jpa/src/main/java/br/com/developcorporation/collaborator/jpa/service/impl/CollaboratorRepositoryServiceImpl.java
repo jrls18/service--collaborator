@@ -4,6 +4,7 @@ import br.com.developcorporation.collaborator.jpa.entity.Collaborator;
 import br.com.developcorporation.collaborator.jpa.repository.CollaboratorRepository;
 import br.com.developcorporation.collaborator.jpa.service.CollaboratorRepositoryService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -74,6 +75,14 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
         return new PageImpl<>(
                 repository.findAll(),
                 pageRequest, size);
+    }
+
+    @Override
+    public Collaborator findByIdActive(String uuid) {
+        if(StringUtils.isEmpty(uuid))
+            return null;
+
+       return repository.findByIdActive(uuid).orElse(null);
     }
 
     @Override

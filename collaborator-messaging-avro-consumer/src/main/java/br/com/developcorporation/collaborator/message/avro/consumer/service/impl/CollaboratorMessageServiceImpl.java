@@ -17,11 +17,6 @@ import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.annotation.RetryableTopic;
-import org.springframework.kafka.retrytopic.DltStrategy;
-import org.springframework.kafka.retrytopic.FixedDelayStrategy;
-import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
@@ -60,7 +55,7 @@ public class CollaboratorMessageServiceImpl implements CollaboratorMessageServic
 
             log.info(MessageConstants.ASYNC_REQUEST, Logger.info(messageAsync, MessageAssistantConstants.INICIALIZADO));
 
-            collaboratorService.addAsync(messageAsync.getObj());
+            collaboratorService.saveAsync(messageAsync.getObj());
 
             messageAsync.setDateTimeEndProcessing(LocalDateTime.now().toString());
             messageAsync.setStatus(MessageConstants.FIM_CADASTRO_ASYNC);

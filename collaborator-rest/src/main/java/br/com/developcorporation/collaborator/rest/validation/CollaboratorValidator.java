@@ -37,8 +37,6 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
 
         detailsResponses.addAll(validFoundationDate(value));
 
-        detailsResponses.addAll(validPassword(value));
-
         detailsResponses.addAll(validContact(value));
 
         detailsResponses.addAll(validAddress(value));
@@ -434,21 +432,6 @@ public class CollaboratorValidator implements BaseValidator<CollaboratorRequest>
         return detailsResponses;
     }
 
-    private List<MessageResponse.DetailsResponse> validPassword(final CollaboratorRequest request){
-        List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();
-
-        detailsResponses.add(
-          MessageMapper.INSTANCE.toDetailsResponse(
-                  Validation.notNullOrEmpty(
-                          FieldConstant.PASSWORD,
-                          request.getPassword(),
-                          MessageConstant.PASSWORD_E_OBRIGATORIO
-                  )
-          )
-        );
-
-        return detailsResponses;
-    }
 
     private List<MessageResponse.DetailsResponse> validFoundationDate(final CollaboratorRequest request){
         List<MessageResponse.DetailsResponse> detailsResponses = new ArrayList<>();

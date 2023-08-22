@@ -5,6 +5,7 @@ import br.com.developcorporation.collaborator.core.validation.AuthorizationValid
 import br.com.developcorporation.collaborator.core.validation.CollaboratorValidation;
 import br.com.developcorporation.collaborator.domain.constants.FieldConstants;
 import br.com.developcorporation.collaborator.domain.constants.MessageConstants;
+import br.com.developcorporation.collaborator.domain.constants.OtherDomainConstants;
 import br.com.developcorporation.collaborator.domain.message.Notification;
 import br.com.developcorporation.collaborator.domain.model.Collaborator;
 import br.com.developcorporation.collaborator.domain.model.Status;
@@ -17,8 +18,8 @@ import br.com.grupo.developer.corporation.libcommons.message.Message;
 import br.com.grupo.developer.corporation.libcommons.message.MessageAsync;
 import br.com.grupo.developer.corporation.libcommons.message.Pagination;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,32 +34,10 @@ import java.util.*;
 @Service
 public class CollaboratorServiceImpl implements CollaboratorService {
 
-    private static final long AGUARDANDO_CONFIGURACAO_DE_MENU = 6L;
-
-    private static final long FINALIZADO_A_CONFIGURACAO_DE_MENU = 7L;
-
-    private static final long EMAIL_ENVIADO_AGUARDANDO_ATIVACAO = 8L;
-
-    private static final long FALHA_AO_ENVIAR_O_EMAIL_DE_ATIVACAO = 9L;
-
-    private static final long EMAIL_ENVIADO_FALHA_NA_CONFIGURACAO_DO_MENU = 10L;
-
-    private static final long FALHA_NA_CONFIGURACAO_DO_MENU = 11L;
-
-    private static final long FALHA_NA_CONFIGURACAO_DO_MENU_E_FALHA_NO_ENVIO_DO_EMAIL = 12L;
-
-    private static final long EMAIL_ENVIADO_AGUARDANDO_CONFIGURACAO_DE_MENU = 13L;
-
-
-    public static final long IMAGE_PROFILE = 1L;
-    public static final long EMAIL = 1L;
-    public static final String INCLUSAO_ALTERACAO = "I";
-    public static final String DELETE_FILE = "D";
-
-
     private final DocumentPort documentPort;
 
     private final PasswordEncoder encoder;
+
     private final CollaboratorPort port;
 
     private final CompanyPort companyPort;
@@ -68,6 +47,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final CollaboratorRolePort collaboratorRolePort;
 
     private final CollaboratorValidation validator;
+
     private final AuthorizationValidation validatorAuthorization;
 
     private final StatusPort statusPort;
@@ -79,191 +59,147 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Value(value = "${quantidade.de.itens.na.paginacao}")
     private String qtdItems;
 
-    @Value("${spring.application.name}")
-    private String applicationName;
-
     @Value("${toggle.call.api.documents}")
     private boolean toggleCallApiDocuments;
 
-    private void save(Collaborator dto) {
+    private String uuidActiveProfile(){
 
-        validExistsStatus(AGUARDANDO_CONFIGURACAO_DE_MENU);
+        Integer[] index = {0,1,2,3,4,5,6,7,8,9};
 
-        validator.add(dto);
+        String uuid = null;
 
-        dto.setCpfCnpj(StringUtils.leftPad(dto.getCpfCnpj(),14,"0"));
-        validAddExists(dto);
+        for (Integer ignored : index) {
+             uuid = UUID.randomUUID().toString();
 
-        try {
-            dto.setDateRegister(LocalDateTime.now());
+             Collaborator collaborator =  port.getByIdActive(uuid);
 
-            Collaborator.Status status = new Collaborator.Status();
-            status.setId(AGUARDANDO_CONFIGURACAO_DE_MENU);
-            dto.setStatus(status);
+             if(Objects.isNull(collaborator))
+                 break;
+        }
+        return uuid;
+    }
 
-            if(Objects.nonNull(dto.getDocument())){
-                if(Objects.nonNull(dto.getDocument().getDocument())){
-                    if(StringUtils.isEmpty(dto.getDocument().getNameDocument())){
-                        dto.getDocument().setNameDocument(UUID.randomUUID().toString());
-                    }
-                    dto.getDocument().setCommand(INCLUSAO_ALTERACAO);
-                }
-            }
+    private MessageAsync<Notification> setNotificationMessageAsync(Collaborator dto) {
+        MessageAsync<Notification> messageAsync = new MessageAsync<>();
+        messageAsync.setCorrelationId(ContextHolder.get().getCorrelationId());
+        messageAsync.setOriginSystem(ContextHolder.get().getApplicationName());
+        messageAsync.setPostDateTime(LocalDateTime.now().toString());
+        messageAsync.setObj(new Notification(
+                dto.getId().toString(),
+                dto.getContact().getEmail(),dto.getName(),
+                dto.getContact().getMainPhone(),
+                dto.getIdActive()
+                ,new Notification.TypeNotification(OtherDomainConstants.EMAIL),
+                OtherDomainConstants.ID_LAYOUT_NEW_COLLABORATOR));
+        return messageAsync;
+    }
 
-            Long id =  port.add(dto);
-            dto.setId(id);
+    private void envDoc(Collaborator domain) {
+        if(Objects.nonNull(domain.getDocument()) &&
+                domain.getDocument().getCommand().equals(OtherDomainConstants.SAVE) &&
+                !StringUtils.isEmpty(domain.getDocument().getNameDocument())){
+            domain.getDocument().setLogo(false);
+            domain.getDocument().setIdCatalago(OtherDomainConstants.IMAGE_PROFILE);
+            documentSendMessagePort.send(domain);
+        }
+    }
 
-            collaboratorRolePort.save(id, dto.getTypeCollaborator().getId());
 
-            if(Objects.nonNull(dto.getDocument()))
-                if(dto.getDocument().getCommand().equals(INCLUSAO_ALTERACAO) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
-                    enviaDocuments(dto);
+    @Transactional
+    @Override
+    public Message add(Collaborator domain) {
 
-            pushNotificationSendMessagePort.send(getNotificationMessageAsync(dto));
+        if(Objects.isNull(domain))
+            throw new DomainException(CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.POR_FAVOR_INFORME_OS_DADOS_DO_COLABORADOR, null);
 
-        }catch (Exception ex){
+        validExistsStatus(OtherDomainConstants.PENDENTE_VALIDACAO_DE_EMAIL);
+
+        validator.add(domain);
+
+        domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
+
+        if(Objects.nonNull(domain.getContact()) &&
+                Boolean.FALSE.equals(StringUtils.isEmpty(domain.getContact().getEmail())))
+            domain.getContact().setEmail(domain.getContact().getEmail().trim());
+
+        validAddExists(domain);
+
+        Collaborator.Status status = new Collaborator.Status();
+        status.setId(OtherDomainConstants.PENDENTE_VALIDACAO_DE_EMAIL);
+        domain.setStatus(status);
+
+        if(Objects.nonNull(domain.getDocument()) &&
+                Objects.nonNull(domain.getDocument().getDocument())){
+            domain.getDocument().setCommand(OtherDomainConstants.SAVE);
+            if(StringUtils.isEmpty(domain.getDocument().getNameDocument()))
+                domain.getDocument().setNameDocument(UUID.randomUUID().toString());
+        }
+
+        domain.setPassword(generatedPassword(domain.getPassword()));
+        domain.setDateRegister(LocalDateTime.now());
+        domain.setIdActive(uuidActiveProfile());
+
+        try{
+            Long id =  port.add(domain);
+            domain.setId(id);
+
+            collaboratorRolePort.save(id, domain.getTypeCollaborator().getId());
+
+            pushNotificationSendMessagePort.send(setNotificationMessageAsync(domain));
+
+            envDoc(domain);
+
+        }catch (Exception ex) {
             throw new DomainException(
                     CoreEnum.INTERNAL_SERVER_ERROR.getCode(),
                     MessageConstants.OCORREU_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE,
                     null);
         }
-    }
-
-
-
-    private MessageAsync<Notification> getNotificationMessageAsync(Collaborator dto) {
-        MessageAsync<Notification> messageAsync = new MessageAsync<>();
-        messageAsync.setCorrelationId(ContextHolder.get().getCorrelationId());
-        messageAsync.setOriginSystem(applicationName);
-        messageAsync.setPostDateTime(LocalDateTime.now().toString());
-        messageAsync.setObj(new Notification(dto.getId().toString(),dto.getContact().getEmail(),dto.getName(),null
-                ,new Notification.TypeNotification(EMAIL),"25425452"));
-        return messageAsync;
-    }
-
-    private void enviaDocuments(Collaborator dto) {
-        if(Objects.nonNull(dto.getDocument())){
-            dto.getDocument().setLogo(false);
-            dto.getDocument().setIdCatalago(IMAGE_PROFILE);
-            documentSendMessagePort.send(dto);
-        }
-    }
-
-
-
-
-    @Transactional
-    @Override
-    public Message add(Collaborator dto) {
-        validatorAuthorization.validCredentials();
-        ContextHolder.get().setApplicationName(this.applicationName);
-
-        dto.setPassword(encoder.encode(dto.getPassword()));
-        dto.getContact().setEmail(dto.getContact().getEmail().trim());
-
-        dto.getDocument().setCommand(INCLUSAO_ALTERACAO);
-
-        save(dto);
 
         return new Message(CoreEnum.CREATED.getCode(),
                 MessageConstants.USUARIO_CADASTRODO_COM_SUCESSO);
     }
 
+    private String generatedPassword(String password) {
+        if(StringUtils.isEmpty(password))
+            password = "@#Ha1".concat(RandomStringUtils.randomAlphanumeric(8));
+        return encoder.encode(password);
+    }
+
+
+
     @Override
-    public void addAsync(Collaborator dto) {
+    public void saveAsync(Collaborator dto) {
         if(Objects.nonNull(dto)){
-            if(StringUtils.isEmpty(dto.getOperationType()) || dto.getOperationType().equalsIgnoreCase("I"))
-                save(dto);
+            if(StringUtils.isEmpty(dto.getOperationType()) ||
+                    dto.getOperationType().equalsIgnoreCase("I"))
+                add(dto);
             else
-                updateAsync(dto);
+                update(dto);
         }
     }
 
-
-
-
-
-
+    @Transactional
     @Override
-    public void updateStatusCollaboratorAsync(Collaborator collaborator,
-                                              boolean isError,
-                                              boolean isMenu) {
-        if(Objects.nonNull(collaborator)){
-            Collaborator collaboratorExists = port.getById(collaborator.getId());
+    public Message update(Collaborator domain) {
 
-            if(isMenu){
-                if(isError)
-                    collaborator.setStatus(new Collaborator.Status(FALHA_NA_CONFIGURACAO_DO_MENU,""));
-                else{
-                     if(collaboratorExists.getStatus().getId().equals(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO) || collaboratorExists.getStatus().equals(EMAIL_ENVIADO_AGUARDANDO_CONFIGURACAO_DE_MENU))
-                         collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO,""));
-                     else
-                         collaborator.setStatus(new Collaborator.Status(FINALIZADO_A_CONFIGURACAO_DE_MENU,""));
-                }
-            }else {
-                if(isError){
-                    if(collaboratorExists.getStatus().getId().equals(FALHA_NA_CONFIGURACAO_DO_MENU))
-                        collaborator.setStatus(new Collaborator.Status(FALHA_NA_CONFIGURACAO_DO_MENU_E_FALHA_NO_ENVIO_DO_EMAIL,""));
-                    else
-                        collaborator.setStatus(new Collaborator.Status(FALHA_AO_ENVIAR_O_EMAIL_DE_ATIVACAO,""));
-                }
-                else{
-                   if(collaboratorExists.getStatus().getId().equals(FALHA_NA_CONFIGURACAO_DO_MENU))
-                       collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_FALHA_NA_CONFIGURACAO_DO_MENU,""));
-                   else
-                       if(collaboratorExists.getStatus().getId().equals(AGUARDANDO_CONFIGURACAO_DE_MENU))
-                           collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_CONFIGURACAO_DE_MENU,""));
-                       else
-                           collaborator.setStatus(new Collaborator.Status(EMAIL_ENVIADO_AGUARDANDO_ATIVACAO,""));
-
-                }
-            }
-
-            updateUnlock(collaborator);
-        }
-    }
-
-    @SneakyThrows
-    public void updateUnlock(Collaborator collaborator) {
-        validExistsStatus(collaborator.getStatus().getId());
-        try{
-            Collaborator collaboratorExists = port.getById(collaborator.getId());
-
-            if(Objects.isNull(collaboratorExists))
-                throw new DomainException(
-                        CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
-                        MessageConstants.CODIGO_COLABORADOR_INFORMADO_NAO_EXISTE_CADASTRADO,
-                        null);
-
-            port.updateStatus(collaborator.getId(), collaborator.getStatus().getId());
-        }catch (Exception ex){
-            log.error("Ops houve um erro inesperado no processo de desbloqueio do colaborador. Detalhes: " + ex.getMessage());
-            throw new Exception(ex);
-        }
-    }
-
-    private void updateAsync(final Collaborator domain){
-        this.updateBase(domain);
-    }
-
-    private void updateBase(Collaborator domain){
+        if(Objects.isNull(domain))
+            throw new DomainException(CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.POR_FAVOR_INFORME_OS_DADOS_DO_COLABORADOR, null);
 
         validator.update(domain);
 
         validUpdateExists(domain);
 
-        ContextHolder.get().setApplicationName(this.applicationName);
-
         Collaborator dto = (Collaborator) ContextHolder.get().getMap().get("collaborator");
 
         domain.setPassword(dto.getPassword());
         domain.setIdCompany(dto.getIdCompany());
+        domain.setDateRegister(dto.getDateRegister());
+        domain.setStatus(dto.getStatus());
 
         domain.setCpfCnpj(StringUtils.leftPad(domain.getCpfCnpj(),14,"0"));
-
-        domain.setDateRegister(dto.getDateRegister());
-
-        domain.setStatus(dto.getStatus());
 
         try {
 
@@ -273,24 +209,22 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 }else {
                     domain.getDocument().setNameDocument(UUID.randomUUID().toString());
                 }
-                domain.getDocument().setCommand(INCLUSAO_ALTERACAO);
+                domain.getDocument().setCommand(OtherDomainConstants.SAVE);
             }
 
             if(Objects.nonNull(dto.getDocument()) && Objects.nonNull(domain.getDocument())){
                 if(!StringUtils.isEmpty(dto.getDocument().getNameDocument()) && Objects.isNull(domain.getDocument().getDocument())){
                     domain.getDocument().setNameDocument(null);
-                    domain.getDocument().setCommand(DELETE_FILE);
+                    domain.getDocument().setCommand(OtherDomainConstants.DELETE_FILE);
                 }
             }
 
             port.update(domain);
 
             if(StringUtils.isEmpty(domain.getDocument().getNameDocument()) && !StringUtils.isEmpty(dto.getDocument().getNameDocument()))
-               domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
+                domain.getDocument().setNameDocument(dto.getDocument().getNameDocument());
 
-
-            enviaDocuments(domain);
-
+            envDoc(domain);
 
         }catch (Exception ex){
             throw new DomainException(
@@ -298,17 +232,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     MessageConstants.OCORREU_UM_ERRO_INTERNO_TENTE_NOVAMENTE_MAIS_TARDE,
                     null);
         }
-    }
-
-    @Transactional
-    @Override
-    public Message update(Collaborator dto) {
-
-        validatorAuthorization.validCredentials();
-
-        validator.update(dto);
-
-        this.updateBase(dto);
 
         return new Message(CoreEnum.ACCEPTED.getCode(),
                 MessageConstants.COLABORADOR_ATUALIZADA_COM_SUCESSO);
@@ -358,15 +281,32 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         Optional<Collaborator> collaborator = port.findByUserName(username);
 
         if(collaborator.isPresent()){
-            if(collaborator.get().getStatus().getId() == AGUARDANDO_CONFIGURACAO_DE_MENU){
+            if(collaborator.get().getStatus().getId() == OtherDomainConstants.PENDENTE_VALIDACAO_DE_EMAIL){
                 throw new UnauthorizedException(MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU);
-            }
-            if(collaborator.get().getStatus().getId() == FINALIZADO_A_CONFIGURACAO_DE_MENU){
-                throw new UnauthorizedException(MessageConstants.USUARIO_NAO_AUTORIZADO_AGUARDADO_VERIFICACAO_DE_EMAIL_OU_TELEFONE);
             }
         }
 
         return collaborator;
+    }
+
+    @Override
+    public Message profileActivation(String uuid) {
+
+        validator.validUuid(uuid);
+
+        validExistsStatus(OtherDomainConstants.ATIVO);
+
+        Collaborator collaborator = port.getByIdActive(uuid);
+
+        if(Objects.isNull(collaborator))
+            throw new DomainException(CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageConstants.CAHVE_DE_AUTENTICACAO_DE_EMAIL_INVALIDA,
+                    null);
+
+        port.updateStatus(collaborator.getId(), OtherDomainConstants.ATIVO);
+
+        return new Message(CoreEnum.ACCEPTED.getCode(),
+                MessageConstants.ATIVACAO_DO_PERFIL_REALIZADO_COM_SUCESSO);
     }
 
     @Override
@@ -380,6 +320,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         return port.search(searchTerm, codEmpresa, page, size);
     }
+
 
     private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();
@@ -430,7 +371,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     public List<Message.Details> validTypeCollaborator(final Collaborator.TypeCollaborator typeCollaborator){
         List<Message.Details> detailsList = new ArrayList<>();
 
-        if(Boolean.FALSE.equals(typeCollaboratorPort.getById(typeCollaborator.getId()))){
+        if(Objects.isNull(typeCollaboratorPort.getById(typeCollaborator.getId()))){
             detailsList.add(
                     new Message.Details(
                             FieldConstants.TIPO_COLABORATOR,

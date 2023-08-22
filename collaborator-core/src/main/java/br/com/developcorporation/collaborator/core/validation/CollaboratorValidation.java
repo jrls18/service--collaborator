@@ -98,6 +98,21 @@ public class CollaboratorValidation implements BaseValidator<Collaborator> {
                 detailsList);
     }
 
+    public void validUuid(final String uuid){
+        List<Message.Details> detailsList = new ArrayList<>();
+
+        detailsList.add(
+                Validation.validUUID(
+                        uuid,
+                         FieldConstants.CHAVE_ATIVACAO_PERFIL,
+                        MessageConstants.CHAVE_ATIVACAO_PERFIL_E_OBRIGATORIO_E_DEVE_SER_VALIDO));
+
+        throwDomainExceptionGeneric(
+                CoreEnum.UNPROCESSABLE_ENTITY,
+                MessageConstants.EXISTE_ERROS_NOS_CAMPOS_DO_USUARIO,
+                detailsList);
+    }
+
 
     private List<Message.Details> validBirthDate(final Collaborator collaborator){
         List<Message.Details> detailsList = new ArrayList<>();
@@ -190,19 +205,20 @@ public class CollaboratorValidation implements BaseValidator<Collaborator> {
 
         List<Message.Details> detailsList = new ArrayList<>();
 
-        detailsList.add(
-                MessageMapper.INSTANCE.toDetailsDto(
-                        Validation.validationNullOrEmptyMaxCaracter(
-                                collaborator.getPassword(),
-                                FieldConstants.PASSWORD,
-                                MessageConstants.PASSWORD_NAO_PODE_SER_NULO,
-                                MessageConstants.PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACTERES_E_MAXIMO_15_CARACTERES,
-                                6,
-                                350)
+        if(Boolean.FALSE.equals(StringUtils.isEmpty(collaborator.getPassword()))){
+            detailsList.add(
+                    MessageMapper.INSTANCE.toDetailsDto(
+                            Validation.validationNullOrEmptyMaxCaracter(
+                                    collaborator.getPassword(),
+                                    FieldConstants.PASSWORD,
+                                    MessageConstants.PASSWORD_NAO_PODE_SER_NULO,
+                                    MessageConstants.PASSWORD_DEVE_CONTER_NO_MINIMO_8_CARACTERES_E_MAXIMO_15_CARACTERES,
+                                    6,
+                                    350)
 
-                )
-        );
-
+                    )
+            );
+        }
         return detailsList;
     }
 

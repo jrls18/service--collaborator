@@ -71,9 +71,6 @@ public final class MessageConstants {
 
     public static final String USUARIO_NAO_AUTORIZADO_AGUARDANDO_CONFIGURACAO_DE_MENU = "Usuario não autorizado. Aguardando configuração de menu.";
 
-    public static final String USUARIO_NAO_AUTORIZADO_AGUARDADO_VERIFICACAO_DE_EMAIL_OU_TELEFONE = "Usuario não autorizado. Acesse seu e-mail informado no cadastro e realize a validação de seu e-mail, caso não tenha encontrado na caixa principal verifique a caixa de span.";
-
-
     public static final String COLABORADOR_ATUALIZADA_COM_SUCESSO = "Colaborador atualizada com sucesso.";
 
 
@@ -113,7 +110,11 @@ public final class MessageConstants {
 
     public static final String FIM_CADASTRO_ASYNC_ERRO_DE_NEGOCIO = "Fim do cadastro async com erro de negocio.";
 
-    public static final String USUARIO_E_SENHA_INVALIDO = "Usuario ou senha inválido.";
+    public static final String POR_FAVOR_INFORME_OS_DADOS_DO_COLABORADOR = "Por favor informe os dados do colaborador.";
 
+    public static final String CAHVE_DE_AUTENTICACAO_DE_EMAIL_INVALIDA = "Chave de autenticação de email inválida.";
+    public static final String ATIVACAO_DO_PERFIL_REALIZADO_COM_SUCESSO = "Ativação do perfil realizado com sucesso!";
+
+    public static final String CHAVE_ATIVACAO_PERFIL_E_OBRIGATORIO_E_DEVE_SER_VALIDO = "O campo '" + FieldConstants.CHAVE_ATIVACAO_PERFIL + "' é obrigatória e deve ser válida.";
 
 }

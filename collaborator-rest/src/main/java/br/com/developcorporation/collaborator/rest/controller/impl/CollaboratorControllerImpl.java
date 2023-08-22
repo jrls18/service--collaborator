@@ -116,6 +116,23 @@ public class CollaboratorControllerImpl implements CollaboratorController {
     }
 
     @Override
+    public ResponseEntity<MessageResponse> profileActivation(String uuid) {
+        log.info(MessageConstant.REQUISICAO, Logger.info(uuid,
+                MessageConstant.INICIALIZADO));
+
+        MessageResponse messageResponse = MessageMapper.INSTANCE.toResponse(service.profileActivation(uuid));
+
+        log.info(MessageConstant.RESPOSTA, Logger.info(
+                messageResponse,
+                HttpStatus.ACCEPTED.value(),
+                MessageConstant.FINALIZADO));
+
+        return new ResponseEntity<>(
+                messageResponse,
+                HttpStatus.ACCEPTED);
+    }
+
+    @Override
     public ResponseEntity<CollaboratorResponse> getProfileId(String id) {
 
         log.info(MessageConstant.REQUISICAO, Logger.info(null,

@@ -43,6 +43,7 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @Override
     public ResponseEntity<MessageResponse> add(CollaboratorRequest request) {
         return service.add(request);
