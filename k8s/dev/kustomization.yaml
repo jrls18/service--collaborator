@@ -7,3 +7,4 @@ resources:
   - deploy.yaml
   - service.yaml
   - hpa.yaml
+  - configMap.yaml

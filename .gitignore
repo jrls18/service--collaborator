@@ -1,6 +1,7 @@
 HELP.md
 target
 .mvn/
+logs
 .idea/
 mvnw
 mvnw.cmd

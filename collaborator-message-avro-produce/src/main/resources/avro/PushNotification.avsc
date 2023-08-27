@@ -1,0 +1,147 @@
+{
+  "type": "record",
+  "namespace": "br.com.group.developer.corporation.push.message",
+  "name": "PushMessage",
+  "version": "1",
+  "fields":[
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Chave transacional uuid"
+    },
+    {
+      "name": "postDateTime",
+      "type": "string",
+      "doc": "Data da postagem da mensagem. yyyy-MM-ddTHH:mm:ss"
+    },
+    {
+      "name": "originSystem",
+      "type": "string",
+      "doc": "Sistema de origem, usar o patchContext exemplo: 'service--collaborator'"
+    },
+    {
+      "name": "pushNotification",
+      "type": {
+        "type" : "record",
+        "name" : "PushNotification",
+        "fields" : [
+          {
+            "name": "idActive",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
+            "name": "email",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
+            "name": "password",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "cellPhone",
+            "type": ["null","string"],
+            "default": null
+          },
+          {
+            "name": "idLayout",
+            "type": "string"
+          },
+          {
+            "name": "typeNotification",
+            "type": {
+              "type": "record",
+              "name": "PushTypeNotification",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "long"
+                }
+              ]
+            }
+          },
+          {
+            "name": "message",
+            "type": [
+              "null",
+              {
+                "type": "record",
+                "name": "Message",
+                "fields": [
+                  {
+                    "name": "code",
+                    "type": [
+                      "null",
+                      "string"
+                    ],
+                    "default": null
+                  },
+                  {
+                    "name": "date",
+                    "type": [
+                      "null",
+                      "string"
+                    ],
+                    "default": null
+                  },
+                  {
+                    "name": "message",
+                    "type": [
+                      "null",
+                      "string"
+                    ],
+                    "default": null
+                  },
+                  {
+                    "name": "detailsList",
+                    "type": ["null", {
+                      "type": "array",
+                      "items": {
+                        "name": "Details",
+                        "type": "record",
+                        "fields": [
+                          {
+                            "name": "field",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "default": null
+                          },
+                          {
+                            "name": "message",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "default": null
+                          },
+                          {
+                            "name": "value",
+                            "type": [
+                              "null",
+                              "string"
+                            ],
+                            "default": null
+                          }
+                        ]
+                      }
+                    }],
+                    "default": null
+                  }
+                ]
+              }
+            ],
+            "default": null
+          }
+        ]
+      }
+    }
+  ]
+}

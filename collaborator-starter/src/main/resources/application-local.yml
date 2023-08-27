@@ -1,0 +1,51 @@
+h2:
+  enabled: true
+
+spring.h2.console.enabled: true
+spring.flyway.enabled: true
+
+properties:
+  configMap:
+    dataBaseHots: ${DATA_BASE_HOTS:mem}
+    dataBasePort: ${DATA_BASE_PORT:3311}
+    dataBaseClassDrive: ${DATA_BASE_CLASS_DRIVE:org.h2.Driver}
+    dataBaseProtocol: ${DATA_BASE_PROTOCOL:jdbc:h2}
+    kafkaBootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:192.168.15.94:9092,192.168.15.94:9093}
+    kafkaSchemaRegistryUrl: ${KAFKA_SCHEMA_REGISTRY_URL:http://192.168.15.94:8085,http://192.168.15.94:8086}
+    springBootAdminUser: ${SPRING_BOOT_ADMIN_USER:admin}
+    springBootAdminPass: ${SPRING_BOOT_ADMIN_PASS:171513}
+    springBootAdminUrl: ${SPRING_BOOT_ADMIN_URL:"http://localhost:8000"}
+  secret:
+    dataBaseUsername: ${DATA_BASE_USERNAME:sa}
+    dataBasePassword: ${DATA_BASE_PASSWORD:sa}
+
+parameterize:
+  isMock: true
+  propertiesMock:
+    fields:
+      - key: serviceDocumentInternalHost
+        value: http://cloud.local.develop.corporation.com/service--documents
+      - key: serviceDocumentExternalHost
+        value: http://localhost:5001/service--documents
+      - key: serviceCompanyInternalHost
+        value: http://cloud.local.develop.corporation.com/service--company
+      - key: serviceCompanyExternalHost
+        value: http://localhost:5002/service--company
+      - key: enabledServiceExternalHost
+        value: "true"
+      - key: disablesKafkaContingency
+        value: "false"
+      - key: disablesCallApiDocumentContingency
+        value: "false"
+      - key: disablesCallApiCollaboratorContingency
+        value: "false"
+      - key: sizePage
+        value: "50"
+      - key: idLayoutEmail
+        value: "225487"
+      - key: idLayoutEmailFailBusiness
+        value: "446545"
+      - key: idLayoutSendMessageClientAndSupport
+        value: "556547"
+      - key: qtdRetry
+        value: "3"
