@@ -2,91 +2,52 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>br.com.developcorporation</groupId>
+        <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
         <artifactId>collaborator</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>collaborator-core</artifactId>
 
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <commons-lang3-version>3.0</commons-lang3-version>
-
-        <lombok.version>1.18.20</lombok.version>
-        <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
-        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-        <lombok.version>1.18.20</lombok.version>
-        <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
-        <spring-tx-version>5.2.7.RELEASE</spring-tx-version>
-
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
             <artifactId>collaborator-domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <optional>true</optional>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+                    <artifactId>collaborator-domain</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3-version}</version>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-internal-call</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+                    <artifactId>collaborator-domain</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-message-avro-produce</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+                    <artifactId>collaborator-domain</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <dependency>
-            <groupId>br.com.grupo.developer.corporation</groupId>
-            <artifactId>lib-commons</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring-tx-version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-        </dependency>
-
     </dependencies>
 
 

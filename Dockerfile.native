@@ -1,0 +1,14 @@
+FROM maven:3.8.6-eclipse-temurin-20 AS maven
+FROM ghcr.io/graalvm/jdk-community:20.0.1
+
+COPY --from=maven /usr/share/maven/ /home/maven
+ENV PATH="${PATH}:/home/maven/bin"
+
+COPY . /app
+WORKDIR /app
+
+RUN mvn --settings settings.xml -DskipTests -Pnative clean package
+
+EXPOSE 5000 9090
+
+ENTRYPOINT ["target/service--collaborator"]

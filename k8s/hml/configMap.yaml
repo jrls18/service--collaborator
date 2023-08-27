@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service--collaborator-cm
+  namespace: services-develop-corporation
+data:
+  RELEASE: release/1.0.0
+  CLIENT_ID: "89e7b6e5-a61d-4f67-b688-7b7449db096b"
+  CLIENT_SECRET: "343a5f53-6797-4930-82b7-1a96cb416ead"
+  DATA_BASE_HOTS: "172.26.96.1"
+  DATA_BASE_PORT: "3309"
+  DATA_BASE_NAME: "dbcolaborador"
+  DATA_BASE_CLASS_DRIVE: "com.mysql.cj.jdbc.Driver"
+  DATA_BASE_PROTOCOL: "jdbc:mysql"
+  DATA_BASE_USERNAME: "user"
+  DATA_BASE_PASSWORD: "171513"
+  SPRING_BOOT_ADMIN_USER: "admin"
+  SPRING_BOOT_ADMIN_PASS: "171513"
+  SPRING_BOOT_ADMIN_URL: "http://service--admin.services-develop-corporation.svc.cluster.local:80/service--admin"

@@ -1,0 +1,161 @@
+{
+  "type": "record",
+  "namespace": "br.com.grupo.developer.corporation.msg.avro.collaborator",
+  "name": "CollaboratorAsync",
+  "version": "2",
+  "fields":[
+    {
+      "name": "correlationId",
+      "type": "string",
+      "doc": "Chave transacional uuid"
+    },
+    {
+      "name": "postDateTime",
+      "type": "string",
+      "doc": "Data da postagem da mensagem. yyyy-MM-ddTHH:mm:ss"
+    },
+    {
+      "name": "originSystem",
+      "type": "string",
+      "doc": "Sistema de origem, usar o patchContext exemplo: 'service--collaborator'"
+    },
+    {
+      "name": "collaborator",
+      "type": {
+        "type" : "record",
+        "name" : "Collaborator",
+        "fields" : [
+          {
+            "name": "id",
+            "type": ["null","long"],
+            "default": null
+          },
+          {
+            "name": "operationType",
+            "type": "string",
+            "default": "I",
+            "doc": "I - INCLUSAO, A - ALTERACAO"
+          },
+          {
+            "name": "idCompany",
+            "type": "string",
+            "doc": "Código da empresa"
+          },
+          {
+            "name": "birthDate",
+            "type": "string",
+            "doc": "Data de nascimento"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "doc": "Nome"
+          },
+          {
+            "name": "cpfCnpj",
+            "type": "string",
+            "doc": "cnpj"
+          },
+          {
+            "name": "password",
+            "type": [
+              "null",
+              "string"
+            ],
+            "doc": "Senha",
+            "default": null
+          },
+          {
+            "name": "contact",
+            "type": {
+              "type": "record",
+              "name": "Contact",
+              "fields": [
+                {
+                  "name": "mainPhone",
+                  "type": "string",
+                  "doc": "Telefone Principal"
+                },
+                {
+                  "name": "telephone",
+                  "type": [
+                    "null",
+                    "string"
+                  ],
+                  "doc": "Telefone",
+                  "default": null
+                },
+                {
+                  "name": "email",
+                  "type": "string",
+                  "doc": "email"
+                }
+              ]
+            }
+          },
+          {
+            "name": "address",
+            "type": {
+              "type": "record",
+              "name": "Address",
+              "fields": [
+                {
+                  "name": "zipCode",
+                  "type": "string",
+                  "doc": "Cep"
+                },
+                {
+                  "name": "publicPlace",
+                  "type": "string",
+                  "doc": "Endereço"
+                },
+                {
+                  "name": "neighborhood",
+                  "type": "string",
+                  "doc": ""
+                },
+                {
+                  "name": "location",
+                  "type": "string",
+                  "doc": "Localidade"
+                },
+                {
+                  "name": "state",
+                  "type": "string",
+                  "doc": "Uf"
+                },
+                {
+                  "name": "number",
+                  "type": "string",
+                  "doc": "Número"
+                },
+                {
+                  "name": "complement",
+                  "type": [
+                    "null",
+                    "string"
+                  ],
+                  "default": null,
+                  "doc": "complemento"
+                }
+              ]
+            }
+          },
+          {
+            "name": "typeCollaborator",
+            "type": {
+              "type": "record",
+              "name": "TypeCollaborator",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "long"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

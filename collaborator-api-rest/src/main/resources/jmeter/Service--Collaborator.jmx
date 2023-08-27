@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="vQtdUsuarios" elementType="Argument">
+            <stringProp name="Argument.name">vQtdUsuarios</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
+            <stringProp name="Argument.desc">Quantidade de usuários que vai ser executadas</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="vNumeroCelular" elementType="Argument">
+            <stringProp name="Argument.name">vNumeroCelular</stringProp>
+            <stringProp name="Argument.value">9${__Random(00000000,99999999)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="urlBase" elementType="Argument">
+            <stringProp name="Argument.name">urlBase</stringProp>
+            <stringProp name="Argument.value">http://localhost:5000/service--collaborator</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="clientId" elementType="Argument">
+            <stringProp name="Argument.name">clientId</stringProp>
+            <stringProp name="Argument.value">89e7b6e5-a61d-4f67-b688-7b7449db096b</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="clientSecret" elementType="Argument">
+            <stringProp name="Argument.name">clientSecret</stringProp>
+            <stringProp name="Argument.value">343a5f53-6797-4930-82b7-1a96cb416ead</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+        <collectionProp name="CookieManager.cookies"/>
+        <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+        <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+      </CookieManager>
+      <hashTree/>
+      <CacheManager guiclass="CacheManagerGui" testclass="CacheManager" testname="HTTP Cache Manager" enabled="true">
+        <boolProp name="clearEachIteration">false</boolProp>
+        <boolProp name="useExpires">true</boolProp>
+        <boolProp name="CacheManager.controlledByThread">false</boolProp>
+      </CacheManager>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Service Collaborator" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${vQtdUsuarios}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Geradores" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Gerador De CPF" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.ArrayList;
+import java.util.List;
+import javax.swing.text.MaskFormatter;
+
+ArrayList listaAleatoria = new ArrayList();
+ArrayList listaNumMultiplicados = null;
+
+for(int i = 0; i &lt; 9; i++) {
+    listaAleatoria.add((int) (Math.random() * 10));
+}
+
+listaNumMultiplicados = new ArrayList();
+int primeiroDigito;
+int totalSomatoria = 0;
+int restoDivisao;
+int peso = 10;
+    //Para cada item na lista multiplicamos seu valor pelo seu peso
+for(int item : listaAleatoria){
+        listaNumMultiplicados.add(item * peso);
+        peso--;
+}
+    //Agora somamos todos os itens que foram multiplicados
+for(int item : listaNumMultiplicados){
+        totalSomatoria += item;
+}
+restoDivisao = (totalSomatoria % 11);
+    //Se o resto da divisao for menor que 2 o primeiro digito sera 0, senao subtraimos o numero 11 pelo resto da divisao
+if(restoDivisao &lt; 2){
+        primeiroDigito = 0;
+} else{
+        primeiroDigito = 11 - restoDivisao;
+}
+    //Apos gerar o primeiro digito o adicionamos a lista
+listaAleatoria.add(primeiroDigito);
+listaNumMultiplicados = new ArrayList();
+int segundoDigito;
+int totalSomatoria = 0;
+int restoDivisao;
+int peso = 11;
+    //Para cada item na lista multiplicamos seu valor pelo seu peso (observe que com o aumento da lista o peso tambem aumenta)
+for(int item : listaAleatoria){
+        listaNumMultiplicados.add(item * peso);
+        peso--;
+}
+
+for(int i =0; i&lt; listaNumMultiplicados.size(); i++){
+	totalSomatoria += (Integer) listaNumMultiplicados.get(i);
+}
+
+restoDivisaos = (totalSomatoria % 11);
+
+if(restoDivisaos &lt; 2){
+        segundoDigito = 0;
+} else{
+        segundoDigito = 11 - restoDivisaos;
+}
+
+listaAleatoria.add(segundoDigito);
+
+String cpf = &quot;&quot;;
+String texto = &quot;&quot;;
+
+for(int i =0; i &lt; listaAleatoria.size(); i++){
+	texto += listaAleatoria.get(i);
+}
+
+try {
+MaskFormatter mask=new MaskFormatter(&quot;###.###.###-##&quot;);
+mask.setValueContainsLiteralCharacters(false);
+
+cpf = mask.valueToString(texto);
+
+} catch (ParseException ex) {
+ex.printStackTrace();
+}
+
+return cpf;</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <SizeAssertion guiclass="SizeAssertionGui" testclass="SizeAssertion" testname="Valida Tamanho do CPF" enabled="true">
+              <stringProp name="Assertion.test_field">SizeAssertion.response_network_size</stringProp>
+              <stringProp name="SizeAssertion.size">14</stringProp>
+              <intProp name="SizeAssertion.operator">1</intProp>
+            </SizeAssertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Cria CPF como variavel" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">cpf</stringProp>
+              <stringProp name="RegexExtractor.regex">(.*)</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">ERRO NA GERACAO CPF</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Gerador De CNPJ" enabled="true">
+            <stringProp name="BeanShellSampler.query"> int digito1 = 0, digito2 = 0, resto = 0;
+ String  nDigResult;
+ String numerosContatenados;
+ String numeroGerado;
+
+ Random numeroAleatorio = new Random();
+
+
+  //numeros gerados
+ int n1 = numeroAleatorio.nextInt(10);
+ int n2 = numeroAleatorio.nextInt(10);
+ int n3 = numeroAleatorio.nextInt(10);
+ int n4 = numeroAleatorio.nextInt(10);
+ int n5 = numeroAleatorio.nextInt(10);
+ int n6 = numeroAleatorio.nextInt(10);
+ int n7 = numeroAleatorio.nextInt(10);
+ int n8 = numeroAleatorio.nextInt(10);
+ int n9 = numeroAleatorio.nextInt(10);
+ int n10 = numeroAleatorio.nextInt(10); 
+ int n11 = numeroAleatorio.nextInt(10); 
+ int n12 = numeroAleatorio.nextInt(10); 
+
+
+ int soma = n12*2 + n11*3 + n10*4 + n9*5 + n8*6 + n7*7 + n6*8 + n5*9 + n4*2 + n3*3 + n2*4 + n1*5;
+
+ int valor = (soma / 11)*11;
+
+ digito1 = soma-valor;
+
+  //Primeiro resto da divisão por 11.
+ resto = (digito1 % 11);
+
+ if(digito1 &lt; 2){
+  digito1 = 0;
+ }
+ else {
+   digito1 = 11-resto;
+ }
+
+ int soma2 =  digito1*2 + n12*3 + n11*4 + n10*5 + n9*6 + n8*7 + n7*8 + n6*9 + n5*2 + n4*3 + n3*4 + n2*5 + n1*6 ;
+
+ int valor2 = (soma2 / 11)*11;
+
+ digito2 = soma2-valor2;
+
+  //Primeiro resto da divisão por 11.
+ resto = (digito2 % 11);
+
+ if(digito2 &lt; 2){
+  digito2 = 0;
+ }
+ else {
+   digito2 = 11-resto;
+ }
+
+ //Conctenando os numeros
+ numerosContatenados = String.valueOf(n1) + String.valueOf(n2) + String.valueOf(n3) + String.valueOf(n4) +
+                       String.valueOf(n5) + String.valueOf(n6) + String.valueOf(n7) +String.valueOf(n8)+
+                       String.valueOf(n9) + String.valueOf(n10) + String.valueOf(n11) +
+                       String.valueOf(n12);
+
+ //Concatenando o primeiro resto com o segundo.
+  nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
+
+  numeroGerado = numerosContatenados+nDigResult;
+
+  System.out.println(&quot;Digito 2 -&gt;&quot;+digito2);
+
+  System.out.println(&quot;CNPJ Gerado &quot; + numeroGerado);
+
+  return numeroGerado;</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <SizeAssertion guiclass="SizeAssertionGui" testclass="SizeAssertion" testname="Valida Tamanho do CNPJ" enabled="false">
+              <stringProp name="Assertion.test_field">SizeAssertion.response_network_size</stringProp>
+              <stringProp name="SizeAssertion.size">14</stringProp>
+              <intProp name="SizeAssertion.operator">1</intProp>
+            </SizeAssertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Cria CNPJ como variavel" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">cnpj</stringProp>
+              <stringProp name="RegexExtractor.regex">(.*)</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">ERRO NA GERACAO CNPJ</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Gerador De UUID" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.UUID;
+
+
+ return UUID.randomUUID().toString();</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <SizeAssertion guiclass="SizeAssertionGui" testclass="SizeAssertion" testname="Valida Tamanho do UUID" enabled="true">
+              <stringProp name="Assertion.test_field">SizeAssertion.response_network_size</stringProp>
+              <stringProp name="SizeAssertion.size">36</stringProp>
+              <intProp name="SizeAssertion.operator">1</intProp>
+            </SizeAssertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Cria UUID como variavel" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">uuid</stringProp>
+              <stringProp name="RegexExtractor.regex">(.*)</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">ERRO NA GERACAO UUID</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Request Controller" enabled="true"/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="situacao/v1/all" enabled="false">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">http://192.168.0.131:5000/service--company/situacao/v1/all</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="client_id" elementType="Header">
+                  <stringProp name="Header.name">client_id</stringProp>
+                  <stringProp name="Header.value">89e7b6e5-a61d-4f67-b688-7b7449db096b</stringProp>
+                </elementProp>
+                <elementProp name="client_secret" elementType="Header">
+                  <stringProp name="Header.name">client_secret</stringProp>
+                  <stringProp name="Header.value">343a5f53-6797-4930-82b7-1a96cb416ead</stringProp>
+                </elementProp>
+                <elementProp name="correlation_id" elementType="Header">
+                  <stringProp name="Header.name">correlation_id</stringProp>
+                  <stringProp name="Header.value">${uuid}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/auth/v1/signin" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{  &#xd;
+    &quot;username&quot;:&quot;john.john16@hotmail.com&quot;,&#xd;
+    &quot;password&quot;:&quot;@@HMNXpT00&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">${urlBase}/auth/v1/signin</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="client_id" elementType="Header">
+                  <stringProp name="Header.name">client_id</stringProp>
+                  <stringProp name="Header.value">89e7b6e5-a61d-4f67-b688-7b7449db096b</stringProp>
+                </elementProp>
+                <elementProp name="client_secret" elementType="Header">
+                  <stringProp name="Header.name">client_secret</stringProp>
+                  <stringProp name="Header.value">343a5f53-6797-4930-82b7-1a96cb416ead</stringProp>
+                </elementProp>
+                <elementProp name="correlation_id" elementType="Header">
+                  <stringProp name="Header.name">correlation_id</stringProp>
+                  <stringProp name="Header.value">${uuid}</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="token Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">access_token</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">access_token</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">3000</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/api/colaborador/v1/save" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;nome&quot;: &quot;Paulo ${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}&quot;,&#xd;
+    &quot;cpf_cnpj&quot;: &quot;${cnpj}&quot;,&#xd;
+    &quot;rg&quot;: null,&#xd;
+    &quot;data_nascimento&quot;: &quot;2020-08-10&quot;,&#xd;
+    &quot;contato&quot;: {&#xd;
+        &quot;telefone_principal&quot;: &quot;119${__Random(00000000,99999999)}&quot;,&#xd;
+        &quot;telefone&quot;: 119${__Random(00000000,99999999)},&#xd;
+        &quot;email&quot;: &quot;${cnpj}@hotmail.com&quot;&#xd;
+    },&#xd;
+    &quot;endereco&quot;: {&#xd;
+        &quot;cep&quot;: &quot;02542000&quot;,&#xd;
+        &quot;logradouro&quot;: &quot;Rua Epaminondas Melo do Amaral&quot;,&#xd;
+        &quot;complemento&quot;: null,&#xd;
+        &quot;bairro&quot;: &quot;Sítio do Mandaqui&quot;,&#xd;
+        &quot;localidade&quot;: &quot;São Paulo&quot;,&#xd;
+        &quot;uf&quot;: &quot;SP&quot;,&#xd;
+        &quot;numero&quot;: &quot;${__Random(00000,99999)}&quot;&#xd;
+    },&#xd;
+    &quot;tipo_usuario&quot;: {&#xd;
+        &quot;codigo&quot;: 3&#xd;
+    },&#xd;
+    &quot;codigo_empresa&quot;: &quot;1&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">${urlBase}/api/colaborador/v1/save</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="client_id" elementType="Header">
+                  <stringProp name="Header.name">client_id</stringProp>
+                  <stringProp name="Header.value">${clientId}</stringProp>
+                </elementProp>
+                <elementProp name="client_secret" elementType="Header">
+                  <stringProp name="Header.name">client_secret</stringProp>
+                  <stringProp name="Header.value">${clientSecret}</stringProp>
+                </elementProp>
+                <elementProp name="correlation_id" elementType="Header">
+                  <stringProp name="Header.name">correlation_id</stringProp>
+                  <stringProp name="Header.value">${uuid}</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${access_token}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49587">201</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/api/colaborador/v1/profile" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">${urlBase}/api/colaborador/v1/profile</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="client_id" elementType="Header">
+                  <stringProp name="Header.name">client_id</stringProp>
+                  <stringProp name="Header.value">${clientId}</stringProp>
+                </elementProp>
+                <elementProp name="client_secret" elementType="Header">
+                  <stringProp name="Header.name">client_secret</stringProp>
+                  <stringProp name="Header.value">${clientSecret}</stringProp>
+                </elementProp>
+                <elementProp name="correlation_id" elementType="Header">
+                  <stringProp name="Header.name">correlation_id</stringProp>
+                  <stringProp name="Header.value">${uuid}</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${access_token}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
