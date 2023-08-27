@@ -4,8 +4,6 @@ VALUES('ATIVO', now())
      ,('CANCELADO', now())
      ,('PENDENTE VALIDAÇÃO DE EMAIL',now());
 
-
-
 INSERT INTO tipoacesso(descricao)
 VALUES('ROLE_COLABORADOR')
      ,('ROLE_USUARIO')
@@ -45,7 +43,7 @@ VALUES('John Lenon Reis Santos'
       ,'11971210124'
       ,null
       ,'john.john16@hotmail.com'
-      ,'$2a$10$RaJTUZLWHwMolgcMLBRi1.369vI0/2K9tNDJxlaCjmy9Y8mcp3eMy'
+      ,'$2a$10$UkxXFx37reoybrC9hbCYvu1doOvu4mQQFWL2QlKFy1QgjjNMcWYZO'
       ,'02542000'
       ,'Rua Epaminondas Melo do Amaral'
       ,null

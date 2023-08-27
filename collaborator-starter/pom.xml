@@ -1,88 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>br.com.developcorporation</groupId>
+        <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
         <artifactId>collaborator</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>collaborator-starter</artifactId>
 
-    <properties>
-        <commons-lang3-version>3.0</commons-lang3-version>
-        <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>logbook-spring-boot-webflux-autoconfigure</artifactId>
-            <version>2.16.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>logbook-netty</artifactId>
-            <version>2.16.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>br.com.developcorporation</groupId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
             <artifactId>collaborator-domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
             <artifactId>collaborator-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
-            <artifactId>collaborator-rest</artifactId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-api-rest</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
-            <artifactId>collaborator-messaging-avro-consumer</artifactId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-internal-call</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
-            <artifactId>collaborator-messaging-avro-produce</artifactId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-message-avro-consumer</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
-            <artifactId>collaborator-services-internal</artifactId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-message-avro-produce</artifactId>
         </dependency>
         <dependency>
-            <groupId>br.com.developcorporation</groupId>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
             <artifactId>collaborator-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>br.com.developcorporation</groupId>
-            <artifactId>collaborator-e2e</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.4</version>
-            <type>maven-plugin</type>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
 
     <build>
         <plugins>
@@ -98,7 +57,7 @@
                         <configuration>
                             <finalName>service-management-collaborator</finalName>
                             <classifier>starter</classifier>
-                            <mainClass>br.com.developcorporation.collaborator.starter.App</mainClass>
+                            <mainClass>br.com.group.developer.corporation.service.collaborator.starter.App</mainClass>
                         </configuration>
                     </execution>
                 </executions>

@@ -14,46 +14,58 @@ spring:
         password: ${properties.configMap.springBootAdminPass}
   application:
     name: service--collaborator
+  serviceId: ${spring.application.name}
   main:
     allow-bean-definition-overriding: true
+    allow-circular-references: true
   mvc:
     pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
+      matching-strategy: ant_path_matcher
   jmx:
     enabled: true
+  h2:
+    console:
+      enabled: false
+      path: /h2-console
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
   cache:
     type: simple
     jcache:
       config: classpath:ehcache.xml
-  serviceId: ${spring.application.name}
   jpa:
     generate-ddl: false
     open-in-view: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.MySQLDialect
         ddl-auto: none
         generate_statistics: true
-        javax:
-          cache:
-            missing_cache_strategy: create
-            provider: org.ehcache.jsr107.EhcacheCachingProvider
-            uri: classpath:ehcache.xml
-          persistence:
-            sharedCache:
-              mode: ENABLE_SELECTIVE
-            lock:
-              timeout: 3000
         cache:
           use_second_level_cache: true
           use_query_cache: true
           region:
             factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
-  flyway:
-    enabled: false
-  h2:
-    console:
-      enabled: false
+  datasource:
+    url: ${properties.configMap.dataBaseProtocol}:${properties.configMap.dataBaseHots}:${properties.configMap.dataBaseName}?autoReconnect=true&useSSL=false
+    username: ${properties.secret.dataBaseUsername}
+    driverClassName: ${properties.configMap.dataBaseClassDrive}
+    driver-class-name: ${properties.configMap.dataBaseClassDrive}
+    password: 171513
+    connectionTimeout: 20000
+    maximumPoolSize: 6
+    connectionTestQuery: SELECT CURRENT_TIMESTAMP
+    hikari:
+      maximum-pool-size: 3
+      connection-timeout: 20000
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      #expiration: 86400000
+      expiration: 86400
+      refresh-token:
+        expiration: 604800000 # 7 days
 
   kafka:
     #security:
@@ -62,14 +74,14 @@ spring:
       #jaas:
         #config: "org.apache.kafka.common.security.scram.ScramLoginModule required username=1234 password=1234"
       #mechanism: SCRAM-SHA-512
-    bootstrap-servers: ${kafka.bootstrapServers}
+    bootstrap-servers: ${properties.configMap.kafkaBootstrapServers}
     properties:
       auto:
         register:
           schemas: true
       schema:
         registry:
-          url: ${kafka.schemaRegistryUrl}
+          url: ${properties.configMap.kafkaSchemaRegistryUrl}
     producer:
       acks: 1
       retries: 3
@@ -88,15 +100,6 @@ spring:
         auto:
           create:
             topics: true
-  datasource:
-    url: jdbc:mysql://192.168.15.94:3308/${database.name}?useTimezone=true&serverTimezone=UTC&autoReconnect=true&useSSL=false
-    username: user
-    password: 171513
-    connectionTimeout: 20000
-    driverClassName: com.mysql.cj.jdbc.Driver
-    connectionTestQuery: SELECT CURRENT_TIMESTAMP
-    maximumPoolSize: 3
-
 
 hibernate:
   generate_statistics: true
@@ -106,18 +109,9 @@ server:
   servlet:
     context-path: /${spring.application.name}
 
-prop:
-  swagger:
-    enabled: true
-
 management:
-  metrics:
-    distribution:
-      percentiles[http.server.requests]: 0.5, 0.7, 0.95, 0.99
-      percentiles-histogram[http.server.requests]: true
-      slo[http.server.requests]: 10ms, 100ms
   security:
-    enabled: false
+    enabled: true
   context-path: /actuator
   server:
     port: 9090
@@ -126,87 +120,64 @@ management:
       exposure:
         include: "*"
   endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
     health:
       show-details: always
       probes:
         enabled: true
-    chaosmonkeyjmx:
+  health:
+    livenessState:
       enabled: true
-    chaosmonkey:
+    readinessState:
       enabled: true
-    prometheus:
-      enabled: true
-    metrics:
-      enabled: true
-      export:
-        prometheus:
-          enabled: true
-      tags:
-        application: ${spring.application.name}
-
-log:
-  name: ${spring.application.name}-${server.port}-@project.version@.log
+  metrics:
+    distribution:
+      percentiles[http.server.requests]: 0.5, 0.7, 0.95, 0.99
+      percentiles-histogram[http.server.requests]: true
+      slo[http.server.requests]: 10ms, 100ms
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
 
 endpoints:
   caches:
     enabled: true
 
-chaos:
-  monkey:
-    enabled: true
-    watcher:
-      service: true
-    assaults:
-      latencyActive: true
-
-logging:
-  file:
-    max-history: 5
-    max-size: 10MB
-  level:
-    org:
-      hibernate: ERROR
-      springframework:
-        web: info
-
-app:
-  jwtSecret: jwtCbpAa7B#Yy@uUZ
-  jwtExpiration: 86400
-
-quantidade:
-  de:
-    itens:
-      na:
-        paginacao: 10
-
-resilience4j:
-  retry:
-    retry-aspect-order: 2
-  instances:
-    serviceRetry:
-      maxRetryAttempts: 3
-      waitDuration: 3000
-      retryExceptions: br.com.developcorporation.menu.domain.execptions.SistemaIndisponivelException
-      ignoreExceptions: br.com.developcorporation.menu.domain.execptions.ErroDeNegocioException
-
+kafka:
+  topic:
+    consumer:
+      qtdRetry: 5
+      collaborator:
+        name: service--collaborator.data-transfer.save
+        id: service--collaborator.data-transfer.save.id
+    produce:
+      notification:
+        name: service--notification.data-transfer.push
+      document:
+        name: service--documents.data-transfer.upload
 
 properties:
   configMap:
-    clientId: ${CLIENT_ID:"89e7b6e5-a61d-4f67-b688-7b7449db096b"}
-    clientSecret: ${CLIENT_SECRET:"343a5f53-6797-4930-82b7-1a96cb416ead"}
+    clientId: ${CLIENT_ID:89e7b6e5-a61d-4f67-b688-7b7449db096b}
+    clientSecret: ${CLIENT_SECRET:343a5f53-6797-4930-82b7-1a96cb416ead}
     dataBaseHots: ${DATA_BASE_HOTS:172.26.96.1}
     dataBasePort: ${DATA_BASE_PORT:3309}
-    dataBaseName: ${DATA_BASE_NAME:dbcolaborador}
+    dataBaseName: ${DATA_BASE_NAME:dbCollaborator}
     dataBaseClassDrive: ${DATA_BASE_CLASS_DRIVE:com.mysql.cj.jdbc.Driver}
     dataBaseProtocol: ${DATA_BASE_PROTOCOL:jdbc:mysql}
-    dataBaseUsername: ${DATA_BASE_USERNAME:user}
-    dataBasePassword: ${DATA_BASE_PASSWORD:171513}
     kafkaBootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:192.168.15.94:9092,192.168.15.94:9093}
     kafkaSchemaRegistryUrl: ${KAFKA_SCHEMA_REGISTRY_URL:"http://192.168.15.94:8085,http://192.168.15.94:8086"}
     springBootAdminUser: ${SPRING_BOOT_ADMIN_USER:admin}
     springBootAdminPass: ${SPRING_BOOT_ADMIN_PASS:171513}
     springBootAdminUrl: ${SPRING_BOOT_ADMIN_URL:"http://localhost:8000"}
-
+  secret:
+    dataBaseUsername: ${DATA_BASE_USERNAME:user}
+    dataBasePassword: ${DATA_BASE_PASSWORD:171513}
 
 logProperties:
   typeObfuscateMask: "#"
@@ -215,9 +186,55 @@ logProperties:
     headers:
       - "client_secret"
       - "client_id"
+      - "authorization"
     body:
-      - "client_secret"
-      - "client_id"
+      - "username"
+      - "password"
+      - "access_token"
+      - "nome"
+      - "cpf_cnpj"
+      - "telefone_principal"
+      - "telefone"
+      - "email"
+      - "codigo_empresa"
+      - "numero"
+      - "cep"
+      - "logradouro"
+      - "name"
+      - "cpfCnpj"
+      - "mainPhone"
+      - "telephone"
+      - "zipCode"
+      - "publicPlace"
+      - "neighborhood"
+      - "location"
+      - "state"
+      - "number"
 
 
+
+parameterize:
+  clientId: ${properties.configMap.clientId}
+  clientSecret: ${properties.configMap.clientSecret}
+  scheduleCron: "0 */5 * * * *"
+  timezone: America/Fortaleza
+  properties:
+    - name: properties-service-corporation
+      requestFields:
+        - key: nome-service
+          value: urlServiceInternal
+      fieldCaching:
+        fields:
+          - serviceDocumentInternalHost
+    - name: properties-service-corporation
+      requestFields:
+        - key: nome-service
+          value: urlServiceExternal
+      fieldCaching:
+        fields:
+          - serviceDocumentExternalHost
+    - name: properties-service-corporation
+      requestFields:
+        - key: nome-service
+          value: serviceCollaborator
 

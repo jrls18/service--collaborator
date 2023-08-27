@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+        <artifactId>collaborator</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>collaborator-api-rest</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+            <artifactId>collaborator-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+                    <artifactId>collaborator-domain</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+                    <artifactId>collaborator-jpa</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+                    <artifactId>collaborator-internal-call</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
+                    <artifactId>collaborator-message-avro-produce</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-gson</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+    </dependencies>
+</project>

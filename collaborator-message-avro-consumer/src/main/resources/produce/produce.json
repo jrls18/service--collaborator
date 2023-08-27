@@ -1,0 +1,33 @@
+{
+  "correlationId": "c5fd2eeb-3f6e-4da7-b65f-0742f69f122b",
+  "postDateTime": "2023-08-26T11:24:10.427063600",
+  "originSystem": "service--company",
+  "collaborator": {
+    "id": null,
+    "operationType": "I",
+    "idCompany": "1",
+    "birthDate": "1990-04-28",
+    "name": "Paulo coelho filho",
+    "cpfCnpj": "30999609000187",
+    "password": {
+      "string": "@@HMNXpT00"
+    },
+    "contact": {
+      "mainPhone": "51994084700",
+      "telephone": null,
+      "email": "30999609000187@hotmail.com"
+    },
+    "address": {
+      "zipCode": "02610010",
+      "publicPlace": "Rua Epaminondas Melo do Amaral",
+      "neighborhood": "Sítio do Mandaqui",
+      "location": "São Paulo",
+      "state": "SP",
+      "number": "259",
+      "complement": null
+    },
+    "typeCollaborator": {
+      "id": 1
+    }
+  }
+}

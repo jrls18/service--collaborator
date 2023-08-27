@@ -1,0 +1,709 @@
+{
+	"info": {
+		"_postman_id": "def82c70-a5d7-462c-b291-22e3ff2b1960",
+		"name": "Service--Collaborator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2169879"
+	},
+	"item": [
+		{
+			"name": "Get All Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/situacao/v1/all",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"situacao",
+						"v1",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n    \"username\":\"john.john16@hotmail.com\",\r\n    \"password\":\"@@HMNXpT00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/auth/v1/signin",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"auth",
+						"v1",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/colaborador/v1/profile",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"colaborador",
+						"v1",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/colaborador/internal/v1/profile/1",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"colaborador",
+						"internal",
+						"v1",
+						"profile",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Validated Email",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/colaborador/v1/profile/activation/2e61f025-b4e9-4cc0-962c-9bfe064c6b0e",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"colaborador",
+						"v1",
+						"profile",
+						"activation",
+						"2e61f025-b4e9-4cc0-962c-9bfe064c6b0e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Colaborator Pagination",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/colaborador?searchTerm&page=0&size=20&codEmpresa=1",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"colaborador"
+					],
+					"query": [
+						{
+							"key": "searchTerm",
+							"value": null
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "20"
+						},
+						{
+							"key": "codEmpresa",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save New Colaborador",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Paulo coelho filho\",\r\n    \"cpf_cnpj\": \"29138887000160\",\r\n    \"data_nascimento\": \"2020-08-10\",\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11671312514\",\r\n        \"telefone\": null,\r\n        \"email\": \"29138887000161@hotmail.com\"\r\n    },\r\n    \"endereco\": {\r\n        \"cep\": \"02542000\",\r\n        \"logradouro\": \"Rua Epaminondas Melo do Amaral\",\r\n        \"complemento\": null,\r\n        \"bairro\": \"Sítio do Mandaqui\",\r\n        \"localidade\": \"São Paulo\",\r\n        \"uf\": \"SP\",\r\n        \"numero\": \"315\"\r\n    },\r\n    \r\n    \"tipo_usuario\": {\r\n        \"codigo\": 3\r\n    },\r\n    \"codigo_empresa\": \"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/colaborador/v1/save",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"colaborador",
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save New Colaborador Tests",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Paulo coelho filho\",\r\n    \"cpf_cnpj\": \"75285762000180\",\r\n    \"rg\": null,\r\n    \"data_nascimento\": \"2020-08-10\",\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11671312513\",\r\n        \"telefone\": null,\r\n        \"email\": \"75285762000180@hotmail.com\"\r\n    },\r\n    \"endereco\": {\r\n        \"cep\": \"02542000\",\r\n        \"logradouro\": \"Rua Epaminondas Melo do Amaral\",\r\n        \"complemento\": null,\r\n        \"bairro\": \"Sítio do Mandaqui\",\r\n        \"localidade\": \"São Paulo\",\r\n        \"uf\": \"SP\",\r\n        \"numero\": \"315\"\r\n    },\r\n    \"password\":\"@@HMNXpT00\",\r\n    \"tipo_usuario\": {\r\n        \"codigo\": 3\r\n    },\r\n    \"codigo_empresa\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/auth/v1/teste/save",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"auth",
+						"v1",
+						"teste",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Colaborador",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": \"6\",\r\n    \"nome\": \"Bryan de Oliveira\",\r\n    \"cpf_cnpj\": \"38729628000103\",\r\n    \"data_nascimento\": \"2017-04-25\",\r\n    \"contato\": {\r\n        \"telefone_principal\": \"11995348796\",\r\n        \"telefone\": \"1125384644\",\r\n        \"email\": \"tesouraria@bryanemilenadocessalgadosme.com.br\"\r\n    },\r\n    \"endereco\": {\r\n        \"cep\": \" 04242000\",\r\n        \"logradouro\": \"Rua Pelegrino Varani\",\r\n        \"numero\": \"918\",\r\n        \"localidade\": \"São Paulo\",\r\n        \"bairro\": \"Jardim Seckler\",\r\n        \"uf\": \"SP\"\r\n    },\r\n    \"data_cadastro\": \"2022-10-11 16:10:34\",\r\n    \"situacao\": {\r\n        \"codigo\": \"1\"\r\n    },\r\n    \"tipo_usuario\": {\r\n        \"codigo\": \"3\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/colaborador/v1/save",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"colaborador",
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Autorization",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/authorization/v1/all",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"authorization",
+						"v1",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save New Autorization",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n    \"sigla_app\":\"API_CLIENTE\",\r\n    \"application_name\":\"br.com.developcorporation.management.client\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/authorization/v1/save",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"authorization",
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Autorization",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": 2,\r\n    \"application_name\": \"br.com.developcorporation.management.produto\",\r\n    \"sigla_app\": \"APIPRODUTO\",\r\n    \"situacao\": {\r\n        \"codigo\": 1\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/authorization/v1/save",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"authorization",
+						"v1",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Type Colaborador",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/api/tipo_usuario/v1/all",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"api",
+						"tipo_usuario",
+						"v1",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.globals.set('access_token', \"\");",
+					"pm.globals.set('access_token_expiry', \"\");",
+					"",
+					"var uuidGenerated = require('uuid')",
+					"",
+					"var uuid =  uuidGenerated.v4();",
+					"",
+					"pm.environment.set('correlation_id',uuid);",
+					"",
+					"console.log(uuid);",
+					"",
+					"const signin = {",
+					"    url: pm.environment.get('url_base')+  \"/\"+",
+					"    pm.environment.get('context-path') + \"/auth/v1/signin\",",
+					"    method: 'POST',",
+					"    header: {",
+					"        'Content-Type': \"application/json\",",
+					"        'Authorization': 'Basic Abcdefghijk==',",
+					"        'client_id': pm.environment.get('client_id'),",
+					"        'client_secret': pm.environment.get('client_secret'),",
+					"        'correlation_id': uuid",
+					"    },",
+					"    body: JSON.stringify({\"username\":pm.environment.get('username') ,\"password\":pm.environment.get('password')})",
+					"}",
+					"",
+					"var getToken = true;",
+					"",
+					"if(!pm.environment.get('access_token_expiry') || !pm.environment.get('currentAccessToken')){",
+					"    console.log('Token or expiry are missing.');",
+					"}else if(pm.environment.get('access_token_expiry') <= (new Date()).getTime()){",
+					"    console.log('Token is expired');",
+					"}",
+					"else {",
+					"    getToken = false;",
+					"    console.log('Token and expiry date are all good');",
+					"}",
+					"",
+					"var urlLogin = \"/{{context-path}}/auth/v1/signin\";",
+					"var urlNewRegistry = \"/{{context-path}}/auth/v1/teste/save\";",
+					"",
+					"if(getToken === true){",
+					"",
+					"   if(urlLogin === pm.request.url.getPath() || urlNewRegistry == pm.request.url.getPath()){",
+					"       console.log(\"Não vou chamar o login pois estou no url: \" + pm.request.url.getPath())",
+					"     return;",
+					"   }",
+					"   ",
+					"    pm.sendRequest(signin, function(err, res){",
+					"        console.log(err ? err: res.json());",
+					"",
+					"        if(err === null){",
+					"            console.log('Sving the token and expiry date');",
+					"            var responseJson = res.json();",
+					"            pm.globals.set('access_token', responseJson.token_type + responseJson.access_token);",
+					"",
+					"            var expiryDate = new Date();",
+					"            expiryDate.setDate(responseJson.expires_in);",
+					"            pm.globals.set('access_token_expiry', expiryDate);",
+					"        }",
+					"    });",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
