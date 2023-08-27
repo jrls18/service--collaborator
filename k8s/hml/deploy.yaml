@@ -39,6 +39,8 @@ spec:
           env:
             - name: "SPRING_PROFILES_ACTIVE"
               value: "hml"
+            - name: "ASYNC"
+              value: "false"
           resources:
             requests:
               memory: "400Mi"
@@ -50,5 +52,66 @@ spec:
             - containerPort: 9090
             - containerPort: 5000
           envFrom:
+            - configMapRef:
+                name: service--collaborator-cm
             - secretRef:
-                name: service--collaborator
+                name: service--collaborator-sc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service--collaborator-consumer
+  namespace: services-develop-corporation
+  labels:
+    app: service--collaborator-consumer
+spec:
+  selector:
+    matchLabels:
+      app: service--collaborator-consumer
+  template:
+    metadata:
+      labels:
+        app: service--collaborator-consumer
+    spec:
+      #imagePullSecrets:
+      # - name: docker-auth
+      containers:
+        - name: service--collaborator
+          image: service--collaborator-img
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9090
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9090
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 2
+          env:
+            - name: "SPRING_PROFILES_ACTIVE"
+              value: "hml"
+            - name: "ASYNC"
+              value: "true"
+          resources:
+            requests:
+              memory: "400Mi"
+              cpu: "400m"
+            limits:
+              memory: "800Mi"
+              cpu: "800m"
+          ports:
+            - containerPort: 9090
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: service--collaborator-cm
+            - secretRef:
+                name: service--collaborator-sc
