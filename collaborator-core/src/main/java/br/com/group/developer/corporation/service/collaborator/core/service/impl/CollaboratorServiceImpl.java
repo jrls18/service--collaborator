@@ -181,6 +181,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
     }
 
+
     @Override
     public Message update(Collaborator domain) {
 
@@ -282,6 +283,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             if(Boolean.FALSE.equals(disablesKafkaContingency) && collaborator.get().getStatus().getId() == OtherDomainConstants.PENDENTE_VALIDACAO_DE_EMAIL){
                 throw new UnauthorizedException(MessageDomainConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_VALIDACAO_DE_EMAIL_VERIFIQUEI_CAIXA_DE_ENTRADA_E_SPAN);
             }
+            port.updateDateTimeLastAccess(collaborator.get().getId(), LocalDateTime.now());
         }
 
         return collaborator;
