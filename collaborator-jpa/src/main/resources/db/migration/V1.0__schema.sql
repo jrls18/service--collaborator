@@ -40,10 +40,11 @@ CREATE TABLE IF NOT EXISTS colaborador(
   ,localidade VARCHAR(150) NOT NULL
   ,uf VARCHAR(2) NOT NULL
   ,numero INT NOT NULL
-  ,data_cadastro DATETIME  NULL
+  ,data_cadastro DATETIME NULL
   ,cod_situacao INT NOT NULL
   ,nome_image VARCHAR(250) NULL
   ,ativacao VARCHAR(40) NOT NULL
+  ,data_hora_ultimo_acesso DATETIME NULL
   ,FOREIGN KEY (cod_situacao) REFERENCES situacao(cod_situacao)
   ,PRIMARY KEY (cod_colaborador)
 );
