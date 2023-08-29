@@ -15,6 +15,7 @@ public final class ParametrizeConstants {
     public static final String DISABLES_CALL_API_DOCUMENT_CONTINGENCY = "disablesCallApiDocumentContingency";
     public static final String DISABLES_CALL_API_COLLABORATOR_CONTINGENCY = "disablesCallApiCollaboratorContingency";
     public static final String QTD_RETRY = "qtdRetry";
+    public static final String DISABLES_CRITICAL_KAFKA_CONTINGENCY = "disablesCriticalKafkaContingency";
     public static final String ID_LAYOUT_SEND_MESSAGE_CLIENT_AND_SUPPORT = "idLayoutSendMessageClientAndSupport";
     public static final String ID_LAYOUT_EMAIL_FAIL_BUSINESS = "idLayoutEmailFailBusiness";
 

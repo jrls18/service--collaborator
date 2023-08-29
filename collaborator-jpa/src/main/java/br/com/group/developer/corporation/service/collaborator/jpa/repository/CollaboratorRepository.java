@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -30,6 +31,11 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Transactional
     @Query(value = "UPDATE colaborador SET cod_situacao = :idstatus WHERE cod_colaborador = :idcollaborator ", nativeQuery = true)
     void updateStatus(@Param("idcollaborator") final Long idCollaborator, @Param("idstatus") final Long idStatus );
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE colaborador SET data_hora_ultimo_acesso = :dateTimeLastAccess WHERE cod_colaborador = :idcollaborator ", nativeQuery = true)
+    void updateDateTimeLastAccess(@Param("idcollaborator") final Long idCollaborator, @Param("dateTimeLastAccess") LocalDateTime dateTimeLastAccess);
 
     @Query(value = "SELECT * FROM colaborador WHERE COD_EMPRESA = :codEmpresa AND (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
             countQuery = "SELECT * FROM colaborador WHERE COD_EMPRESA = :codEmpresa AND (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",

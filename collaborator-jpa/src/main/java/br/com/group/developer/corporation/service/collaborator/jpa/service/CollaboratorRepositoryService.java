@@ -3,10 +3,13 @@ package br.com.group.developer.corporation.service.collaborator.jpa.service;
 import br.com.group.developer.corporation.service.collaborator.jpa.entity.Collaborator;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface CollaboratorRepositoryService {
     Optional<Collaborator> findByUserName(final String username);
+
+    void updateDateTimeLastAccess(final Long idCollaborator, final LocalDateTime dateTimeLastAccess);
 
     Optional<Collaborator> findByEmail(final String email);
 

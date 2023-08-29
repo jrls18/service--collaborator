@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @AllArgsConstructor
@@ -37,6 +38,13 @@ public class CollaboratorAdapter implements CollaboratorPort {
             return;
 
         service.updateStatus(idCollaborator, idStatus);
+    }
+
+    @Override
+    public void updateDateTimeLastAccess(Long idCollaborator,
+                                         LocalDateTime dateTimeLastAccess) {
+        if(Objects.nonNull(idCollaborator) && idCollaborator > 0 && Objects.nonNull(dateTimeLastAccess))
+            service.updateDateTimeLastAccess(idCollaborator,dateTimeLastAccess);
     }
 
     @Override
