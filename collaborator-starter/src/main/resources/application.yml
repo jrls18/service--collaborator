@@ -211,30 +211,44 @@ logProperties:
       - "state"
       - "number"
 
-
-
 parameterize:
   clientId: ${properties.configMap.clientId}
   clientSecret: ${properties.configMap.clientSecret}
   scheduleCron: "0 */5 * * * *"
   timezone: America/Fortaleza
-  properties:
-    - name: properties-service-corporation
-      requestFields:
-        - key: nome-service
-          value: urlServiceInternal
-      fieldCaching:
-        fields:
-          - serviceDocumentInternalHost
-    - name: properties-service-corporation
-      requestFields:
-        - key: nome-service
-          value: urlServiceExternal
-      fieldCaching:
-        fields:
-          - serviceDocumentExternalHost
-    - name: properties-service-corporation
-      requestFields:
-        - key: nome-service
-          value: serviceCollaborator
+  itemsProperties:
+    properties:
+      - name: properties_corporation
+        fieldRequest:
+          - "nome-service"
+        filter:
+          - "propertiesGerais"
+          - "urlServiceInternal"
+          - "urlServiceExternal"
+      - name: properties_gestao_notificacoes
+        fieldRequest:
+          - "nome-service"
+        filter:
+          - "sendEmail"
+      - name: properties_gestao_de_clientes
+        fieldRequest:
+          - "nome-service"
+        filter:
+          - "serviceCollaborator"
+    filterCondition:
+      - "disablesKafkaContingency"
+      - "enabledServiceExternalHost"
+      - "disablesCallApiDocumentContingency"
+      - "disablesCallApiCollaboratorContingency"
+      - "sizePage"
+      - "idLayoutEmail"
+      - "idLayoutEmailFailBusiness"
+      - "idLayoutSendMessageClientAndSupport"
+      - "qtdRetry"
+      - "disablesCriticalKafkaContingency"
+      - "serviceCompanyExternalHost"
+      - "serviceDocumentExternalHost"
+      - "urlConsultaCep"
+      - "serviceCompanyInternalHost"
+      - "serviceDocumentInternalHost"
 

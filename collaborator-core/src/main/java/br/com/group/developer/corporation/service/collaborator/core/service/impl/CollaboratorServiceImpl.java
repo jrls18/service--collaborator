@@ -76,34 +76,40 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
     
     private void produceDocument(final Collaborator domain) {
-       boolean disablesKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_KAFKA_CONTINGENCY));
-       if(Boolean.FALSE.equals(disablesKafkaContingency) &&
-               Objects.nonNull(domain.getDocument()) &&
-               Boolean.FALSE.equals(StringUtils.isEmpty(domain.getDocument().getCommand())) &&
-               domain.getDocument().getCommand().equals(OtherDomainConstants.SAVE) &&
-               Boolean.FALSE.equals(StringUtils.isEmpty(domain.getDocument().getNameDocument())) &&
-               domain.getDocument().getDocument().length > 0 ){
-           domain.getDocument().setLogo(false);
-           domain.getDocument().setIdCatalago(OtherDomainConstants.IMAGE_PROFILE);
-           documentSendMessagePort.send(domain);
-       }
+        boolean disablesCriticalKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_CRITICAL_KAFKA_CONTINGENCY));
+        if(Boolean.FALSE.equals(disablesCriticalKafkaContingency)){
+            boolean disablesKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_KAFKA_CONTINGENCY));
+            if(Boolean.FALSE.equals(disablesKafkaContingency) &&
+                    Objects.nonNull(domain.getDocument()) &&
+                    Boolean.FALSE.equals(StringUtils.isEmpty(domain.getDocument().getCommand())) &&
+                    domain.getDocument().getCommand().equals(OtherDomainConstants.SAVE) &&
+                    Boolean.FALSE.equals(StringUtils.isEmpty(domain.getDocument().getNameDocument())) &&
+                    domain.getDocument().getDocument().length > 0 ){
+                domain.getDocument().setLogo(false);
+                domain.getDocument().setIdCatalago(OtherDomainConstants.IMAGE_PROFILE);
+                documentSendMessagePort.send(domain);
+            }
+        }
     }
 
     private void produceNotification(final Collaborator collaborator){
-        boolean disablesKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_KAFKA_CONTINGENCY));
-        if(Boolean.FALSE.equals(disablesKafkaContingency) && Objects.nonNull(collaborator)){
+        boolean disablesCriticalKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_CRITICAL_KAFKA_CONTINGENCY));
+        if(Boolean.FALSE.equals(disablesCriticalKafkaContingency)){
+            boolean disablesKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_KAFKA_CONTINGENCY));
+            if(Boolean.FALSE.equals(disablesKafkaContingency) && Objects.nonNull(collaborator)){
 
-            Notification notification = new Notification();
-            notification.setEmail(collaborator.getContact().getEmail());
-            notification.setIdActive(collaborator.getIdActive());
-            notification.setName(collaborator.getName());
-            notification.setCellPhone(collaborator.getContact().getMainPhone());
-            notification.setPassword(ContextHolder.get().getMap().get(FieldDomainConstants.PASSWORD).toString());
-            notification.setMessage(null);
-            notification.setTypeNotification(new Notification.TypeNotification(OtherDomainConstants.EMAIL));
+                Notification notification = new Notification();
+                notification.setEmail(collaborator.getContact().getEmail());
+                notification.setIdActive(collaborator.getIdActive());
+                notification.setName(collaborator.getName());
+                notification.setCellPhone(collaborator.getContact().getMainPhone());
+                notification.setPassword(ContextHolder.get().getMap().get(FieldDomainConstants.PASSWORD).toString());
+                notification.setMessage(null);
+                notification.setTypeNotification(new Notification.TypeNotification(OtherDomainConstants.EMAIL));
 
-            notification.setIdLayout(parameterizeService.getPropertiesString(ParametrizeConstants.ID_LAYOUT_EMAIL));
-            pushNotificationSendMessagePort.send(notification);
+                notification.setIdLayout(parameterizeService.getPropertiesString(ParametrizeConstants.ID_LAYOUT_EMAIL));
+                pushNotificationSendMessagePort.send(notification);
+            }
         }
     }
 
@@ -168,8 +174,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         return encoder.encode(password);
     }
 
-
-
     @Override
     public void saveAsync(Collaborator dto) {
         if(Objects.nonNull(dto)){
@@ -180,7 +184,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 update(dto);
         }
     }
-
 
     @Override
     public Message update(Collaborator domain) {
@@ -271,17 +274,18 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         return  collaborator;
     }
 
-
-
     @Override
     public Optional<Collaborator> findByUsername(String username) {
 
         Optional<Collaborator> collaborator = port.findByUserName(username);
 
         if(collaborator.isPresent()){
-            boolean disablesKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_KAFKA_CONTINGENCY));
-            if(Boolean.FALSE.equals(disablesKafkaContingency) && collaborator.get().getStatus().getId() == OtherDomainConstants.PENDENTE_VALIDACAO_DE_EMAIL){
-                throw new UnauthorizedException(MessageDomainConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_VALIDACAO_DE_EMAIL_VERIFIQUEI_CAIXA_DE_ENTRADA_E_SPAN);
+            boolean disablesCriticalKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_CRITICAL_KAFKA_CONTINGENCY));
+            if(Boolean.FALSE.equals(disablesCriticalKafkaContingency)){
+                boolean disablesKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_KAFKA_CONTINGENCY));
+                if(Boolean.FALSE.equals(disablesKafkaContingency) && collaborator.get().getStatus().getId() == OtherDomainConstants.PENDENTE_VALIDACAO_DE_EMAIL){
+                    throw new UnauthorizedException(MessageDomainConstants.USUARIO_NAO_AUTORIZADO_AGUARDANDO_VALIDACAO_DE_EMAIL_VERIFIQUEI_CAIXA_DE_ENTRADA_E_SPAN);
+                }
             }
             port.updateDateTimeLastAccess(collaborator.get().getId(), LocalDateTime.now());
         }
@@ -322,7 +326,6 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         return port.search(searchTerm, codEmpresa, page, size);
     }
-
 
     private void validAddExists(Collaborator dto){
         List<Message.Details> details = new ArrayList<>();
