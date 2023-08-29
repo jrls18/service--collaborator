@@ -20,7 +20,7 @@ properties:
     dataBasePassword: ${DATA_BASE_PASSWORD:sa}
 
 parameterize:
-  isMock: true
+  isMock: false
   propertiesMock:
     fields:
       - key: serviceDocumentInternalHost
@@ -34,6 +34,8 @@ parameterize:
       - key: enabledServiceExternalHost
         value: "true"
       - key: disablesKafkaContingency
+        value: "false"
+      - key: disablesCriticalKafkaContingency
         value: "false"
       - key: disablesCallApiDocumentContingency
         value: "false"

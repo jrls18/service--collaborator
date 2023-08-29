@@ -87,4 +87,7 @@ public class Collaborator implements Serializable {
 
     @Column(name = "ativacao")
     private String idActive;
+
+    @Column(name = "data_hora_ultimo_acesso")
+    private LocalDateTime dateTimeLastAccess;
 }

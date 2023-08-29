@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,6 +29,14 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
             return Optional.empty();
 
         return repository.findByUserName(username);
+    }
+
+    @Override
+    public void updateDateTimeLastAccess(Long idCollaborator, LocalDateTime dateTimeLastAccess) {
+        if(Objects.isNull(idCollaborator) && Objects.isNull(dateTimeLastAccess))
+            return;
+
+        repository.updateDateTimeLastAccess(idCollaborator,dateTimeLastAccess);
     }
 
     @Override
