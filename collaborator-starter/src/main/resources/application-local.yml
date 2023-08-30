@@ -21,7 +21,7 @@ properties:
 
 
 authentication:
-  byPass: true
+  byPass: false
 
 parameterize:
   isMock: true
