@@ -5,18 +5,6 @@ CREATE TABLE IF NOT EXISTS situacao(
     ,PRIMARY KEY (cod_situacao)
 );
 
-CREATE TABLE IF NOT EXISTS AUTHENTICATED(
-     cod_authorization BIGINT AUTO_INCREMENT NOT NULL
-    ,application_name VARCHAR(150) UNIQUE NOT NULL
-    ,sigla_app VARCHAR(20) UNIQUE NOT NULL
-    ,client_id VARCHAR(40) UNIQUE  NOT NULL
-    ,client_secret VARCHAR(40) UNIQUE  NOT NULL
-    ,data_cadastro DATETIME NOT NULL
-    ,cod_situacao INT NOT NULL
-    ,FOREIGN KEY (cod_situacao) REFERENCES situacao(cod_situacao)
-    ,PRIMARY KEY (cod_authorization )
-);
-
 CREATE TABLE IF NOT EXISTS tipoacesso(
      cod_tipoacesso INT AUTO_INCREMENT NOT NULL
     ,descricao VARCHAR(255) UNIQUE NOT NULL

@@ -19,8 +19,12 @@ properties:
     dataBaseUsername: ${DATA_BASE_USERNAME:sa}
     dataBasePassword: ${DATA_BASE_PASSWORD:sa}
 
+
+authentication:
+  byPass: false
+
 parameterize:
-  isMock: false
+  isMock: true
   propertiesMock:
     fields:
       - key: serviceDocumentInternalHost
