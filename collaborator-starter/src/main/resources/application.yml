@@ -52,7 +52,7 @@ spring:
     username: ${properties.secret.dataBaseUsername}
     driverClassName: ${properties.configMap.dataBaseClassDrive}
     driver-class-name: ${properties.configMap.dataBaseClassDrive}
-    password: 171513
+    password: ${properties.secret.dataBasePassword}
     connectionTimeout: 20000
     maximumPoolSize: 6
     connectionTestQuery: SELECT CURRENT_TIMESTAMP
