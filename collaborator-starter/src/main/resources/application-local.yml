@@ -19,6 +19,10 @@ properties:
     dataBaseUsername: ${DATA_BASE_USERNAME:sa}
     dataBasePassword: ${DATA_BASE_PASSWORD:sa}
 
+
+authentication:
+  byPass: true
+
 parameterize:
   isMock: true
   propertiesMock:

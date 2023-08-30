@@ -5,8 +5,8 @@ metadata:
   namespace: services-develop-corporation
 data:
   RELEASE: release/1.0.0
-  CLIENT_ID: "89e7b6e5-a61d-4f67-b688-7b7449db096b"
-  CLIENT_SECRET: "343a5f53-6797-4930-82b7-1a96cb416ead"
+  CLIENT_ID: "9bced1e3-dfb4-4f6e-a6b5-d15b3887993e"
+  CLIENT_SECRET: "892d848d-96dd-470e-9d94-d801e8ea3fb3"
   DATA_BASE_HOTS: "172.26.96.1"
   DATA_BASE_PORT: "3309"
   DATA_BASE_NAME: "dbcolaborador"
