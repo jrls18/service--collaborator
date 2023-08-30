@@ -2,6 +2,9 @@ package br.com.group.developer.corporation.service.collaborator.api.rest.handler
 
 
 import br.com.group.developer.corporation.lib.logger.logger.LoggerService;
+import br.com.group.developer.corporation.libauthentication.exceptions.BadRequestAuthenticationException;
+import br.com.group.developer.corporation.libauthentication.exceptions.InternalServerErrorAuthenticationException;
+import br.com.group.developer.corporation.libauthentication.exceptions.NoAuthenticationException;
 import br.com.group.developer.corporation.libparametrizador.exceptions.BadRequestParameterizeException;
 import br.com.group.developer.corporation.libparametrizador.exceptions.KeyNaoPodeSerNulaOuVaziaException;
 import br.com.group.developer.corporation.libparametrizador.exceptions.NaoExisteMockConfiguradoException;
@@ -46,6 +49,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ConnectException.class,
             CompanyInternalServerErrorException.class,
             InternalServerErrorException.class,
+            InternalServerErrorAuthenticationException.class,
             WebClientRequestException.class})
     public final ResponseEntity<MessageResponse> handleInternalServerErrorException(RuntimeException e){
         MessageResponse error = new MessageResponse(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), null, e.getMessage(), null);
@@ -58,7 +62,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler({BusinessErrorException.class})
+    @ExceptionHandler({BusinessErrorException.class, BadRequestAuthenticationException.class})
     public final ResponseEntity<Object> handleBusinessErrorException(RuntimeException e) throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -67,13 +71,22 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         if(String.valueOf(HttpStatus.BAD_REQUEST.value()).equals(messageResponse.get(FieldDomainConstants.CODIGO))){
             loggerService.warning(messageResponse,HttpStatus.BAD_REQUEST.name());
             return new ResponseEntity<>(messageResponse, HttpStatus.BAD_REQUEST);
-        }
-        else{
+        }else if(String.valueOf(HttpStatus.UNAUTHORIZED.value()).equals(messageResponse.get(FieldDomainConstants.CODIGO))){
+            loggerService.warning(messageResponse,HttpStatus.UNAUTHORIZED.name());
+            return new ResponseEntity<>(messageResponse, HttpStatus.UNAUTHORIZED);
+        } else{
             loggerService.warning(messageResponse,HttpStatus.UNPROCESSABLE_ENTITY.name());
             return new ResponseEntity<>(messageResponse, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
+
+    @ExceptionHandler({NoAuthenticationException.class})
+    public final ResponseEntity<Object> handleNoAuthenticationException(NoAuthenticationException e) throws JsonProcessingException {
+
+        loggerService.warning(e.getMessageResponse(),HttpStatus.UNAUTHORIZED.name());
+        return new ResponseEntity<>(e.getMessageResponse(), HttpStatus.UNAUTHORIZED);
+    }
 
 
     @ExceptionHandler(RecordNotFoundException.class)
