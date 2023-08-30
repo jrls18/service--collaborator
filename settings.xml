@@ -35,6 +35,10 @@
                     <id>github</id>
                     <url>https://maven.pkg.github.com/jrls18/lib-parametrizador</url>
                 </repository>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/jrls18/lib-authentication</url>
+                </repository>
             </repositories>
         </profile>
     </profiles>

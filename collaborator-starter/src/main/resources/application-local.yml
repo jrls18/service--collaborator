@@ -20,7 +20,7 @@ properties:
     dataBasePassword: ${DATA_BASE_PASSWORD:sa}
 
 parameterize:
-  isMock: false
+  isMock: true
   propertiesMock:
     fields:
       - key: serviceDocumentInternalHost

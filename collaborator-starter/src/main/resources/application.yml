@@ -211,6 +211,11 @@ logProperties:
       - "state"
       - "number"
 
+
+authentication:
+  property:
+    app: ${spring.application.name}
+
 parameterize:
   clientId: ${properties.configMap.clientId}
   clientSecret: ${properties.configMap.clientSecret}
