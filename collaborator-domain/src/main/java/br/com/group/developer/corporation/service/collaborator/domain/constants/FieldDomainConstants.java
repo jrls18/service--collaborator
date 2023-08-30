@@ -11,8 +11,6 @@ public final class FieldDomainConstants {
     public static final String DATA_HORA_CADASTRO = "data_hora_cadastro";
     public static final String DESCRICAO = "descricao";
     public static final String SITUACAO = "situacao";
-    public static final String APPLICATION_NAME = "application_name";
-    public static final String AUTORIZACAO = "autorizacao";
 
     public static final String CODIGO = "codigo";
     public static final String CONTATO = "contato";
