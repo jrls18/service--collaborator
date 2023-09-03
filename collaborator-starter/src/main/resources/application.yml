@@ -246,7 +246,7 @@ parameterize:
       - "disablesKafkaContingency"
       - "enabledServiceExternalHost"
       - "disablesCallApiDocumentContingency"
-      - "disablesCallApiCollaboratorContingency"
+      - "disablesCallApiCompanyContingency"
       - "sizePage"
       - "idLayoutEmail"
       - "idLayoutEmailFailBusiness"

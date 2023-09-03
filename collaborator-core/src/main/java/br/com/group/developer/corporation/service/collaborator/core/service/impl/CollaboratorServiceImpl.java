@@ -393,9 +393,9 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         if(Boolean.FALSE.equals(port.existsCompany(idCompany))){
 
-           boolean disablesCallApiCollaboratorContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_CALL_API_COLLABORATOR_CONTINGENCY));
+           boolean disablesCallApiCompanyContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_CALL_API_COMPANY_CONTINGENCY));
 
-           if(Boolean.FALSE.equals(disablesCallApiCollaboratorContingency) && Objects.isNull(companyPort.findByCompanyId(Long.parseLong(idCompany)))){
+           if(Boolean.FALSE.equals(disablesCallApiCompanyContingency) && Objects.isNull(companyPort.findByCompanyId(Long.parseLong(idCompany)))){
                details.add(
                            new Message.Details(
                                    FieldDomainConstants.ID_COMPANY,
