@@ -3,7 +3,7 @@ package br.com.group.developer.corporation.service.collaborator.message.avro.pro
 import br.com.group.developer.corporation.service.collaborator.domain.model.Notification;
 import br.com.group.developer.corporation.service.collaborator.domain.port.PushNotificationSendMessagePort;
 import br.com.group.developer.corporation.service.collaborator.message.avro.produce.mapper.PushNotificationMapper;
-import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.GenericSendMessageService;
+import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.PushNotificationSendMessageService;
 import br.com.group.developer.corporation.service.collaborator.message.avro.produce.utils.MessageAsync;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Objects;
 @Service
 public class PushNotificationSendMessageAdapter extends MessageAsync<Notification> implements PushNotificationSendMessagePort  {
 
-    private final GenericSendMessageService service;
+    private final PushNotificationSendMessageService service;
 
     @Override
     public void send(Notification notification) {

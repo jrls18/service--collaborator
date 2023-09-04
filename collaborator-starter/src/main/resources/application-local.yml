@@ -34,17 +34,17 @@ parameterize:
       - key: serviceCompanyInternalHost
         value: http://cloud.local.develop.corporation.com/service--company
       - key: serviceCompanyExternalHost
-        value: http://localhost:5002/service--company
+        value: http://localhost:5000/service--company
       - key: enabledServiceExternalHost
         value: "true"
       - key: disablesKafkaContingency
-        value: "true"
+        value: "false"
       - key: disablesCriticalKafkaContingency
-        value: "true"
+        value: "false"
       - key: disablesCallApiDocumentContingency
-        value: "true"
+        value: "false"
       - key: disablesCallApiCompanyContingency
-        value: "true"
+        value: "false"
       - key: sizePage
         value: "50"
       - key: idLayoutEmail
