@@ -22,6 +22,11 @@ public interface CollaboratorController {
     @PostMapping("/v1/save")
     ResponseEntity<MessageResponse> add(@RequestBody CollaboratorRequest request);
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(path = "/internal/v1/save", produces = RouterConstants.APPLICATION_JSON)
+    ResponseEntity<MessageResponse> addInternal(@RequestBody CollaboratorRequest request);
+
+
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/v1/save")
     ResponseEntity<MessageResponse> update(@Validated @RequestBody CollaboratorRequest request);

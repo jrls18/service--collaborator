@@ -12,7 +12,6 @@ import br.com.group.developer.corporation.libparametrizador.exceptions.NaoExiste
 import br.com.group.developer.corporation.service.collaborator.domain.constants.FieldDomainConstants;
 import br.com.group.developer.corporation.service.collaborator.domain.constants.MessageDomainConstants;
 import br.com.group.developer.corporation.service.collaborator.domain.exception.BusinessErrorException;
-import br.com.group.developer.corporation.service.collaborator.domain.exception.CompanyInternalServerErrorException;
 import br.com.group.developer.corporation.service.collaborator.domain.exception.InternalServerErrorException;
 import br.com.grupo.developer.corporation.libcommons.exception.BadRequestEntityException;
 import br.com.grupo.developer.corporation.libcommons.exception.DomainException;
@@ -47,7 +46,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     private final LoggerService loggerService;
 
     @ExceptionHandler({ConnectException.class,
-            CompanyInternalServerErrorException.class,
             InternalServerErrorException.class,
             InternalServerErrorAuthenticationException.class,
             WebClientRequestException.class})

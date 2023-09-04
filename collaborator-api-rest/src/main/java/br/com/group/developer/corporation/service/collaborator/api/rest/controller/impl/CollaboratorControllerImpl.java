@@ -51,6 +51,11 @@ public class CollaboratorControllerImpl implements CollaboratorController {
     }
 
     @Override
+    public ResponseEntity<MessageResponse> addInternal(CollaboratorRequest request) {
+        return this.add(request);
+    }
+
+    @Override
     public ResponseEntity<MessageResponse> update(CollaboratorRequest request) {
 
         logger.info(request);
