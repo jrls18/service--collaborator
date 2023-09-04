@@ -179,6 +179,39 @@ properties:
     dataBaseUsername: ${DATA_BASE_USERNAME:user}
     dataBasePassword: ${DATA_BASE_PASSWORD:171513}
 
+
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 3s
+        retryExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+          - java.lang.Exception
+          - br.com.group.developer.corporation.service.collaborator.domain.exception.InternalServerErrorException
+          - br.com.group.developer.corporation.libauthentication.exceptions.InternalServerErrorAuthenticationException
+        ignoreExceptions:
+          - br.com.group.developer.corporation.libauthentication.exceptions.BadRequestAuthenticationException
+          - br.com.group.developer.corporation.libauthentication.exceptions.NoAuthenticationException
+          - br.com.group.developer.corporation.libparametrizador.exceptions.KeyNaoPodeSerNulaOuVaziaException
+          - br.com.group.developer.corporation.libparametrizador.exceptions.NaoExisteParametroConfiguradoNoParametrizadorException
+          - br.com.group.developer.corporation.libparametrizador.exceptions.NaoExisteMockConfiguradoException
+          - br.com.group.developer.corporation.libparametrizador.exceptions.BadRequestParameterizeException
+    retry-aspect-order: 2
+    instances:
+      callGetImageCompanyServiceDocument:
+        baseConfig: default
+        ignore-exceptions:
+          - br.com.group.developer.corporation.service.collaborator.domain.exception.BusinessErrorException
+      callGetCompanyIdServiceCompany:
+        baseConfig: default
+        ignore-exceptions:
+          - br.com.group.developer.corporation.service.collaborator.domain.exception.BusinessErrorException
+
+
 logProperties:
   typeObfuscateMask: "#"
   patternObfuscate: partial

@@ -1,7 +1,7 @@
 package br.com.group.developer.corporation.service.collaborator.internal.call.config;
 
 import br.com.group.developer.corporation.service.collaborator.domain.exception.BusinessErrorException;
-import br.com.group.developer.corporation.service.collaborator.domain.exception.CompanyInternalServerErrorException;
+import br.com.group.developer.corporation.service.collaborator.domain.exception.InternalServerErrorException;
 import br.com.grupo.developer.corporation.libcommons.constants.FieldAssistantConstants;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -49,7 +49,7 @@ public class WebClientConfig {
         return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
             if (clientResponse.statusCode().is5xxServerError()) {
                 return clientResponse.bodyToMono(String.class)
-                        .flatMap(errorBody -> Mono.error(new CompanyInternalServerErrorException(errorBody)));
+                        .flatMap(errorBody -> Mono.error(new InternalServerErrorException(errorBody)));
             } else if (clientResponse.statusCode().is4xxClientError()) {
                 return clientResponse.bodyToMono(String.class)
                         .flatMap(errorBody -> Mono.error(new BusinessErrorException(errorBody)));
