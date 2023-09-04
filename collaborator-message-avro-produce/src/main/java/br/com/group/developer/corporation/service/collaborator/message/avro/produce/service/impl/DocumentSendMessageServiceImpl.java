@@ -1,7 +1,7 @@
 package br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.impl;
 
 import br.com.group.developer.corporation.document.avro.DocumentMessage;
-import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.GenericSendMessageService;
+import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.DocumentSendMessageService;
 import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.send.SendMessage;
 import lombok.Getter;
 import org.apache.avro.specific.SpecificRecord;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Getter
 @Service
-public class DocumentSendMessageServiceImpl extends SendMessage<DocumentMessage> implements GenericSendMessageService<DocumentMessage> {
+public class DocumentSendMessageServiceImpl extends SendMessage<DocumentMessage> implements DocumentSendMessageService<DocumentMessage> {
 
     @Value(value = "${kafka.topic.produce.document.name}")
     private String topicName;

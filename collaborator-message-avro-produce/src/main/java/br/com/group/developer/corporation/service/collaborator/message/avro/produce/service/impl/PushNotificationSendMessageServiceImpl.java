@@ -1,7 +1,7 @@
 package br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.impl;
 
 import br.com.group.developer.corporation.push.message.PushMessage;
-import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.GenericSendMessageService;
+import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.PushNotificationSendMessageService;
 import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.send.SendMessage;
 import lombok.Getter;
 import org.apache.avro.specific.SpecificRecord;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Primary
 @Getter
 @Service
-public class PushNotificationSendMessageServiceImpl extends SendMessage<PushMessage> implements GenericSendMessageService<PushMessage> {
+public class PushNotificationSendMessageServiceImpl extends SendMessage<PushMessage> implements PushNotificationSendMessageService<PushMessage> {
 
     @Value(value = "${kafka.topic.produce.notification.name}")
     private String topicName;
