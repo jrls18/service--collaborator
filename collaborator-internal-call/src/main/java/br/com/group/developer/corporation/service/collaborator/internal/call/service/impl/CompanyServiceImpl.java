@@ -1,13 +1,12 @@
 package br.com.group.developer.corporation.service.collaborator.internal.call.service.impl;
 
 import br.com.group.developer.corporation.libparametrizador.schedule.ParameterizeService;
-import br.com.group.developer.corporation.service.collaborator.domain.constants.MessageDomainConstants;
 import br.com.group.developer.corporation.service.collaborator.domain.constants.ParametrizeConstants;
-import br.com.group.developer.corporation.service.collaborator.domain.exception.CompanyInternalServerErrorException;
 import br.com.group.developer.corporation.service.collaborator.internal.call.model.CompanyCallResponse;
 import br.com.group.developer.corporation.service.collaborator.internal.call.service.CompanyService;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
 import br.com.grupo.developer.corporation.libcommons.constants.FieldAssistantConstants;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,6 +22,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final ParameterizeService parameterizeService;
 
+    @Retry(name = "callGetCompanyIdServiceCompany")
     @Override
     public CompanyCallResponse getByCompanyId(Long id) {
 
@@ -30,8 +30,6 @@ public class CompanyServiceImpl implements CompanyService {
             return null;
 
         boolean enabledServiceExternal = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.ENABLED_SERVICE_EXTERNAL_HOST));
-
-        int qtdRetry = Integer.parseInt(parameterizeService.getPropertiesString(ParametrizeConstants.QTD_RETRY));
 
         String urlHost;
 
@@ -46,10 +44,6 @@ public class CompanyServiceImpl implements CompanyService {
                 .retrieve()
                 .bodyToMono(CompanyCallResponse.class)
                 .onErrorResume(Mono::error)
-                .retryWhen(
-                        reactor.util.retry.Retry.max(qtdRetry)
-                                .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) ->
-                                        new CompanyInternalServerErrorException(MessageDomainConstants.TIVEMOS_UM_ERRO_AO_CHAMAR_O_SERVICE_COMPANY_POR_FAVOR_TENTE_NOVAMENTE_MAIS_TARDE)))
                 .block();
     }
 }

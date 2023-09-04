@@ -17,7 +17,7 @@
         <dependency>
             <groupId>br.com.group.developer.corporation</groupId>
             <artifactId>lib-authentication</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>br.com.group.developer.corporation.service--collaborator</groupId>
