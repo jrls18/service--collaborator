@@ -1,13 +1,12 @@
 package br.com.group.developer.corporation.service.collaborator.internal.call.service.impl;
 
 import br.com.group.developer.corporation.libparametrizador.schedule.ParameterizeService;
-import br.com.group.developer.corporation.service.collaborator.domain.constants.MessageDomainConstants;
 import br.com.group.developer.corporation.service.collaborator.domain.constants.ParametrizeConstants;
-import br.com.group.developer.corporation.service.collaborator.domain.exception.DocumentInternalServerErrorException;
 import br.com.group.developer.corporation.service.collaborator.internal.call.model.DocumentCallResponse;
 import br.com.group.developer.corporation.service.collaborator.internal.call.service.DocumentService;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
 import br.com.grupo.developer.corporation.libcommons.constants.FieldAssistantConstants;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +23,8 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final ParameterizeService parameterizeService;
 
+
+    @Retry(name = "callGetImageCompanyServiceDocument")
     @Override
     public DocumentCallResponse getByCompanyDocumentImage(String idCompany, String nomeImage) {
 
@@ -31,7 +32,6 @@ public class DocumentServiceImpl implements DocumentService {
             return null;
 
         boolean enabledServiceExternal = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.ENABLED_SERVICE_EXTERNAL_HOST));
-        int qtdRetry = Integer.parseInt(parameterizeService.getPropertiesString(ParametrizeConstants.QTD_RETRY));
 
         String urlHost;
 
@@ -46,10 +46,6 @@ public class DocumentServiceImpl implements DocumentService {
                 .header(FieldAssistantConstants.CURRENTCORRELATION_ID, ContextHolder.get().getCorrelationId())
                 .retrieve()
                 .bodyToMono(DocumentCallResponse.class)
-                .retryWhen(
-                        reactor.util.retry.Retry.max(qtdRetry)
-                                .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) ->
-                                        new DocumentInternalServerErrorException(MessageDomainConstants.TIVEMOS_UM_ERRO_AO_CHAMAR_O_SERVICE_DOCUMENT_POR_FAVOR_TENTE_NOVAMENTE_MAIS_TARDE)))
                 .onErrorReturn(new DocumentCallResponse())
                 .block();
     }
