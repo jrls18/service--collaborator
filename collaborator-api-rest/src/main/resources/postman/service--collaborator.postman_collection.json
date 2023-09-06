@@ -94,6 +94,52 @@
 			"response": []
 		},
 		{
+			"name": "Recover Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					},
+					{
+						"key": "correlation_id",
+						"value": "{{correlation_id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"username\":\"john.john16@hotmail.com\",\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_base}}/{{context-path}}/auth/v1/recover/password",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"{{context-path}}",
+						"auth",
+						"v1",
+						"recover",
+						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Profile",
 			"request": {
 				"method": "GET",

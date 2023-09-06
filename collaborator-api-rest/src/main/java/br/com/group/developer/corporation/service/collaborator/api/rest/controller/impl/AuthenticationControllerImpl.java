@@ -3,11 +3,12 @@ package br.com.group.developer.corporation.service.collaborator.api.rest.control
 
 import br.com.group.developer.corporation.lib.logger.logger.LoggerService;
 import br.com.group.developer.corporation.service.collaborator.api.rest.controller.AuthenticationController;
-import br.com.group.developer.corporation.service.collaborator.api.rest.controller.CollaboratorController;
 import br.com.group.developer.corporation.service.collaborator.api.rest.mapper.JwtMapper;
-import br.com.group.developer.corporation.service.collaborator.api.rest.message.request.CollaboratorRequest;
+import br.com.group.developer.corporation.service.collaborator.api.rest.mapper.MessageMapper;
+import br.com.group.developer.corporation.service.collaborator.api.rest.message.request.RecoverPasswordRequest;
 import br.com.group.developer.corporation.service.collaborator.api.rest.security.service.AuthenticateService;
 import br.com.group.developer.corporation.service.collaborator.api.rest.validation.CollaboratorValidator;
+import br.com.group.developer.corporation.service.collaborator.core.service.CollaboratorService;
 import br.com.grupo.developer.corporation.libcommons.message.request.LoginRequest;
 import br.com.grupo.developer.corporation.libcommons.message.response.JwtResponse;
 import br.com.grupo.developer.corporation.libcommons.message.response.MessageResponse;
@@ -26,11 +27,11 @@ public class AuthenticationControllerImpl implements AuthenticationController {
 
     private final CollaboratorValidator validator;
 
-    private final CollaboratorController service;
-
     private final AuthenticateService authenticateService;
 
     private final LoggerService logger;
+
+    private final CollaboratorService collaboratorService;
 
 
     @Override
@@ -47,9 +48,15 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     @Override
-    public ResponseEntity<MessageResponse> add(CollaboratorRequest request) {
-        return service.add(request);
+    public ResponseEntity<MessageResponse> recoverPassword(RecoverPasswordRequest request) {
+
+        logger.info(request);
+
+        MessageResponse response = MessageMapper.INSTANCE.toResponse(collaboratorService.recoverPassword(request.getUsername()));
+
+        logger.info(response, HttpStatus.ACCEPTED.name());
+
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 }

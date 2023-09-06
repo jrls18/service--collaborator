@@ -32,4 +32,6 @@ public interface CollaboratorRepositoryService {
 
     void updateStatus(final Long idCollaborator, final Long idStatus);
 
+    void recoverPassword(final String password, final Long id);
+
 }

@@ -23,5 +23,7 @@ public interface CollaboratorPort {
 
     Optional<Collaborator> findByUserName(final String username);
 
+    void recoverPassword(final String password,final Long idCollaborator);
+
     Pagination<Collaborator> search(final String searchTerm, final String codEmpresa, final int page, final int size);
 }

@@ -314,6 +314,31 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     }
 
     @Override
+    public Message recoverPassword(String username) {
+
+        if(StringUtils.isEmpty(username))
+            throw new DomainException(CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageDomainConstants.USERNAME_E_OBRIGATORIO,
+                    null);
+
+        Optional<Collaborator> collaborator = port.findByUserName(username);
+
+        if(collaborator.isEmpty())
+            throw new DomainException(CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
+                    MessageDomainConstants.USERNAME_INFORMADO_NAO_EXISTE_CADASTRADO,
+                    null);
+
+        port.recoverPassword(generatedPassword(null), collaborator.get().getId());
+
+        produceNotification(collaborator.get());
+
+        return new Message(CoreEnum.ACCEPTED.getCode(),
+                LocalDateTime.now().toString(),
+                MessageDomainConstants.USERNAME_ALTERADO_COM_SUCESSO,
+                null);
+    }
+
+    @Override
     public Pagination<Collaborator> search(String searchTerm, String codEmpresa, int page, int size) {
 
         if(size == 0){

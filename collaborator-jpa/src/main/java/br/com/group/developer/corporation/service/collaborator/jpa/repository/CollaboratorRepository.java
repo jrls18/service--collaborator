@@ -37,6 +37,12 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Query(value = "UPDATE colaborador SET data_hora_ultimo_acesso = :dateTimeLastAccess WHERE cod_colaborador = :idcollaborator ", nativeQuery = true)
     void updateDateTimeLastAccess(@Param("idcollaborator") final Long idCollaborator, @Param("dateTimeLastAccess") LocalDateTime dateTimeLastAccess);
 
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE colaborador SET senha = :password WHERE cod_colaborador = :idcollaborator ", nativeQuery = true)
+    void recoverPassword(@Param("idcollaborator") final Long idCollaborator, @Param("password") String password);
+
     @Query(value = "SELECT * FROM colaborador WHERE COD_EMPRESA = :codEmpresa AND (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
             countQuery = "SELECT * FROM colaborador WHERE COD_EMPRESA = :codEmpresa AND (cod_colaborador = :searchTerm OR nome LIKE %:searchTerm% OR :searchTerm IS NULL)",
             nativeQuery = true)
