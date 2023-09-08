@@ -22,6 +22,8 @@ public interface CollaboratorService {
 
     Message profileActivation(final String uuid);
 
+    Message recoverPassword(final String username);
+
     Pagination<Collaborator> search(final String searchTerm, final String codEmpresa, final int page, final int size);
 
 }

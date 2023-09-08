@@ -119,4 +119,12 @@ public class CollaboratorRepositoryServiceImpl implements CollaboratorRepository
 
         repository.updateStatus(idCollaborator, idStatus);
     }
+
+    @Override
+    public void recoverPassword(String password, Long id) {
+        if(StringUtils.isEmpty(password) || id <= 0)
+            return;
+
+        repository.recoverPassword(id,password);
+    }
 }

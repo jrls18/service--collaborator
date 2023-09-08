@@ -2,6 +2,7 @@ package br.com.group.developer.corporation.service.collaborator.api.rest.control
 
 import br.com.group.developer.corporation.service.collaborator.api.rest.constants.RouterConstants;
 import br.com.group.developer.corporation.service.collaborator.api.rest.message.request.CollaboratorRequest;
+import br.com.group.developer.corporation.service.collaborator.api.rest.message.request.RecoverPasswordRequest;
 import br.com.grupo.developer.corporation.libcommons.constants.FieldAssistantConstants;
 import br.com.grupo.developer.corporation.libcommons.message.request.LoginRequest;
 import br.com.grupo.developer.corporation.libcommons.message.response.JwtResponse;
@@ -26,13 +27,8 @@ public interface AuthenticationController {
     @PostMapping(value =  "/v1/signin", produces = RouterConstants.APPLICATION_JSON)
     ResponseEntity<JwtResponse> authenticateUser(@Validated @RequestBody LoginRequest loginRequest);
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "authenticateUser",
-            authorizations = {
-                    @Authorization(value = FieldAssistantConstants.CLIENT_ID),
-                    @Authorization(value = FieldAssistantConstants.CLIENT_SECRET)
-            })
-    @PostMapping("/v1/teste/save")
-    ResponseEntity<MessageResponse> add(@RequestBody CollaboratorRequest request);
+
+    @PostMapping(value = "/v1/recover/password", produces = RouterConstants.APPLICATION_JSON)
+    ResponseEntity<MessageResponse> recoverPassword(@RequestBody RecoverPasswordRequest request);
 
 }

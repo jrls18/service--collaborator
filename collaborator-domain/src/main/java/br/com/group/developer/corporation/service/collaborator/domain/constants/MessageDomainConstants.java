@@ -6,6 +6,11 @@ public final class MessageDomainConstants {
     private MessageDomainConstants(){
     }
 
+    public static final String USERNAME_INFORMADO_NAO_EXISTE_CADASTRADO = "O username informa não existe cadastrado.";
+    public static final String USERNAME_E_OBRIGATORIO = "O campo username é obrigatório.";
+
+    public static final String USERNAME_ALTERADO_COM_SUCESSO = "Senha alterada com sucesso! Em breve sua senha será enviada para o email cadastrado.";
+
     public static final String TIVEMOS_UM_ERRO_AO_CHAMAR_O_SERVICE_DOCUMENT_POR_FAVOR_TENTE_NOVAMENTE_MAIS_TARDE = "Tivemos um erro ao chamar o service--document por favor tente novamente mais tarde!";
     public static final String TIVEMOS_UM_ERRO_AO_CHAMAR_O_SERVICE_COMPANY_POR_FAVOR_TENTE_NOVAMENTE_MAIS_TARDE = "Tivemos um erro ao chamar o service--company por favor tente novamente mais tarde!";
     public static final String USUARIO_OU_SENHA_INVALIDO = "Usuario ou senha inválido.";
