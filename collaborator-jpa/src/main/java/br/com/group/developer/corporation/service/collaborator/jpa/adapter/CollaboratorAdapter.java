@@ -104,6 +104,14 @@ public class CollaboratorAdapter implements CollaboratorPort {
     }
 
     @Override
+    public void recoverPassword(final String password, final Long idCollaborator) {
+        if(StringUtils.isEmpty(password))
+            return;
+
+        service.recoverPassword(password,idCollaborator);
+    }
+
+    @Override
     public Pagination<Collaborator> search(String searchTerm,
                                            String codEmpresa,
                                            int page,
