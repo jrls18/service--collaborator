@@ -35,6 +35,9 @@ spring:
     jcache:
       config: classpath:ehcache.xml
   jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     generate-ddl: false
     open-in-view: false
     properties:
@@ -48,7 +51,7 @@ spring:
           region:
             factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
   datasource:
-    url: ${properties.configMap.dataBaseProtocol}:${properties.configMap.dataBaseHots}:${properties.configMap.dataBaseName}?autoReconnect=true&useSSL=false
+    url: ${properties.configMap.dataBaseProtocol}://${properties.configMap.dataBaseHots}:${properties.configMap.dataBasePort}/${properties.configMap.dataBaseName}?autoReconnect=true&useSSL=false
     username: ${properties.secret.dataBaseUsername}
     driverClassName: ${properties.configMap.dataBaseClassDrive}
     driver-class-name: ${properties.configMap.dataBaseClassDrive}
@@ -57,8 +60,9 @@ spring:
     maximumPoolSize: 6
     connectionTestQuery: SELECT CURRENT_TIMESTAMP
     hikari:
-      maximum-pool-size: 3
-      connection-timeout: 20000
+      maxLifeTime: 600000
+      maximum-pool-size: 8
+      connection-timeout: 600000
   security:
     jwt:
       secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
