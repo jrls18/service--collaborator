@@ -46,8 +46,8 @@ spec:
               memory: "400Mi"
               cpu: "400m"
             limits:
-              memory: "800Mi"
-              cpu: "800m"
+              memory: "600Mi"
+              cpu: "500m"
           ports:
             - containerPort: 9090
             - containerPort: 5000
@@ -76,7 +76,7 @@ spec:
       #imagePullSecrets:
       # - name: docker-auth
       containers:
-        - name: service--collaborator
+        - name: service--collaborator-consumer
           image: service--collaborator-img
           imagePullPolicy: IfNotPresent
           readinessProbe:
@@ -105,8 +105,8 @@ spec:
               memory: "400Mi"
               cpu: "400m"
             limits:
-              memory: "800Mi"
-              cpu: "800m"
+              memory: "600Mi"
+              cpu: "500m"
           ports:
             - containerPort: 9090
             - containerPort: 5000

@@ -48,11 +48,11 @@ spec:
               value: "false"
           resources:
             requests:
-              memory: "500Mi"
-              cpu: "0.4"
+              memory: "400Mi"
+              cpu: "400m"
             limits:
-              memory: "800Mi"
-              cpu: "0.8"
+              memory: "600Mi"
+              cpu: "500m"
           ports:
             - containerPort: 9090
             - containerPort: 5000
@@ -61,6 +61,7 @@ spec:
                 name: service--collaborator-cm
             - secretRef:
                 name: service--collaborator-sc
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -68,7 +69,7 @@ metadata:
   name: service--collaborator-consumer
   namespace: services-develop-corporation
   labels:
-    app: service--collaborator
+    app: service--collaborator-consumer
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9090"
@@ -86,7 +87,7 @@ spec:
       #imagePullSecrets:
       # - name: docker-auth
       containers:
-        - name: service--collaborator
+        - name: service--collaborator-consumer
           image: service--collaborator-img
           imagePullPolicy: IfNotPresent
           readinessProbe:
@@ -112,11 +113,11 @@ spec:
               value: "true"
           resources:
             requests:
-              memory: "500Mi"
-              cpu: "0.4"
+              memory: "400Mi"
+              cpu: "400m"
             limits:
-              memory: "800Mi"
-              cpu: "0.8"
+              memory: "600Mi"
+              cpu: "500m"
           ports:
             - containerPort: 9090
             - containerPort: 5000
