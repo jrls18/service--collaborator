@@ -270,11 +270,6 @@ parameterize:
           - "propertiesGerais"
           - "urlServiceInternal"
           - "urlServiceExternal"
-      - name: properties_gestao_notificacoes
-        fieldRequest:
-          - "nome-service"
-        filter:
-          - "sendEmail"
       - name: properties_gestao_de_clientes
         fieldRequest:
           - "nome-service"
