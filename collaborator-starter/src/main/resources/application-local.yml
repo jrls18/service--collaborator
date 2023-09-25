@@ -52,11 +52,5 @@ parameterize:
         value: "false"
       - key: sizePage
         value: "50"
-      - key: idLayoutEmail
-        value: "225487"
-      - key: idLayoutEmailFailBusiness
-        value: "446545"
-      - key: idLayoutSendMessageClientAndSupport
-        value: "556547"
       - key: qtdRetry
         value: "3"
