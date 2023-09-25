@@ -161,7 +161,8 @@ kafka:
         id: service--collaborator.data-transfer.save.id
     produce:
       notification:
-        name: service--notification.data-transfer.push
+        collaborator:
+          name: service--collaborator.new.collaborator.and.recover.password.send.notification
       document:
         name: service--documents.data-transfer.upload
 
@@ -285,9 +286,6 @@ parameterize:
       - "disablesCallApiDocumentContingency"
       - "disablesCallApiCompanyContingency"
       - "sizePage"
-      - "idLayoutEmail"
-      - "idLayoutEmailFailBusiness"
-      - "idLayoutSendMessageClientAndSupport"
       - "qtdRetry"
       - "disablesCriticalKafkaContingency"
       - "serviceCompanyExternalHost"

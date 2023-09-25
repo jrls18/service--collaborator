@@ -4,6 +4,11 @@ h2:
 spring.h2.console.enabled: true
 spring.flyway.enabled: true
 
+spring:
+  datasource:
+    url: ${properties.configMap.dataBaseProtocol}:${properties.configMap.dataBaseHots}:${properties.configMap.dataBaseName}?autoReconnect=true&useSSL=false
+
+
 properties:
   configMap:
     dataBaseHots: ${DATA_BASE_HOTS:mem}

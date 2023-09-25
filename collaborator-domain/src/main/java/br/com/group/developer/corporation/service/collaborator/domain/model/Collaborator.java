@@ -1,5 +1,6 @@
 package br.com.group.developer.corporation.service.collaborator.domain.model;
 
+import br.com.grupo.developer.corporation.libcommons.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,11 @@ public class Collaborator implements Serializable {
 
     private String idActive;
 
+    private boolean recoverPassword;
+
+    private Collaborator.TypeNotification typeNotification;
+
+    private Message message;
 
     @Getter
     @Setter
@@ -130,5 +136,15 @@ public class Collaborator implements Serializable {
 
         private String command;
 
+    }
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TypeNotification implements Serializable {
+
+        private static final long serialVersionUID = -431068704133638154L;
+
+        private Long id;
     }
 }

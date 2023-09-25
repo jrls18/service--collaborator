@@ -10,7 +10,6 @@ import br.com.group.developer.corporation.service.collaborator.domain.constants.
 import br.com.group.developer.corporation.service.collaborator.domain.exception.CollaboratorErrorValidatorException;
 import br.com.group.developer.corporation.service.collaborator.domain.exception.InternalServerErrorException;
 import br.com.group.developer.corporation.service.collaborator.domain.model.Collaborator;
-import br.com.group.developer.corporation.service.collaborator.domain.model.Notification;
 import br.com.group.developer.corporation.service.collaborator.domain.model.Status;
 import br.com.group.developer.corporation.service.collaborator.domain.port.*;
 import br.com.grupo.developer.corporation.lib.spring.context.holder.infrastructure.ContextHolder;
@@ -52,7 +51,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     private final DocumentSendMessagePort documentSendMessagePort;
 
-    private final PushNotificationSendMessagePort pushNotificationSendMessagePort;
+    private final PushNewCollaboratorAndRecoverPasswordNotificationSendMessagePort pushNotificationSendMessagePort;
     
     private final ParameterizeService parameterizeService;
 
@@ -97,18 +96,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         if(Boolean.FALSE.equals(disablesCriticalKafkaContingency)){
             boolean disablesKafkaContingency = Boolean.parseBoolean(parameterizeService.getPropertiesString(ParametrizeConstants.DISABLES_KAFKA_CONTINGENCY));
             if(Boolean.FALSE.equals(disablesKafkaContingency) && Objects.nonNull(collaborator)){
-
-                Notification notification = new Notification();
-                notification.setEmail(collaborator.getContact().getEmail());
-                notification.setIdActive(collaborator.getIdActive());
-                notification.setName(collaborator.getName());
-                notification.setCellPhone(collaborator.getContact().getMainPhone());
-                notification.setPassword(ContextHolder.get().getMap().get(FieldDomainConstants.PASSWORD).toString());
-                notification.setMessage(null);
-                notification.setTypeNotification(new Notification.TypeNotification(OtherDomainConstants.EMAIL));
-
-                notification.setIdLayout(parameterizeService.getPropertiesString(ParametrizeConstants.ID_LAYOUT_EMAIL));
-                pushNotificationSendMessagePort.send(notification);
+                pushNotificationSendMessagePort.send(collaborator);
             }
         }
     }
@@ -321,16 +309,24 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                     MessageDomainConstants.USERNAME_E_OBRIGATORIO,
                     null);
 
-        Optional<Collaborator> collaborator = port.findByUserName(username);
+        Optional<Collaborator> collaboratorOptional = port.findByUserName(username);
 
-        if(collaborator.isEmpty())
+        if(collaboratorOptional.isEmpty())
             throw new DomainException(CoreEnum.UNPROCESSABLE_ENTITY.getCode(),
                     MessageDomainConstants.USERNAME_INFORMADO_NAO_EXISTE_CADASTRADO,
                     null);
 
-        port.recoverPassword(generatedPassword(null), collaborator.get().getId());
+        Collaborator collaborator = collaboratorOptional.get();
 
-        produceNotification(collaborator.get());
+        final String password =  generatedPassword(null);
+
+        port.recoverPassword(password, collaborator.getId());
+
+        collaborator.setRecoverPassword(true);
+
+        collaborator.setPassword(password);
+
+        produceNotification(collaborator);
 
         return new Message(CoreEnum.ACCEPTED.getCode(),
                 LocalDateTime.now().toString(),

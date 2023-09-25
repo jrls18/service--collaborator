@@ -3,5 +3,5 @@ package br.com.group.developer.corporation.service.collaborator.message.avro.pro
 import br.com.group.developer.corporation.service.collaborator.message.avro.produce.service.send.SendMessageAvro;
 import org.apache.avro.specific.SpecificRecord;
 
-public interface PushNotificationSendMessageService<T extends SpecificRecord> extends SendMessageAvro<T> {
+public interface NewCollaboratorAndRecoverPasswordNotificationService<T extends SpecificRecord> extends SendMessageAvro<T> {
 }
